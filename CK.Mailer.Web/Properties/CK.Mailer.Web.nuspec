@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>Invenietis</authors>
+    <owners>Invenietis</owners>
+    <licenseUrl>https://github.com/Invenietis/ck-infrastructure/license</licenseUrl>
+    <projectUrl>https://github.com/Invenietis/ck-infrastructure</projectUrl>
+    <dependencies>
+      <dependency id="CK.Mailer" version="$version$" />
+      <dependency id="CK.Toolkit.Core" version="$version$" />
+      <dependency id="CK.Toolkit.Web" version="$version$" />
+    </dependencies>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>CK.Mailer.Web provides mailer with razor engine</description>
+    <language>en-US</language>
+  </metadata>
+  <files>
+  </files>
+</package>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>Invenietis</authors>
+    <owners>Invenietis</owners>
+    <licenseUrl>https://github.com/Invenietis/ck-infrastructure/license</licenseUrl>
+    <projectUrl>https://github.com/Invenietis/ck-infrastructure</projectUrl>
+    <dependencies>
+    </dependencies>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>CK.Mailer provides mailer with default templating method</description>
+    <language>en-US</language>
+  </metadata>
+  <files>
+  </files>
+</package>
