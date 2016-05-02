@@ -14,6 +14,7 @@
     <language>en-US</language>
   </metadata>
   <files>
-    <file src="CK.Mailer.Web\bin\{{configuration}}\CK.Mailer.Web.dll" target="lib\net451" />
+    <file src="CK.Mailer\bin\{{configuration}}\CK.Mailer.dll" target="lib\net451" />
+    <file src="CK.Mailer\bin\{{configuration}}\CK.Mailer.xml" target="lib\net451" />
   </files>
 </package>
