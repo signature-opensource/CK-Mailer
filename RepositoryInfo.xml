@@ -2,6 +2,10 @@
 <RepositoryInfo xmlns="http://csemver.org/schemas/2015">
   <StartingVersionForCSemVer>v1.4.0-rc</StartingVersionForCSemVer>
   <PossibleVersionsMode>AllSuccessors</PossibleVersionsMode>
+  <Branches>
+    <Branch Name="develop" CIVersionMode="LastReleaseBased" />
+    <Branch Name="master" CIVersionMode="LastReleaseBased" />
+  </Branches>
 <IgnoreModifiedFiles>
   </IgnoreModifiedFiles>
 </RepositoryInfo>
