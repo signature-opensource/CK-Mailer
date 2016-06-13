@@ -9,7 +9,7 @@ namespace CK.Mailer
     /// <summary>
     /// Provides tools to obtain physical path from virtual path.
     /// </summary>
-    public interface IPhysicalPathProvider
+    internal interface IPhysicalPathProvider
     {
         /// <summary>
         /// Gets the application root path

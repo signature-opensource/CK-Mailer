@@ -20,7 +20,7 @@ namespace CK.Mailer
         {
         }
 
-        public RazorMailTemplateEngine( IPhysicalPathProvider physPathProvider )
+        internal RazorMailTemplateEngine( IPhysicalPathProvider physPathProvider )
             : this( physPathProvider, new ActivityMonitor() )
         {
         }
@@ -30,7 +30,7 @@ namespace CK.Mailer
         {
         }
 
-        public RazorMailTemplateEngine( IPhysicalPathProvider physPathProvider, IActivityMonitor activityLogger )
+        internal RazorMailTemplateEngine( IPhysicalPathProvider physPathProvider, IActivityMonitor activityLogger )
         {
             _physPathProvider = physPathProvider;
             _activityLogger = activityLogger;
