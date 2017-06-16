@@ -11,52 +11,43 @@ namespace CK.Mailer
 {
     public static class StaticMailerService
     {
-        public static async Task SendMailAsync( IActivityMonitor m, MimeMessage message, SmtpOptions smtpOptions )
+        public static Task SendMailAsync( IActivityMonitor m, MimeMessage message, MailKitOptions options )
         {
-            if( smtpOptions.UsePickupDirectory == null ) throw new InvalidOperationException( "UsePickupDirectory configuration must be define." );
-            if( smtpOptions.UsePickupDirectory.Value )
+            return SendMailAsync( m, message, new MailKitClientProvider( options ) );
+        }
+
+        public static async Task SendMailAsync( IActivityMonitor m, MimeMessage message, IMailKitClientProvider provider )
+        {
+            var options = provider.Options;
+
+            if( options.UsePickupDirectory == null ) throw new InvalidOperationException( "UsePickupDirectory configuration must be define." );
+            if( options.UsePickupDirectory.Value )
             {
-                WriteInThePickupDirectory( m, message, smtpOptions );
+                WriteInThePickupDirectory( m, message, options );
             }
 
-            if( smtpOptions.SendMails )
+            if( options.SendMails )
             {
-                await InnerSendMailAsync( m, message, smtpOptions );
+                await InnerSendMailAsync( m, message, provider );
             }
         }
 
-        private static async Task InnerSendMailAsync( IActivityMonitor m, MimeMessage message, SmtpOptions smtpOptions )
+        private static async Task InnerSendMailAsync( IActivityMonitor m, MimeMessage message, IMailKitClientProvider provider )
         {
-            using( var client = new SmtpClient() )
-            {
-                client.ServerCertificateValidationCallback = ( s, c, h, e ) => true;
-                await client.ConnectAsync(
-                    smtpOptions.Host,
-                    smtpOptions.Port,
-                    smtpOptions.UseSsl ).ConfigureAwait( false );
+            var client = await provider.GetClientAsync();
 
-                // Note: since we don't have an OAuth2 token, disable
-                // the XOAUTH2 authentication mechanism.
-                client.AuthenticationMechanisms.Remove( "XOAUTH2" );
-
-                if( !String.IsNullOrEmpty( smtpOptions.User ) && !String.IsNullOrEmpty( smtpOptions.Password ) )
-                {
-                    await client.AuthenticateAsync( smtpOptions.User, smtpOptions.Password )
-                        .ConfigureAwait( false );
-                }
-                await client.SendAsync( message ).ConfigureAwait( false );
-
-                await client.DisconnectAsync( true ).ConfigureAwait( false );
-            }
+            await client.SendAsync( message ).ConfigureAwait( false );
         }
 
-        private static void WriteInThePickupDirectory( IActivityMonitor m, MimeMessage message, SmtpOptions smtpOptions )
+        private static void WriteInThePickupDirectory( IActivityMonitor m, MimeMessage message, MailKitOptions options )
         {
-            if( !string.IsNullOrWhiteSpace( smtpOptions.PickupDirectory ) && !Directory.Exists( smtpOptions.PickupDirectory ) )
+            if( String.IsNullOrEmpty( options.PickupDirectoryPath ) ) throw new InvalidOperationException( "If the PickupDirectory option is used, the PickupDirectoryPath must be specified" );
+
+            if( !Directory.Exists( options.PickupDirectoryPath ) )
             {
                 try
                 {
-                    Directory.CreateDirectory( smtpOptions.PickupDirectory );
+                    Directory.CreateDirectory( options.PickupDirectoryPath );
                 }
                 catch( Exception ex )
                 {
@@ -65,7 +56,7 @@ namespace CK.Mailer
                 }
             }
 
-            var path = Path.Combine( smtpOptions.PickupDirectory, $"{Guid.NewGuid().ToString()}.eml" );
+            var path = Path.Combine( options.PickupDirectoryPath, $"{Guid.NewGuid().ToString()}.eml" );
 
             using( var data = File.CreateText( path ) )
             {
