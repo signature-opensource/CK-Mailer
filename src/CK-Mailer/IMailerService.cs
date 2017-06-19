@@ -7,6 +7,8 @@ namespace CK.Mailer
 {
     public interface IMailerService
     {
-        Task SendAsync<T>( IActivityMonitor m, MimeMessage message );
+        IMailKitClientProvider Provider { get; set; }
+
+        Task SendAsync( IActivityMonitor m, MimeMessage message );
     }
 }

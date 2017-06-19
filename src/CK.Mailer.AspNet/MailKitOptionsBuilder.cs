@@ -11,7 +11,7 @@ namespace CK.Mailer
     public class MailKitOptionsBuilder : IMailKitOptionsBuilder
     {
         /// <summary>
-        /// Gets the service collection in which the interception based services are added.
+        /// Gets the service collection in which the services are added.
         /// </summary>
         public IServiceCollection serviceCollection { get; }
 

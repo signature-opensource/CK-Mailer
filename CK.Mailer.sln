@@ -3,16 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "CK-Mailer\CK.Mailer.csproj", "{E6474084-3E68-4927-8385-0472279247DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "src\CK-Mailer\CK.Mailer.csproj", "{E6474084-3E68-4927-8385-0472279247DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{35A85F81-18B2-42AA-96CC-7F8B6BB77271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.Core.Web.Sample", "CK.Mailer.Core.Web.Sample\CK.Mailer.Core.Web.Sample.csproj", "{F1BE52F2-4D6C-4AF5-B05C-98574194A780}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Core.Web.Sample", "src\Samples\CK.Mailer.Core.Web.Sample\CK.Mailer.Core.Web.Sample.csproj", "{F1BE52F2-4D6C-4AF5-B05C-98574194A780}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6E5D1559-3907-4245-AA1F-EFB785D9E4B5}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.Razor", "src\CK.Mailer.Razor\CK.Mailer.Razor.csproj", "{44C8A7EE-4FEE-418D-807C-AD7D941258A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.AspNet", "src\CK.Mailer.AspNet\CK.Mailer.AspNet.csproj", "{20A11E6B-E89E-4550-9DA7-CC31B3109258}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D05E1E9E-A5CF-48AB-9196-B75E8346C972}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.Tests", "src\Tests\CK.Mailer.Tests\CK.Mailer.Tests.csproj", "{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,11 +36,24 @@ Global
 		{F1BE52F2-4D6C-4AF5-B05C-98574194A780}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1BE52F2-4D6C-4AF5-B05C-98574194A780}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1BE52F2-4D6C-4AF5-B05C-98574194A780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44C8A7EE-4FEE-418D-807C-AD7D941258A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C8A7EE-4FEE-418D-807C-AD7D941258A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C8A7EE-4FEE-418D-807C-AD7D941258A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C8A7EE-4FEE-418D-807C-AD7D941258A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A11E6B-E89E-4550-9DA7-CC31B3109258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A11E6B-E89E-4550-9DA7-CC31B3109258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A11E6B-E89E-4550-9DA7-CC31B3109258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A11E6B-E89E-4550-9DA7-CC31B3109258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F1BE52F2-4D6C-4AF5-B05C-98574194A780} = {35A85F81-18B2-42AA-96CC-7F8B6BB77271}
+		{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE} = {D05E1E9E-A5CF-48AB-9196-B75E8346C972}
 	EndGlobalSection
 EndGlobal

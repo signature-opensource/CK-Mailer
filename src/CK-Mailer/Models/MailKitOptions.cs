@@ -17,7 +17,7 @@ namespace CK.Mailer
         public string Host { get; set; }
 
         /// <summary>
-        /// SMTP Host  Port ,default is 25
+        /// SMTP Host  Port, default is 25
         /// </summary>
         public int Port { get; set; } = 25;
 
@@ -42,16 +42,16 @@ namespace CK.Mailer
         public string Password { get; set; }
 
         /// <summary>
-        /// enable ssl 
+        /// Enable SSL using
         /// </summary>
         public bool UseSSL { get; set; } = false;
-
-
-        public string PreferredEncoding { get; set; } = String.Empty;
+        
         public int ShootingDelay { get; set; }
 
         public bool SendMails { get; set; }
+
         public bool? UsePickupDirectory { get; set; }
+
         public string PickupDirectoryPath { get; set; }
     }
 }
