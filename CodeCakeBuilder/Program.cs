@@ -1,17 +1,32 @@
 ﻿using CodeCake;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CodeCakeBuilder
+namespace CodeCake
 {
-    public static class Program
+    public class Program
     {
-        public static int Main( string[] args )
+        public static string CodeCakeDirectory { get; set; }
+
+        /// <summary>
+        /// CodeCakeBuilder entry point. This is a default, simple, implementation that can 
+        /// be extended as needed.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>An error code (typically -1), 0 on success.</returns>
+        static int Main( string[] args )
         {
+            CodeCakeDirectory = System.IO.Path.GetDirectoryName( System.Reflection.Assembly.GetExecutingAssembly().Location );
+            
             var app = new CodeCakeApplication();
             bool interactive = !args.Contains( '-' + InteractiveAliases.NoInteractionArgument, StringComparer.OrdinalIgnoreCase );
             int result = app.Run( args );
             Console.WriteLine();
+            
             if( interactive )
             {
                 Console.WriteLine( "Hit any key to exit. (Use -{0} parameter to exit immediately)", InteractiveAliases.NoInteractionArgument );

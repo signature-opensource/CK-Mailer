@@ -5,12 +5,11 @@
 # The $solutionDir and $builderDir are automatically adapted.
 #
 $solutionDir = $PSScriptRoot
-$builderDir = $PSScriptRoot
-#$builderDir = Join-Path $solutionDir "CodeCakeBuilder"
-#if (!(Test-Path $builderDir -PathType Container)) {
-#    $builderDir = $PSScriptRoot
-#    $solutionDir = Join-Path $builderDir ".."
-#}
+$builderDir = Join-Path $solutionDir "CodeCakeBuilder"
+if (!(Test-Path $builderDir -PathType Container)) {
+    $builderDir = $PSScriptRoot
+    $solutionDir = Join-Path $builderDir ".."
+}
 
 # Ensures that CodeCakeBuilder project exists.
 $builderProj = Join-Path $builderDir "CodeCakeBuilder.csproj"
@@ -23,8 +22,8 @@ if (!(Test-Path $builderPackageConfig)) {
     Throw "Could not find packages.config"
 }
 
-# Find MSBuild 14.0.
-$dotNetVersion = "14.0"
+# Find MSBuild 4.0.
+$dotNetVersion = "4.0"
 $regKey = "HKLM:\software\Microsoft\MSBuild\ToolsVersions\$dotNetVersion"
 $regProperty = "MSBuildToolsPath"
 $msbuildExe = join-path -path (Get-ItemProperty $regKey).$regProperty -childpath "msbuild.exe"
@@ -43,14 +42,12 @@ if (!(Test-Path $toolsDir)) {
 # Try download NuGet.exe if do not exist.
 $nugetExe = Join-Path $toolsDir "nuget.exe"
 if (!(Test-Path $nugetExe)) {
-    Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $nugetExe
-    # Make sure NuGet worked.
+    Invoke-WebRequest -Uri http://nuget.org/nuget.exe -OutFile $nugetExe
+    # Make sure NuGet it worked.
     if (!(Test-Path $nugetExe)) {
         Throw "Could not find NuGet.exe"
     }
 }
 
-#$nugetConfigFile = Join-Path $solutionDir "NuGet.config"
-$nugetConfigFile = Join-Path $solutionDir "../NuGet.config"
-&$nugetExe restore $builderPackageConfig -SolutionDirectory $solutionDir -configfile $nugetConfigFile
+&$nugetExe restore $builderPackageConfig -SolutionDirectory $solutionDir
 &$msbuildExe $builderProj /p:Configuration=Release
