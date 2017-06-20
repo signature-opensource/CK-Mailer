@@ -37,7 +37,7 @@ namespace CK.Mailer.Tests
         [Test]
         public async Task SpamBenjamin()
         {
-            ActivityMonitor m = new ActivityMonitor( "SimpleSendMail.SimpleSendMail" );
+            ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SimpleSendMail" );
 
             MimeMessage message = new MimeMessage();
 
@@ -59,12 +59,44 @@ namespace CK.Mailer.Tests
                 UsePickupDirectory = true,
                 PickupDirectoryPath = "./PickupDirectory",
                 Password = "1C59vMW17530o1bfs56l",
-                SendMails = true,
+                SendMails = false,
                 User = "invback@invenietis.net",
                 UseSSL = false
             };
 
             await StaticMailerService.SendMailAsync( m, message, options );
+        }
+
+        [Test]
+        public async Task SpamIdrissWithBasicMailModel()
+        {
+            ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SpamIdrissWithBasicMailModel" );
+
+            BasicMailModel mailModel = new BasicMailModel( "franck.bontemps@invenietis.com", "idriss.hippocrate@invenietis.com", "Coucou Idriss", "Je suis là pour te spam" );
+            
+            var options = new MailKitOptions()
+            {
+                Host = "app-smtp.invenietis.net",
+                Port = 587,
+                UsePickupDirectory = true,
+                PickupDirectoryPath = "./PickupDirectory",
+                Password = "1C59vMW17530o1bfs56l",
+                SendMails = false,
+                User = "invback@invenietis.net",
+                UseSSL = false
+            };
+
+            await StaticMailerService.SendMailAsync( m, mailModel, options );
+            StaticMailerService.SendMail( m, mailModel, options );
+            await StaticMailerService.SendMailAsync( m, mailModel.ToMimeMessage(), options );
+            StaticMailerService.SendMail( m, mailModel.ToMimeMessage(), options );
+
+            var provider = new MailKitClientProvider( options );
+
+            await StaticMailerService.SendMailAsync( m, mailModel, provider );
+            StaticMailerService.SendMail( m, mailModel, provider );
+            await StaticMailerService.SendMailAsync( m, mailModel.ToMimeMessage(), provider );
+            StaticMailerService.SendMail( m, mailModel.ToMimeMessage(), provider );
         }
     }
 }

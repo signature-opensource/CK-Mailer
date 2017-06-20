@@ -10,5 +10,7 @@ namespace CK.Mailer
         IMailKitClientProvider Provider { get; set; }
 
         Task SendAsync( IActivityMonitor m, MimeMessage message );
+
+        void Send( IActivityMonitor m, MimeMessage message );
     }
 }

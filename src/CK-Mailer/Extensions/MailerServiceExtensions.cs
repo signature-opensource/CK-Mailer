@@ -11,20 +11,14 @@ namespace CK.Mailer
 {
     public static class MailerServiceExtensions
     {
-        public static Task SendAsync( this IMailerService @this, IActivityMonitor m, MailboxAddress from, MailboxAddress to, string subject, MimeEntity body )
+        public static Task SendAsync( this IMailerService @this, IActivityMonitor m, BasicMailModel mailModel )
         {
-            var options = @this.Provider.Options;
+            return @this.SendAsync( m, mailModel.ToMimeMessage() );
+        }
 
-            MimeMessage message = new MimeMessage();
-
-            if( from != null ) message.From.Add( from );
-            if( to != null ) message.From.Add( to );
-
-            message.Subject = subject;
-
-            message.Body = body;
-
-            @this.SendAsync( m, message );
+        public static void Send( this IMailerService @this, IActivityMonitor m, BasicMailModel mailModel )
+        {
+            @this.Send( m, mailModel.ToMimeMessage() );
         }
     }
 }

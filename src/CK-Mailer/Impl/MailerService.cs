@@ -10,16 +10,21 @@ namespace CK.Mailer
 {
     public class MailerService : IMailerService
     {
-        public IMailKitClientProvider Provider { get; set; };
+        public IMailKitClientProvider Provider { get; set; }
         
         public MailerService( IMailKitClientProvider provider )
         {
             Provider = provider;
         }
 
-        public async Task SendAsync( IActivityMonitor m, MimeMessage message )
+        public Task SendAsync( IActivityMonitor m, MimeMessage message )
         {
-            await StaticMailerService.SendMailAsync( m, message, Provider );
+            return StaticMailerService.SendMailAsync( m, message, Provider );
+        }
+
+        public void Send( IActivityMonitor m, MimeMessage message )
+        {
+            StaticMailerService.SendMail( m, message, Provider );
         }
     }
 }

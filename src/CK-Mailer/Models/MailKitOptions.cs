@@ -8,7 +8,6 @@ namespace CK.Mailer
     {
         public MailKitOptions()
         {
-
         }
 
         /// <summary>
@@ -27,7 +26,7 @@ namespace CK.Mailer
         public string DefaultSenderName { get; set; }
 
         /// <summary>
-        /// Default sender e-mail
+        /// Default sender e-mail, used when the From field of the MimeMessage is empty
         /// </summary>
         public string DefaultSenderEmail { get; set; }
 
@@ -45,8 +44,6 @@ namespace CK.Mailer
         /// Enable SSL using
         /// </summary>
         public bool UseSSL { get; set; } = false;
-        
-        public int ShootingDelay { get; set; }
 
         public bool SendMails { get; set; }
 
