@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.3;net461</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +9,7 @@
     <PackageReference Include="CK.ActivityMonitor.StandardSender" Version="7.0.1" />
     <PackageReference Include="CK.Core" Version="7.0.0" />
     <PackageReference Include="MailKit" Version="1.16.1" />
+    <PackageReference Include="System.Net.Security" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
