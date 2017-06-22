@@ -14,6 +14,8 @@ namespace CK.Mailer.Tests
             {
                 return new MailKitOptions()
                 {
+                    DefaultSenderEmail = "default@ckmailer.org",
+                    DefaultSenderName = "ckmailer",
                     SendMails = false,
                     UsePickupDirectory = true,
                     PickupDirectoryPath = "./PickupDirectory"

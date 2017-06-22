@@ -144,31 +144,31 @@ namespace CodeCake
                 .IsDependentOn( "Build" )
                 .Does( () =>
                 {
-                    //Cake.CreateDirectory( releasesDir );
-                    //var testDlls = projects.Where( p => p.Name.EndsWith( ".Tests" ) ).Select( p =>
-                    //             new
-                    //             {
-                    //                 ProjectPath = p.Path.GetDirectory(),
-                    //                 //NetCoreAppDll = p.Path.GetDirectory().CombineWithFilePath( "bin/" + configuration + "/netcoreapp1.1/" + p.Name + ".dll" ),
-                    //                 Net462Dll = p.Path.GetDirectory().CombineWithFilePath( "bin/" + configuration + "/net462/" + p.Name + ".dll" ),
-                    //             } );
+                    Cake.CreateDirectory( releasesDir );
+                    var testDlls = projects.Where( p => p.Name.EndsWith( ".Tests" ) ).Select( p =>
+                                 new
+                                 {
+                                     ProjectPath = p.Path.GetDirectory(),
+                                     NetCoreAppDll = p.Path.GetDirectory().CombineWithFilePath( "bin/" + configuration + "/netcoreapp1.1/" + p.Name + ".dll" ),
+                                     //Net462Dll = p.Path.GetDirectory().CombineWithFilePath( "bin/" + configuration + "/net462/" + p.Name + ".dll" ),
+                                 } );
 
-                    //foreach( var test in testDlls )
-                    //{
-                    //    if( System.IO.File.Exists( test.Net462Dll.FullPath ) )
-                    //    {
-                    //        Cake.Information( "Testing: {0}", test.Net461Dll );
-                    //        Cake.NUnit( test.Net461Dll.FullPath, new NUnitSettings()
-                    //        {
-                    //            Framework = "v4.5"
-                    //        } );
-                    //    }
-                    //    if( System.IO.File.Exists( test.NetCoreAppDll.FullPath ) )
-                    //    {
-                    //        Cake.Information( "Testing: {0}", test.NetCoreAppDll );
-                    //        Cake.DotNetCoreExecute( test.NetCoreAppDll );
-                    //    }
-                    //}
+                    foreach( var test in testDlls )
+                    {
+                        //if( System.IO.File.Exists( test.Net462Dll.FullPath ) )
+                        //{
+                        //    Cake.Information( "Testing: {0}", test.Net461Dll );
+                        //    Cake.NUnit( test.Net461Dll.FullPath, new NUnitSettings()
+                        //    {
+                        //        Framework = "v4.5"
+                        //    } );
+                        //}
+                        if( System.IO.File.Exists( test.NetCoreAppDll.FullPath ) )
+                        {
+                            Cake.Information( "Testing: {0}", test.NetCoreAppDll );
+                            Cake.DotNetCoreExecute( test.NetCoreAppDll );
+                        }
+                    }
                 } );
 
             Task( "Create-NuGet-Packages" )

@@ -85,7 +85,16 @@ namespace CK.Mailer
             if( options.UsePickupDirectory == null ) throw new InvalidOperationException( "UsePickupDirectory configuration must be define." );
             if( options.UsePickupDirectory.Value )
             {
-                WriteInThePickupDirectory( m, message, options );
+                try
+                {
+                    WriteInThePickupDirectory( m, message, options );
+                }
+                catch( Exception ex )
+                {
+                    //todo monitor send an email ? another package ?
+                    m.Error().Send( "An error occured during WriteInThePickupDirectory method" );
+                    m.Error().Send( ex );
+                }
             }
 
             if( options.SendMails )
@@ -96,9 +105,12 @@ namespace CK.Mailer
 
         private static void ProcessMessage( IActivityMonitor m, MimeMessage message, MailKitOptions options )
         {
+            m.Info().Send( "Send Email, subject: {0}", message.Subject );
+
             //set the DefaultSenderEmail when the From message collection is empty 
             if( !message.From.Any() )
             {
+                m.Info().Send( "Add default Email sender, subject: {0}", options.DefaultSenderName );
                 if( !String.IsNullOrEmpty( options.DefaultSenderName ) )
                 {
                     message.From.Add( new MailboxAddress( options.DefaultSenderName, options.DefaultSenderEmail ) );
@@ -108,20 +120,49 @@ namespace CK.Mailer
                     message.From.Add( new MailboxAddress( options.DefaultSenderEmail ) );
                 }
             }
+
+
+            if( message.From.Any() ) m.Info().Send( "From: {0}", message.From );
+            if( message.ResentFrom.Any() ) m.Info().Send( "ResentFrom: {0}", message.ResentFrom );
+
+            if( message.To.Any() ) m.Info().Send( "To: {0}", message.To );
+            if( message.ResentTo.Any() ) m.Info().Send( "ResentTo: {0}", message.ResentTo );
+
+            if( message.ReplyTo.Any() ) m.Info().Send( "ReplyTo: {0}", message.ReplyTo );
+            if( message.ResentReplyTo.Any() ) m.Info().Send( "ResentReplyTo: {0}", message.ResentReplyTo );
+
+            if( message.Cc.Any() ) m.Info().Send( "Cc: {0}", message.Cc );
+            if( message.ResentCc.Any() ) m.Info().Send( "ResentCc: {0}", message.ResentCc );
+
+            if( message.Bcc.Any() ) m.Info().Send( "Bcc: {0}", message.Bcc );
+            if( message.ResentBcc.Any() ) m.Info().Send( "ResentBcc: {0}", message.ResentBcc );
+
         }
 
         private static async Task InnerSendMailAsync( IActivityMonitor m, MimeMessage message, IMailKitClientProvider provider )
         {
+            m.Info().Send( "Getting Smtp Client" );
+
             var client = await provider.GetClientAsync();
 
+            m.Info().Send( "Sending Email" );
+
             await client.SendAsync( message ).ConfigureAwait( false );
+
+            m.Info().Send( "Email sent" );
         }
 
         private static void InnerSendMail( IActivityMonitor m, MimeMessage message, IMailKitClientProvider provider )
         {
+            m.Info().Send( "Getting Smtp Client" );
+
             var client = provider.GetClient();
 
+            m.Info().Send( "Sending Email" );
+
             client.Send( message );
+
+            m.Info().Send( "Email sent" );
         }
 
         private static void WriteInThePickupDirectory( IActivityMonitor m, MimeMessage message, MailKitOptions options )
@@ -146,6 +187,7 @@ namespace CK.Mailer
             using( var data = File.CreateText( path ) )
             {
                 message.WriteTo( data.BaseStream );
+                m.Info().Send( "WriteTo: {0}", path );
             }
         }
     }

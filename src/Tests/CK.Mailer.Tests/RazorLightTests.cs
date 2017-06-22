@@ -10,6 +10,7 @@ namespace CK.Mailer.Tests
     public class RazorLightTests
     {
         [Test]
+        [Explicit]
         public void RazorLight_Sample()
         {
             var engine = EngineFactory.CreatePhysical(@"C:\");
