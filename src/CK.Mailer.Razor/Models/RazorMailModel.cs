@@ -3,34 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CK.Mailer
+namespace CK.Mailer.Razor.Models
 {
-    public class BasicMailModel : IMailModel
+    public class RazorMailModel : IRazorMailModel
     {
+
         public RecipientModel Recipients { get; set; }
 
         public string Subject { get; set; }
-        public string Body
-        {
-            get
-            {
-                return _body.HtmlBody;
-            }
-            set
-            {
-                if( value != _body.HtmlBody )
-                {
-                    processBody( value );
-                }
-            }
-        }
+        public string Body { get { return _body.HtmlBody; } }
         public string TextBody { get { return _body.TextBody; } }
 
         public AttachmentCollection Attachments { get { return _body.Attachments; } }
 
 
         BodyBuilder _body;
-        public BasicMailModel()
+        public RazorMailModel()
         {
             Recipients = new RecipientModel();
             _body = new BodyBuilder();
@@ -52,7 +40,7 @@ namespace CK.Mailer
             Recipients.From.Add( new MailboxAddress( from ) );
         }
 
-        public BasicMailModel( string to, string subject, string body )
+        public BasicMailModel( string to, string subject )
             : this( to )
         {
             Subject = subject;

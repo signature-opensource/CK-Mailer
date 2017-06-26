@@ -23,8 +23,7 @@ namespace CK.Mailer
         {
             this.serviceCollection = services;
         }
-
-        //TODO move this method as extension method in another package
+        
         public MailKitOptions BindConfiguration( IConfigurationSection section )
         {
             MailKitOptions options = new MailKitOptions();
