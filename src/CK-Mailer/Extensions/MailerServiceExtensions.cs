@@ -11,12 +11,12 @@ namespace CK.Mailer
 {
     public static class MailerServiceExtensions
     {
-        public static Task SendAsync( this IMailerService @this, IActivityMonitor m, BasicMailModel mailModel )
+        public static Task SendAsync( this IMailerService @this, IActivityMonitor m, IMailModel mailModel )
         {
             return @this.SendAsync( m, mailModel.ToMimeMessage() );
         }
 
-        public static void Send( this IMailerService @this, IActivityMonitor m, BasicMailModel mailModel )
+        public static void Send( this IMailerService @this, IActivityMonitor m, IMailModel mailModel )
         {
             @this.Send( m, mailModel.ToMimeMessage() );
         }

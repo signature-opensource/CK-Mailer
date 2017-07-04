@@ -8,8 +8,8 @@
     <PackageReference Include="CK.ActivityMonitor" Version="7.0.1" />
     <PackageReference Include="CK.ActivityMonitor.StandardSender" Version="7.0.1" />
     <PackageReference Include="CK.Core" Version="7.0.0" />
-    <PackageReference Include="MailKit" Version="1.16.1" />
-    <PackageReference Include="System.Net.Security" Version="4.0.0" />
+    <PackageReference Include="MailKit" Version="1.16.2" />
+    <PackageReference Include="System.Net.Security" Version="4.3.1" />
   </ItemGroup>
 
 </Project>

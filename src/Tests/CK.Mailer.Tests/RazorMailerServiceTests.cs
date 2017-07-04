@@ -1,8 +1,10 @@
 ﻿using CK.Core;
+using CK.Mailer.Razor;
 using FluentAssertions;
 using MimeKit;
 using MimeKit.Text;
 using NUnit.Framework;
+using RazorLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,43 +14,23 @@ using System.Threading.Tasks;
 namespace CK.Mailer.Tests
 {
     [TestFixture]
-    public class StaticMailerServiceTests
+    public class RazorMailerServiceTests
     {
         [Test]
-        [Explicit]
-        public async Task SandBox_Email_sender()
+        public async Task send_email_from_razor_mail_sender_must_be_append_in_PickupDirectory()
         {
-            ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SpamIdrissWithBasicMailModel" );
-
-            BasicMailModel mailModel = new BasicMailModel( "franck.bontemps@invenietis.com", "Coucou Idriss", "Je suis là pour te spam" );
-
-            var options = new MailKitOptions()
-            {
-                Host = "app-smtp.invenietis.net",
-                Port = 587,
-                UsePickupDirectory = true,
-                PickupDirectoryPath = "./PickupDirectory",
-                Password = "1C59vMW17530o1bfs56l",
-                SendMails = true,
-                User = "invback@invenietis.net",
-                UseSSL = false,
-                DefaultSenderEmail = "no-reply@ttge.fr"
-            };
-
-            await StaticMailerService.SendMailAsync( m, mailModel, options );
-        }
-
-        [Test]
-        public async Task send_email_from_static_sender_with_BasicMailModel_overload_must_be_append_in_PickupDirectory()
-        {
-            MailKitOptions options = DefaultMailKitOptions.Default;
+            RazorMailKitOptions options = DefaultMailKitOptions.DefaultRazor;
 
             IActivityMonitor m = FM.Get_ActivityMonitor();
 
-            BasicMailModel mail = FM.Create_BasicMailModel_with_to_from_subject_body_generated_values();
+            RazorMailModel<TemplateModel> mail = FM.Create_RazorMailModel_with_to_from_subject_body_generated_values();
 
+            MailKitClientProvider clientProvider = new MailKitClientProvider( options );
+            IRazorLightEngine razorEngine = EngineFactory.CreatePhysical( options.ViewsPhysicalPath );
+            RazorMailerService service = new RazorMailerService( clientProvider, razorEngine );
+            
             //send mail with BasicMailModel overload
-            await StaticMailerService.SendMailAsync( m, mail, DefaultMailKitOptions.Default );
+            await service.SendInlineTemplateAsync( m, "Hello @Model.TheVariable", mail );
 
             var sentMail = PickupDirectory.GetTheLastSentEmail( options );
 
@@ -67,8 +49,8 @@ namespace CK.Mailer.Tests
                     .Select( x => x.Address )
                 );
             sentMail.Subject.Should().Be( mail.Subject );
-            sentMail.HtmlBody.Should().Be( mail.Body );
-            sentMail.TextBody.Should().Be( mail.TextBody );
+            sentMail.HtmlBody.Should().Be( $"Hello {mail.Model.TheVariable}" );
+            sentMail.TextBody.Should().Be( $"Hello {mail.Model.TheVariable}" );
         }
 
         [Test]

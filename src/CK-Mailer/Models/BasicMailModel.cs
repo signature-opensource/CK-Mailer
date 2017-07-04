@@ -5,20 +5,35 @@ using System.Text;
 
 namespace CK.Mailer
 {
-    public class BasicMailModel
+    public class BasicMailModel : IMailModel
     {
         public RecipientModel Recipients { get; set; }
 
         public string Subject { get; set; }
-        public BodyBuilder Body { get; set; }
+        public string Body
+        {
+            get
+            {
+                return _body.HtmlBody;
+            }
+            set
+            {
+                if( value != _body.HtmlBody )
+                {
+                    processBody( value );
+                }
+            }
+        }
+        public string TextBody { get { return _body.TextBody; } }
 
-        public AttachmentCollection Attachments { get; private set; }
-        
+        public AttachmentCollection Attachments { get { return _body.Attachments; } }
+
+
+        BodyBuilder _body;
         public BasicMailModel()
         {
             Recipients = new RecipientModel();
-            Body = new BodyBuilder();
-            Attachments = Body.Attachments;
+            _body = new BodyBuilder();
         }
 
         /// <summary>
@@ -32,23 +47,29 @@ namespace CK.Mailer
         }
 
         public BasicMailModel( string from, string to )
-            : this(to)
+            : this( to )
         {
             Recipients.From.Add( new MailboxAddress( from ) );
         }
 
-        public BasicMailModel( string to, string subject, string textBody )
+        public BasicMailModel( string to, string subject, string body )
             : this( to )
         {
             Subject = subject;
-            Body.TextBody = textBody;
+            processBody( body );
         }
 
-        public BasicMailModel(string from, string to, string subject, string textBody)
-            : this(from, to)
+        public BasicMailModel( string from, string to, string subject, string body )
+            : this( from, to )
         {
             Subject = subject;
-            Body.TextBody = textBody;
+            processBody( body );
+        }
+
+        private void processBody( string body )
+        {
+            _body.HtmlBody = body;
+            _body.TextBody = WebUtil.HtmlToText( body, true );
         }
 
         public MimeMessage ToMimeMessage()
@@ -67,7 +88,7 @@ namespace CK.Mailer
             message.To.AddRange( Recipients.To );
 
             message.Subject = Subject;
-            message.Body = Body.ToMessageBody();
+            message.Body = _body.ToMessageBody();
 
             return message;
         }
