@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CK.Mailer.Razor.Models
+namespace CK.Mailer.Razor
 {
     public class RazorMailKitOptions : MailKitOptions
     {
@@ -13,5 +13,8 @@ namespace CK.Mailer.Razor.Models
         /// If null, the embedded resources is used
         /// </remarks>
         public string ViewsPhysicalPath { get; set; }
+
+        public bool UseEmbeddedResources { get; set; }
+        public Type RootTypeInsideResourceAssembly { get; set; }
     }
 }

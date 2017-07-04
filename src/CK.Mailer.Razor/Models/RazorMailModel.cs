@@ -2,20 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using RazorLight;
+using RazorLight.Extensions;
 
-namespace CK.Mailer.Razor.Models
+namespace CK.Mailer.Razor
 {
-    public class RazorMailModel : IRazorMailModel
+    public class RazorMailModel<T> : IRazorMailModel<T>
     {
-
         public RecipientModel Recipients { get; set; }
 
         public string Subject { get; set; }
-        public string Body { get { return _body.HtmlBody; } }
-        public string TextBody { get { return _body.TextBody; } }
 
+        public T Model { get; set; }
+        
         public AttachmentCollection Attachments { get { return _body.Attachments; } }
-
 
         BodyBuilder _body;
         public RazorMailModel()
@@ -24,44 +24,23 @@ namespace CK.Mailer.Razor.Models
             _body = new BodyBuilder();
         }
 
-        /// <summary>
-        /// This contructor allow the IMailerService to use the MailKitOptions.DefaultSenderEmail
-        /// </summary>
-        /// <param name="to"></param>
-        public BasicMailModel( string to )
+        public RazorMailModel( T model )
             : this()
         {
-            Recipients.To.Add( new MailboxAddress( to ) );
+            Model = model;
         }
 
-        public BasicMailModel( string from, string to )
-            : this( to )
+        public MimeMessage ProcessRazorView( IRazorLightEngine engine, string template )
         {
-            Recipients.From.Add( new MailboxAddress( from ) );
+            return ProcessRazorView( engine, e => e.Parse( template, Model ) );
         }
 
-        public BasicMailModel( string to, string subject )
-            : this( to )
+        public MimeMessage ProcessRazorView( IRazorLightEngine engine, Func<IRazorLightEngine, string> execute )
         {
-            Subject = subject;
-            processBody( body );
-        }
+            _body.HtmlBody = execute( engine );
 
-        public BasicMailModel( string from, string to, string subject, string body )
-            : this( from, to )
-        {
-            Subject = subject;
-            processBody( body );
-        }
-
-        private void processBody( string body )
-        {
-            _body.HtmlBody = body;
-            _body.TextBody = WebUtil.HtmlToText( body, true );
-        }
-
-        public MimeMessage ToMimeMessage()
-        {
+            _body.TextBody = WebUtil.HtmlToText( _body.HtmlBody, true );
+            
             MimeMessage message = new MimeMessage();
 
             message.Bcc.AddRange( Recipients.Bcc );
@@ -79,6 +58,16 @@ namespace CK.Mailer.Razor.Models
             message.Body = _body.ToMessageBody();
 
             return message;
+        }
+
+        public MimeMessage ProcessRazorString( IRazorLightEngine engine, string content )
+        {
+            return ProcessRazorView( engine, e => e.ParseString( content, Model ) );
+        }
+
+        public MimeMessage ProcessRazorView( IRazorLightEngine engine )
+        {
+            throw new NotImplementedException();
         }
     }
 }

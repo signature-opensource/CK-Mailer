@@ -1,4 +1,5 @@
 ﻿using CK.Core;
+using CK.Mailer.Razor;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,28 @@ namespace CK.Mailer.Tests
         private static string get_new_email_value()
         {
             return get_new_i_value().ToString() + "@ckmailer.org";
+        }
+
+        public static TemplateModel Create_TemplateModel_with_generated_value()
+        {
+            return new TemplateModel()
+            {
+                TheVariable = get_new_i_string_value()
+        };
+        }
+
+        public static RazorMailModel<TemplateModel> Create_RazorMailModel_with_to_from_subject_body_generated_values()
+        {
+            var model = new RazorMailModel<TemplateModel>();
+
+            model.Recipients.To.Add( get_new_email_value() );
+            model.Recipients.From.Add( get_new_email_value() );
+
+            model.Subject = get_new_i_string_value();
+
+            model.Model = Create_TemplateModel_with_generated_value();
+
+            return model;
         }
 
         public static BasicMailModel Create_BasicMailModel_with_to_from_subject_body_generated_values()
