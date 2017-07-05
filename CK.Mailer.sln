@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "src\CK-Mailer\CK.Mailer.csproj", "{E6474084-3E68-4927-8385-0472279247DB}"
 EndProject
@@ -14,15 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.Razor", "src\CK.Mailer.Razor\CK.Mailer.Razor.csproj", "{44C8A7EE-4FEE-418D-807C-AD7D941258A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Razor", "src\CK.Mailer.Razor\CK.Mailer.Razor.csproj", "{44C8A7EE-4FEE-418D-807C-AD7D941258A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.AspNet", "src\CK.Mailer.AspNet\CK.Mailer.AspNet.csproj", "{20A11E6B-E89E-4550-9DA7-CC31B3109258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.AspNet", "src\CK.Mailer.AspNet\CK.Mailer.AspNet.csproj", "{20A11E6B-E89E-4550-9DA7-CC31B3109258}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D05E1E9E-A5CF-48AB-9196-B75E8346C972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.Tests", "src\Tests\CK.Mailer.Tests\CK.Mailer.Tests.csproj", "{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Tests", "src\Tests\CK.Mailer.Tests\CK.Mailer.Tests.csproj", "{178F7F62-E8B9-40E6-8EC0-1AA9D2A3BBDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.Rasor.AspNet", "src\CK.Mailer.Rasor.AspNet\CK.Mailer.Rasor.AspNet.csproj", "{4B4E92C2-D4B6-4BCC-97B7-5660F3F716F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Razor.AspNet", "src\CK.Mailer.Rasor.AspNet\CK.Mailer.Razor.AspNet.csproj", "{4B4E92C2-D4B6-4BCC-97B7-5660F3F716F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
