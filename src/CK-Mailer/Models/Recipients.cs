@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CK.Mailer
 {
-    public class RecipientModel
+    public class Recipients
     {
-        public RecipientModel()
+        public Recipients()
         {
             From = new InternetAddressList();
             ResentFrom = new InternetAddressList();
