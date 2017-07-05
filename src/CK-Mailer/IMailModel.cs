@@ -7,7 +7,7 @@ namespace CK.Mailer
 {
     public interface IMailModel
     {
-        RecipientModel Recipients { get; }
+        Recipients Recipients { get; }
 
         string Subject { get; }
         string Body { get; }

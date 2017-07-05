@@ -7,7 +7,7 @@ namespace CK.Mailer
 {
     public class BasicMailModel : IMailModel
     {
-        public RecipientModel Recipients { get; set; }
+        public Recipients Recipients { get; set; }
 
         public string Subject { get; set; }
         public string Body
@@ -32,7 +32,7 @@ namespace CK.Mailer
         BodyBuilder _body;
         public BasicMailModel()
         {
-            Recipients = new RecipientModel();
+            Recipients = new Recipients();
             _body = new BodyBuilder();
         }
 

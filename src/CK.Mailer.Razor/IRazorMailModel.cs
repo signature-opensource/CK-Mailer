@@ -8,7 +8,7 @@ namespace CK.Mailer.Razor
 {
     public interface IRazorMailModel<T>
     {
-        RecipientModel Recipients { get; }
+        Recipients Recipients { get; }
         string Subject { get; }
         T Model { get; }
 

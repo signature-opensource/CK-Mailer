@@ -9,7 +9,7 @@ namespace CK.Mailer.Razor
 {
     public class RazorMailModel<T> : IRazorMailModel<T>
     {
-        public RecipientModel Recipients { get; set; }
+        public Recipients Recipients { get; set; }
 
         public string Subject { get; set; }
 
@@ -20,7 +20,7 @@ namespace CK.Mailer.Razor
         BodyBuilder _body;
         public RazorMailModel()
         {
-            Recipients = new RecipientModel();
+            Recipients = new Recipients();
             _body = new BodyBuilder();
         }
 
