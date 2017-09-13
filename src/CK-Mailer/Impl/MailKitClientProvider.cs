@@ -21,7 +21,7 @@ namespace CK.Mailer
         {
             if( _isDisposed ) throw new ObjectDisposedException( nameof( MailKitClientProvider ) );
 
-            if( _smtpClient != null ) return _smtpClient;
+            //if( _smtpClient != null ) return _smtpClient;
 
             _smtpClient = new SmtpClient();
 
@@ -34,7 +34,7 @@ namespace CK.Mailer
         {
             if( _isDisposed ) throw new ObjectDisposedException( nameof( MailKitClientProvider ) );
 
-            if( _smtpClient != null ) return _smtpClient;
+            //if( _smtpClient != null ) return _smtpClient;
 
             _smtpClient = new SmtpClient();
 
