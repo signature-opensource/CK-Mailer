@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CK.ActivityMonitor" Version="8.0.0" />
-    <PackageReference Include="CK.ActivityMonitor.StandardSender" Version="8.0.0" />
-    <PackageReference Include="CK.Core" Version="7.0.1" />
+    <PackageReference Include="CK.ActivityMonitor" Version="9.0.0" />
+    <PackageReference Include="CK.ActivityMonitor.StandardSender" Version="9.0.0" />
+    <PackageReference Include="CK.Core" Version="9.0.0" />
     <PackageReference Include="MailKit" Version="1.18.1.1" />
     <PackageReference Include="System.Net.Security" Version="4.3.1" />
   </ItemGroup>
