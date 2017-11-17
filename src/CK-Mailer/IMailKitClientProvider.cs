@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Smtp;
+using CK.Core;
+using MailKit.Net.Smtp;
 using System;
 using System.Threading.Tasks;
 
@@ -11,8 +12,8 @@ namespace CK.Mailer
         /// </summary>
         MailKitOptions Options { get; }
 
-        SmtpClient GetClient();
+        SmtpClient GetClient( IActivityMonitor m );
 
-        Task<SmtpClient> GetClientAsync();
+        Task<SmtpClient> GetClientAsync( IActivityMonitor m );
     }
 }

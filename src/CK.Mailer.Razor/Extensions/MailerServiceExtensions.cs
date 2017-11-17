@@ -1,4 +1,4 @@
-﻿using CK.Core;
+using CK.Core;
 using CK.Mailer.Razor;
 using MimeKit;
 using System;
@@ -12,112 +12,148 @@ namespace CK.Mailer
 {
     public static class MailerServiceExtensions
     {
-        public static Task SendInlineTemplateAsync<T>( this IRazorMailerService @this
-            , IActivityMonitor m
-            , string from
-            , string to
-            , string subject
-            , string content
-            , T model )
+        public static Task SendInlineTemplateAsync<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            string from,
+            string to,
+            string subject,
+            string content,
+            T model )
         {
-            var mailModel = new RazorMailModel<T>( model );
-            mailModel.Recipients.To.Add( to );
-            mailModel.Recipients.From.Add( from );
-            mailModel.Subject = subject;
+            var message = new RazorMimeMessage( from, to, subject );
 
-            return @this.SendAsync( m, mailModel.ProcessRazorString( @this.RazorEngine, content ) );
+            message.SetRazorBodyFromString( @this.RazorEngine, model, content );
+            
+            return @this.SendAsync( m, message );
         }
 
-        public static void SendInlineTemplate<T>( this IRazorMailerService @this
-            , IActivityMonitor m
-            , string from
-            , string to
-            , string subject
-            , string content
-            , T model )
+        public static void SendInlineTemplate<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            string from,
+            string to,
+            string subject,
+            string content,
+            T model )
         {
-            var mailModel = new RazorMailModel<T>( model );
-            mailModel.Recipients.To.Add( to );
-            mailModel.Recipients.From.Add( from );
-            mailModel.Subject = subject;
+            var message = new RazorMimeMessage( from, to, subject );
 
-            @this.Send( m, mailModel.ProcessRazorString( @this.RazorEngine, content ) );
+            message.SetRazorBodyFromString( @this.RazorEngine, model, content );
+
+            @this.Send( m, message );
         }
 
-        public static Task SendInlineTemplateAsync<T>( this IRazorMailerService @this
-            , IActivityMonitor m
-            , string to
-            , string subject
-            , string content
-            , T model )
+        public static Task SendInlineTemplateAsync<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            string to,
+            string subject,
+            string content,
+            T model )
         {
-            var mailModel = new RazorMailModel<T>( model );
-            mailModel.Recipients.To.Add( to );
-            mailModel.Subject = subject;
+            var message = new RazorMimeMessage( to );
+            message.Subject = subject;
 
-            return @this.SendAsync( m, mailModel.ProcessRazorString( @this.RazorEngine, content ) );
+            message.SetRazorBodyFromString( @this.RazorEngine, model, content );
+
+            return @this.SendAsync( m, message );
         }
 
-        public static void SendInlineTemplate<T>( this IRazorMailerService @this
-            , IActivityMonitor m
-            , string to
-            , string subject
-            , string content
-            , T model )
+        public static void SendInlineTemplate<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            string to,
+            string subject,
+            string content,
+            T model )
         {
-            var mailModel = new RazorMailModel<T>( model );
-            mailModel.Recipients.To.Add( to );
-            mailModel.Subject = subject;
+            var message = new RazorMimeMessage( to );
+            message.Subject = subject;
 
-            @this.Send( m, mailModel.ProcessRazorString( @this.RazorEngine, content ) );
+            message.SetRazorBodyFromString( @this.RazorEngine, model, content );
+
+            @this.Send( m, message );
         }
 
-        public static Task SendAsync<T>( this IRazorMailerService @this
-            , IActivityMonitor m
-            , string to
-            , string subject
-            , string template
-            , T model )
+        public static Task SendAsync<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            string to,
+            string subject,
+            string template,
+            T model )
         {
-            var mailModel = new RazorMailModel<T>( model );
-            mailModel.Recipients.To.Add( to );
-            mailModel.Subject = subject;
+            var message = new RazorMimeMessage( to );
+            message.Subject = subject;
 
-            return @this.SendAsync( m, mailModel.ProcessRazorView( @this.RazorEngine, template ) );
+            message.SetRazorBody( @this.RazorEngine, model, template );
+
+            return @this.SendAsync( m, message );
         }
 
-        public static void Send<T>( this IRazorMailerService @this
-            , IActivityMonitor m
-            , string to
-            , string subject
-            , string template
-            , T model )
+        public static void Send<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            string to,
+            string subject,
+            string template,
+            T model )
         {
-            var mailModel = new RazorMailModel<T>( model );
-            mailModel.Recipients.To.Add( to );
-            mailModel.Subject = subject;
+            var message = new RazorMimeMessage( to );
+            message.Subject = subject;
 
-            @this.Send( m, mailModel.ProcessRazorView( @this.RazorEngine, template ) );
+            message.SetRazorBody( @this.RazorEngine, model, template );
+
+            @this.Send( m, message );
         }
 
-        public static Task SendAsync<T>( this IRazorMailerService @this, IActivityMonitor m, string template, IRazorMailModel<T> mailModel )
+        public static Task SendAsync<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            RazorMimeMessage message,
+            string template,
+            T model )
         {
-            return @this.SendAsync( m, mailModel.ProcessRazorView( @this.RazorEngine, template ) );
+            message.SetRazorBody( @this.RazorEngine, model, template );
+
+            return @this.SendAsync( m, message );
         }
 
-        public static void Send<T>( this IRazorMailerService @this, IActivityMonitor m, string template, IRazorMailModel<T> mailModel )
+        public static void Send<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            RazorMimeMessage message,
+            string template,
+            T model )
         {
-            @this.Send( m, mailModel.ProcessRazorView( @this.RazorEngine, template ) );
+            message.SetRazorBody( @this.RazorEngine, model, template );
+
+            @this.Send( m, message );
         }
         
-        public static Task SendInlineTemplateAsync<T>( this IRazorMailerService @this, IActivityMonitor m, string content, IRazorMailModel<T> mailModel )
+        public static Task SendInlineTemplateAsync<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            RazorMimeMessage message,
+            string content,
+            T model )
         {
-            return @this.SendAsync( m, mailModel.ProcessRazorString( @this.RazorEngine, content ) );
+            message.SetRazorBodyFromString( @this.RazorEngine, model, content );
+
+            return @this.SendAsync( m, message );
         }
 
-        public static void SendInlineTemplate<T>( this IRazorMailerService @this, IActivityMonitor m, string content, IRazorMailModel<T> mailModel )
+        public static void SendInlineTemplate<T>(
+            this IRazorMailerService @this,
+            IActivityMonitor m,
+            RazorMimeMessage message,
+            string content,
+            T model )
         {
-            @this.Send( m, mailModel.ProcessRazorString( @this.RazorEngine, content ) );
+            message.SetRazorBodyFromString( @this.RazorEngine, model, content );
+
+            @this.Send( m, message );
         }
     }
 }

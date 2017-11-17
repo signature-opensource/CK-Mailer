@@ -1,4 +1,4 @@
-﻿using CK.Core;
+using CK.Core;
 using CK.Mailer.Razor;
 using System;
 using System.Collections.Generic;
@@ -34,41 +34,39 @@ namespace CK.Mailer.Tests
         };
         }
 
-        public static RazorMailModel<TemplateModel> Create_RazorMailModel_with_to_from_subject_body_generated_values()
+        public static RazorMimeMessage Create_RazorMailModel_with_to_from_subject_body_generated_values()
         {
-            var model = new RazorMailModel<TemplateModel>();
+            var model = new RazorMimeMessage();
 
-            model.Recipients.To.Add( get_new_email_value() );
-            model.Recipients.From.Add( get_new_email_value() );
+            model.To.Add( get_new_email_value() );
+            model.From.Add( get_new_email_value() );
 
             model.Subject = get_new_i_string_value();
+            
+            return model;
+        }
 
-            model.Model = Create_TemplateModel_with_generated_value();
+        public static SimpleMimeMessage Create_BasicMailModel_with_to_from_subject_body_generated_values()
+        {
+            var model = new SimpleMimeMessage();
+
+            model.To.Add( get_new_email_value() );
+            model.From.Add( get_new_email_value() );
+
+            model.Subject = get_new_i_string_value();
+            model.SetHtmlBody( get_new_i_string_value() );
 
             return model;
         }
 
-        public static BasicMailModel Create_BasicMailModel_with_to_from_subject_body_generated_values()
+        public static SimpleMimeMessage Create_BasicMailModel_without_from_mail_address()
         {
-            var model = new BasicMailModel();
+            var model = new SimpleMimeMessage();
 
-            model.Recipients.To.Add( get_new_email_value() );
-            model.Recipients.From.Add( get_new_email_value() );
+            model.To.Add( get_new_email_value() );
 
             model.Subject = get_new_i_string_value();
-            model.Body = get_new_i_string_value();
-
-            return model;
-        }
-
-        public static BasicMailModel Create_BasicMailModel_without_from_mail_address()
-        {
-            var model = new BasicMailModel();
-
-            model.Recipients.To.Add( get_new_email_value() );
-
-            model.Subject = get_new_i_string_value();
-            model.Body = get_new_i_string_value();
+            model.SetHtmlBody( get_new_i_string_value() );
 
             return model;
         }

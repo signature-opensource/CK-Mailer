@@ -1,4 +1,4 @@
-﻿using CK.Core;
+using CK.Core;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -11,14 +11,14 @@ namespace CK.Mailer
 {
     public static class MailerServiceExtensions
     {
-        public static Task SendAsync( this IMailerService @this, IActivityMonitor m, IMailModel mailModel )
+        public static Task SendAsync( this IMailerService @this, IActivityMonitor m, SimpleMimeMessage mailModel )
         {
-            return @this.SendAsync( m, mailModel.ToMimeMessage() );
+            return @this.SendAsync( m, mailModel );
         }
 
-        public static void Send( this IMailerService @this, IActivityMonitor m, IMailModel mailModel )
+        public static void Send( this IMailerService @this, IActivityMonitor m, SimpleMimeMessage mailModel )
         {
-            @this.Send( m, mailModel.ToMimeMessage() );
+            @this.Send( m, mailModel );
         }
     }
 }
