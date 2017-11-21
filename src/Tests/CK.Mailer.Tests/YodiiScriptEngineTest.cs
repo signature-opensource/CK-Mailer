@@ -1,5 +1,6 @@
 using CK.Core;
 using CK.Mailer.Razor;
+using CK.Mailer.YodiiScript;
 using FluentAssertions;
 using NUnit.Framework;
 using System;

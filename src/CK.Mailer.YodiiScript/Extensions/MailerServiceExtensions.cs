@@ -1,5 +1,4 @@
 using CK.Core;
-using CK.Mailer.Razor;
 using CK.Mailer.YodiiScript;
 using MimeKit;
 using System;

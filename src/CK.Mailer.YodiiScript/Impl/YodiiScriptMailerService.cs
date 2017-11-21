@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CK.Mailer.YodiiScript.Impl
+namespace CK.Mailer.YodiiScript
 {
     public class YodiiScriptMailerService : MailerService, IYodiiScriptMailerService
     {

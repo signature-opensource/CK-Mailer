@@ -6,7 +6,7 @@ using CK.Mailer.YodiiScript;
 using Yodii.Script;
 using CK.Core;
 
-namespace CK.Mailer.Razor
+namespace CK.Mailer.YodiiScript
 {
     public class YodiiScriptMimeMessage : SimpleMimeMessage, IYodiiScriptMimeMessage
     {
