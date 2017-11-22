@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Yodii.Script;
 
@@ -40,8 +41,12 @@ namespace CK.Mailer.Tests
             var e = new TemplateEngine( c );
             var result = e.Process( "Hello, <%= Model.Reverse( Model.TheVariable ) %>" );
 
-            result.Text.Should().Be( $"Hello, {model.Reverse( model.TheVariable )}" );
+            //remove white space and line break
+            string content = Regex.Replace( result.Text, @"\s+", string.Empty );
+
+            content.Should().Be( $"Hello,{model.Reverse( model.TheVariable )}" );
         }
+
 
         [Test]
         public void YodiiScript_simple_call_model_method_with_model_variable()
@@ -74,7 +79,10 @@ namespace CK.Mailer.Tests
             var e = new TemplateEngine( c );
             var result = e.Process( "Hello, <% let v = Model.TheVariable; %> <%= Model.Reverse( v ) %>" );
 
-            result.Text.Should().Be( $"Hello, {model.Reverse( model.TheVariable )}" );
+            //remove white space and line break
+            string content = Regex.Replace( result.Text, @"\s+", string.Empty );
+
+            content.Should().Be( $"Hello,{model.Reverse( model.TheVariable )}" );
         }
         
         [Test]

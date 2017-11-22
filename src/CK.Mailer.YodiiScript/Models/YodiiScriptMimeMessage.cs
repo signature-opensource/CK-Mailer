@@ -47,6 +47,7 @@ namespace CK.Mailer.YodiiScript
 
             m.Trace().Send( "Register Yodii.Script template Model" );
 
+            c.Register( "$helper", new YodiiScriptHtmlHelpers() );
             c.Register( "Model", model );
 
             m.Trace().Send( "Create Yodii.Script.TemplateEngine" );
