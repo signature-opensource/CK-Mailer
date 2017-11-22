@@ -5,11 +5,15 @@ using System.Text;
 using CK.Mailer.YodiiScript;
 using Yodii.Script;
 using CK.Core;
+using System.Text.RegularExpressions;
+using System.Net;
 
 namespace CK.Mailer.YodiiScript
 {
     public class YodiiScriptMimeMessage : SimpleMimeMessage, IYodiiScriptMimeMessage
     {
+        readonly static Regex _commentTag = new Regex( "<!--.*?-->", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture );
+
         BodyBuilder _body;
         public YodiiScriptMimeMessage()
             : base()
@@ -35,7 +39,7 @@ namespace CK.Mailer.YodiiScript
             Subject = subject;
         }
 
-        public TemplateEngine.Result SetBodyFromYodiiScriptString<T>( IActivityMonitor m, T model, string content )
+        public TemplateEngine.Result SetBodyFromYodiiScriptString<T>( IActivityMonitor m, T model, string content, bool escapeHtmlModelChars = true )
         {
             m.Trace().Send( "Create Yodii.Script.GlobalContext" );
 
@@ -49,7 +53,16 @@ namespace CK.Mailer.YodiiScript
 
             var e = new TemplateEngine( c );
 
+            e.SetWriteTransform( (s,sb) => sb.Append( _commentTag.Replace( s, String.Empty ) ) );
+            
+            if( escapeHtmlModelChars )
+            {
+                e.SetWriteTransform( ( s, sb ) => sb.Append( WebUtility.HtmlEncode( s ) ) );
+            }
+
             m.Trace().Send( "Process Yodii.Script template" );
+
+            content = _commentTag.Replace( content, String.Empty );
 
             var result = e.Process( content );
 

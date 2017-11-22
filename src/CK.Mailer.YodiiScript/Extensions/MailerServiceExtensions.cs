@@ -18,9 +18,10 @@ namespace CK.Mailer
             IActivityMonitor m,
             YodiiScriptMimeMessage message,
             string content,
-            T model )
+            T model,
+            bool escapeHtmlModelChars = true )
         {
-            var result = message.SetBodyFromYodiiScriptString( m, model, content );
+            var result = message.SetBodyFromYodiiScriptString( m, model, content, escapeHtmlModelChars );
 
             if( !String.IsNullOrEmpty( result.ErrorMessage ) )
             {
@@ -37,7 +38,8 @@ namespace CK.Mailer
             IActivityMonitor m,
             YodiiScriptMimeMessage message,
             string templatePath,
-            T model )
+            T model,
+            bool escapeHtmlModelChars = true )
         {
             if( !String.IsNullOrEmpty( @this.ViewsPhysicalPath ) && !Path.IsPathRooted( templatePath ) )
             {
@@ -56,7 +58,7 @@ namespace CK.Mailer
             
             var content = File.ReadAllText( templatePath );
 
-            message.SetBodyFromYodiiScriptString( m, model, content );
+            message.SetBodyFromYodiiScriptString( m, model, content, escapeHtmlModelChars );
             
             @this.Send( m, message );
         }

@@ -12,34 +12,78 @@ using Yodii.Script;
 
 namespace CK.Mailer.Tests
 {
+    public class ModelWithMethod
+    {
+        public string TheVariable { get; set; }
+
+        public string Reverse( string variable )
+        {
+            return String.Join( "", variable.Reverse() );
+        }
+    }
+
     [TestFixture]
     public class YodiiScriptEngineTest
     {
         [Test]
+        [Explicit]
         public void YodiiScriptEngine_SandBox()
         {
-            var model = new
+            var model = new ModelWithMethod()
             {
-                Truc = "fezrzerze"
+                TheVariable = "azerty"
             };
 
             var c = new GlobalContext();
             c.Register( "Model", model );
 
             var e = new TemplateEngine( c );
-            var result = e.Process( "Hello, <%= Model.Truc %>" );
+            var result = e.Process( "Hello, <%= Model.Reverse( Model.TheVariable ) %>" );
 
-            result.Text.Should().Be( $"Hello, {model.Truc}" );
+            result.Text.Should().Be( $"Hello, {model.Reverse( model.TheVariable )}" );
         }
 
+        [Test]
+        public void YodiiScript_simple_call_model_method_with_model_variable()
+        {
+            var model = new ModelWithMethod()
+            {
+                TheVariable = "azerty"
+            };
 
+            var c = new GlobalContext();
+            c.Register( "Model", model );
+
+            var e = new TemplateEngine( c );
+            var result = e.Process( "Hello, <%= Model.Reverse( Model.TheVariable ) %>" );
+
+            result.Text.Should().Be( $"Hello, {model.Reverse( model.TheVariable )}" );
+        }
+
+        [Test]
+        public void YodiiScript_simple_call_model_method_with_temp_variable()
+        {
+            var model = new ModelWithMethod()
+            {
+                TheVariable = "azerty"
+            };
+
+            var c = new GlobalContext();
+            c.Register( "Model", model );
+
+            var e = new TemplateEngine( c );
+            var result = e.Process( "Hello, <% let v = Model.TheVariable; %> <%= Model.Reverse( v ) %>" );
+
+            result.Text.Should().Be( $"Hello, {model.Reverse( model.TheVariable )}" );
+        }
+        
         [Test]
         [Explicit]
         public async Task YodiiScript_SandBox_Email_sender()
         {
             ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SandBox_Email_sender" );
 
-            YodiiScriptMimeMessage mailModel = new YodiiScriptMimeMessage( "benjamin.crosnier@invenietis.com" );
+            YodiiScriptMimeMessage mailModel = new YodiiScriptMimeMessage( "franck.bontemps@invenietis.com" );
             mailModel.Subject = "Coucou Benjamin";
 
             var options = new MailKitOptions()
@@ -58,25 +102,16 @@ namespace CK.Mailer.Tests
             var model = new
             {
                 Truc = "benjamin",
-                Spams = new []
+                Spams = new[]
                 {
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dqidjqzk",
-                    "dsdoies"
+                    "normal",
+                    "<b> bold </b>",
+                    "<!-- commentaire -->",
+                    "normal"
                 }
             };
 
-            mailModel.SetBodyFromYodiiScriptString( m, model, "Hello, <%= Model.Truc %> <% foreach( s in Model.Spams ) { %> <%= s %> <% } %>" );
+            mailModel.SetBodyFromYodiiScriptString( m, model, "<b>Hello</b>, <%= Model.Truc %> <% foreach( s in Model.Spams ) { %> <%= s %> <% } %> normal in content <!-- comment in content -->" );
 
             await StaticMailerService.SendMailAsync( m, options, mailModel );
         }
