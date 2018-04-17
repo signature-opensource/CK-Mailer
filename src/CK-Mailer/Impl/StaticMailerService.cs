@@ -191,6 +191,9 @@ namespace CK.Mailer
             //set the DefaultSenderEmail when the From message collection is empty 
             if( !message.From.Any() )
             {
+                if( String.IsNullOrWhiteSpace( options.DefaultSenderEmail ) )
+                    throw new InvalidOperationException( "DefaultSenderEmail must be defined, if you don't specify the from field." );
+
                 m.Info().Send( "Add default Email sender, subject: {0}", options.DefaultSenderName );
                 if( !String.IsNullOrEmpty( options.DefaultSenderName ) )
                 {

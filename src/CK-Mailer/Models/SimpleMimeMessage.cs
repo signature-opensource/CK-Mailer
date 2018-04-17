@@ -37,17 +37,17 @@ namespace CK.Mailer
             : this( to )
         {
             Subject = subject;
-            processBody( body );
+            ProcessBody( body );
         }
 
         public SimpleMimeMessage( string from, string to, string subject, string body )
             : this( from, to )
         {
             Subject = subject;
-            processBody( body );
+            ProcessBody( body );
         }
 
-        private void processBody( string body )
+        private void ProcessBody( string body )
         {
             BodyBuilder.HtmlBody = body;
             BodyBuilder.TextBody = WebUtil.HtmlToText( body, true );
@@ -59,7 +59,7 @@ namespace CK.Mailer
 
         public void SetHtmlBody( string body )
         {
-            processBody( body );
+            ProcessBody( body );
         }
 
         public MimeEntity AddAttachment( string fileName, Stream stream, ContentType contentType )
