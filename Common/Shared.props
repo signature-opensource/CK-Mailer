@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <CentralPackagesFile>$(MSBuildThisFileDirectory)CentralPackages.props</CentralPackagesFile>
+  </PropertyGroup>
+</Project>

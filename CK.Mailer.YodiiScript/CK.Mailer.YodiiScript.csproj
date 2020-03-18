@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.0.52" />
+  <Import Project="..\Common\Shared.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MimeKit" />
+    <PackageReference Include="Yodii.Script" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CK-Mailer\CK.Mailer.csproj" />
+  </ItemGroup>
+
+</Project>
