@@ -1,13 +1,11 @@
 using CK.Core;
+using CK.Testing;
 using FluentAssertions;
 using MimeKit;
-using MimeKit.Text;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using static CK.Testing.BasicTestHelper;
 
 namespace CK.Mailer.Tests
 {
@@ -18,21 +16,27 @@ namespace CK.Mailer.Tests
         [Explicit]
         public async Task SandBox_Email_sender()
         {
+            Assume.That( TestHelper.IsExplicitAllowed, "Press Ctrl key to allow this test to run." );
             ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SandBox_Email_sender" );
 
-            SimpleMimeMessage mailModel = new SimpleMimeMessage( "benjamin.crosnier@invenietis.com", "Coucou Benjamin", "Je suis là pour te spam" );
+            string defaultRecipient = TestHelperConfiguration.Default.Get( "Smtp/DefaultRecipient" );
+            defaultRecipient.Should().NotBeNullOrWhiteSpace();
+            string password = TestHelperConfiguration.Default.Get( "Smtp/Password" );
+            password.Should().NotBeNullOrWhiteSpace();
+
+            SimpleMimeMessage mailModel = new SimpleMimeMessage( defaultRecipient, "Coucou Benjamin", "Je suis là pour te spam" );
 
             var options = new MailKitOptions()
             {
-                Host = "app-smtp.invenietis.net",
-                Port = 587,
+                Host = TestHelperConfiguration.Default.Get( "Smtp/Host" ),
+                Port = TestHelperConfiguration.Default.GetInt32( "Smtp/Port" ).GetValueOrDefault( 587 ),
                 UsePickupDirectory = true,
                 PickupDirectoryPath = "./PickupDirectory",
-                Password = "1C59vMW17530o1bfs56l",
+                Password = password,
                 SendMails = true,
-                User = "invback@invenietis.net",
+                User = TestHelperConfiguration.Default.Get( "Smtp/User" ),
                 UseSSL = false,
-                DefaultSenderEmail = "no-reply@ttge.fr"
+                DefaultSenderEmail = TestHelperConfiguration.Default.Get( "Smtp/DefaultSenderEmail" )
             };
 
             await StaticMailerService.SendMailAsync( m, options, mailModel );

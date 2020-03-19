@@ -1,5 +1,6 @@
 using CK.Core;
 using CK.Mailer.YodiiScript;
+using CK.Testing;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Yodii.Script;
+using static CK.Testing.BasicTestHelper;
 
 namespace CK.Mailer.Tests
 {
@@ -27,6 +29,8 @@ namespace CK.Mailer.Tests
         [Explicit]
         public void YodiiScriptEngine_SandBox()
         {
+            Assume.That( TestHelper.IsExplicitAllowed, "Press Ctrl key to allow this test to run." );
+
             var model = new ModelWithMethod()
             {
                 TheVariable = "azerty"
@@ -86,22 +90,28 @@ namespace CK.Mailer.Tests
         [Explicit]
         public async Task YodiiScript_SandBox_Email_sender()
         {
+            Assume.That( TestHelper.IsExplicitAllowed, "Press Ctrl key to allow this test to run." );
             ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SandBox_Email_sender" );
 
-            YodiiScriptMimeMessage mailModel = new YodiiScriptMimeMessage( "franck.bontemps@invenietis.com" );
+            string defaultRecipient = TestHelperConfiguration.Default.Get( "Smtp/DefaultRecipient" );
+            defaultRecipient.Should().NotBeNullOrWhiteSpace();
+            string password = TestHelperConfiguration.Default.Get( "Smtp/Password" );
+            password.Should().NotBeNullOrWhiteSpace();
+
+            YodiiScriptMimeMessage mailModel = new YodiiScriptMimeMessage( defaultRecipient );
             mailModel.Subject = "Coucou Benjamin";
 
             var options = new MailKitOptions()
             {
-                Host = "app-smtp.invenietis.net",
-                Port = 587,
+                Host = TestHelperConfiguration.Default.Get( "Smtp/Host" ),
+                Port = TestHelperConfiguration.Default.GetInt32( "Smtp/Port" ).GetValueOrDefault( 587 ),
                 UsePickupDirectory = true,
                 PickupDirectoryPath = "./PickupDirectory",
-                Password = "1C59vMW17530o1bfs56l",
+                Password = password,
                 SendMails = true,
-                User = "invback@invenietis.net",
+                User = TestHelperConfiguration.Default.Get( "Smtp/User" ),
                 UseSSL = false,
-                DefaultSenderEmail = "no-reply@ttge.fr"
+                DefaultSenderEmail = TestHelperConfiguration.Default.Get( "Smtp/DefaultSenderEmail" )
             };
 
             var model = new

@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  
   <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.0.52" />
   <Import Project="..\..\Common\Shared.props" />
+  
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
+  
   <ItemGroup>
+    <PackageReference Include="CK.Testing" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -14,8 +18,10 @@
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Yodii.Script" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\CK-Mailer\CK.Mailer.csproj" />
     <ProjectReference Include="..\..\CK.Mailer.YodiiScript\CK.Mailer.YodiiScript.csproj" />
   </ItemGroup>
+  
 </Project>
