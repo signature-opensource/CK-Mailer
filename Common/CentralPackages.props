@@ -6,6 +6,7 @@
     <PackageReference Update="CK.ActivityMonitor.StandardSender" Version="13.2.0" />
     <PackageReference Update="CK.Core" Version="13.1.0" />
     <PackageReference Update="CK.Monitoring.Hosting" Version="12.2.0" />
+    <PackageReference Update="CK.Text" Version="9.0.0" />
 
     <PackageReference Update="FluentAssertions" Version="5.10.2" />
     <PackageReference Update="MailKit" Version="2.5.2" />
@@ -13,8 +14,12 @@
     <PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Update="MimeKit" Version="2.5.2" />
+    <PackageReference Update="NuGet.Credentials" Version="5.5.0" />
+    <PackageReference Update="NuGet.Protocol" Version="5.5.0" />
     <PackageReference Update="NUnit" Version="3.12.0" />
+    <PackageReference Update="NUnit.ConsoleRunner" Version="3.11.1" />
     <PackageReference Update="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Update="SimpleGitVersion.Cake" Version="2.1.0" />
 
     <PackageReference Update="Yodii.Script" Version="0.8.0" />
   </ItemGroup>
