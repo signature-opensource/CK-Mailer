@@ -9,7 +9,7 @@
     <PackageReference Include="CK.Monitoring.Hosting" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CK-Mailer\CK.Mailer.csproj" />
+    <ProjectReference Include="..\..\CK.Mailer\CK.Mailer.csproj" />
     <ProjectReference Include="..\..\CK.Mailer.AspNet\CK.Mailer.AspNet.csproj" />
   </ItemGroup>
 </Project>

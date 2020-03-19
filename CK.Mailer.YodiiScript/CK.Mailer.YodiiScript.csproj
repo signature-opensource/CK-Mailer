@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CK-Mailer\CK.Mailer.csproj" />
+    <ProjectReference Include="..\CK.Mailer\CK.Mailer.csproj" />
   </ItemGroup>
 
 </Project>

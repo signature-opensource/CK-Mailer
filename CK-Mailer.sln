@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.AspNet", "CK.Mail
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.YodiiScript", "CK.Mailer.YodiiScript\CK.Mailer.YodiiScript.csproj", "{42B2CA0F-BFFD-4682-A6BE-3B853605D59E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "CK-Mailer\CK.Mailer.csproj", "{5B0D9664-9C54-4916-B3DF-540CFC4DBDBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "CK.Mailer\CK.Mailer.csproj", "{5B0D9664-9C54-4916-B3DF-540CFC4DBDBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Tests", "Tests\CK.Mailer.Tests\CK.Mailer.Tests.csproj", "{1A2FE982-B860-40E3-A4F8-731789C6AE0D}"
 EndProject
