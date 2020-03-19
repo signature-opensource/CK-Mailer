@@ -30,3 +30,13 @@ packages/
 .vs/
 *.eml
 desktop.ini
+
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Rr]eleases/
+CodeCakeBuilder/UnitTestsDone.*.txt
+Tests/**/TestResult*.xml
+CodeCakeBuilder/MemoryKey.*.txt
+Tests/**/Logs/
+Tests/**/CKSetup-WorkingDir/
