@@ -10,7 +10,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="CK.Testing" />
+    <PackageReference Include="CK.Testing" Version="0.18.1--0023-develop" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
