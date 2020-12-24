@@ -19,6 +19,7 @@
     <PackageReference Update="NUnit.ConsoleRunner" Version="3.11.1" />
     <PackageReference Update="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Update="SimpleGitVersion.Cake" Version="5.0.0" />
-    <PackageReference Update="Yodii.Script" Version="0.8.0" />
+    <PackageReference Update="Yodii.Script" Version="0.8.1--0009-develop" />
+    <PackageReference Include="CK.Testing" Version="0.18.1--0023-develop" />
   </ItemGroup>
 </Project>

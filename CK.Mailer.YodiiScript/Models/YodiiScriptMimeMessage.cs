@@ -24,13 +24,13 @@ namespace CK.Mailer.YodiiScript
         public YodiiScriptMimeMessage( string to )
             : this()
         {
-            To.Add( new MailboxAddress( to ) );
+            To.Add( MailboxAddress.Parse( to ) );
         }
 
         public YodiiScriptMimeMessage( string from, string to )
             : this( to )
         {
-            From.Add( new MailboxAddress( from ) );
+            From.Add( MailboxAddress.Parse( from ) );
         }
 
         public YodiiScriptMimeMessage( string from, string to, string subject )

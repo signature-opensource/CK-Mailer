@@ -24,13 +24,13 @@ namespace CK.Mailer
         public SimpleMimeMessage( string to )
             : this()
         {
-            To.Add( new MailboxAddress( to ) );
+            To.Add( MailboxAddress.Parse( to ) );
         }
 
         public SimpleMimeMessage( string from, string to )
             : this( to )
         {
-            From.Add( new MailboxAddress( from ) );
+            From.Add( MailboxAddress.Parse( from ) );
         }
 
         public SimpleMimeMessage( string to, string subject, string body )

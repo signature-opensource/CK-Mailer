@@ -201,7 +201,7 @@ namespace CK.Mailer
                 }
                 else
                 {
-                    message.From.Add( new MailboxAddress( options.DefaultSenderEmail ) );
+                    message.From.Add( MailboxAddress.Parse( options.DefaultSenderEmail ) );
                 }
             }
 
