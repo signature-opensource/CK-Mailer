@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.0.52" />
+  
   <Import Project="..\..\Common\Shared.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="CK.Monitoring.Hosting" />
+    <PackageReference Include="CK.Monitoring.Hosting" Version="13.0.0" />
     <ProjectReference Include="..\..\CK.Mailer\CK.Mailer.csproj" />
     <ProjectReference Include="..\..\CK.Mailer.AspNet\CK.Mailer.AspNet.csproj" />
   </ItemGroup>
