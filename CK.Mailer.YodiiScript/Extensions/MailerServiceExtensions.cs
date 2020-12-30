@@ -25,10 +25,10 @@ namespace CK.Mailer
 
             if( !String.IsNullOrEmpty( result.ErrorMessage ) )
             {
-                m.Error().Send( result.ErrorMessage );
+                m.Error( result.ErrorMessage );
             }
 
-            m.Debug().Send( result.Script );
+            m.Debug( result.Script );
 
             @this.Send( m, message );
         }
@@ -43,16 +43,16 @@ namespace CK.Mailer
         {
             if( !String.IsNullOrEmpty( @this.ViewsPhysicalPath ) && !Path.IsPathRooted( templatePath ) )
             {
-                m.Info().Send( "YodiiScript combine template path with ViewsPhysicalPath option" );
+                m.Info( "YodiiScript combine template path with ViewsPhysicalPath option" );
 
                 templatePath = Path.Combine( @this.ViewsPhysicalPath, templatePath );
 
-                m.Info().Send( "Template path result : {0}", templatePath );
+                m.Info( $"Template path result : {templatePath}" );
             }
 
             if( !File.Exists( templatePath ) )
             {
-                m.Error().Send( "YodiiScript template not found : {0}", templatePath );
+                m.Error( $"YodiiScript template not found : {templatePath}" );
                 throw new FileNotFoundException();
             }
             

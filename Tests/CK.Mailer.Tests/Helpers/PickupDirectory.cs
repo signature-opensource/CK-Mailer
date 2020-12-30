@@ -1,9 +1,6 @@
-﻿using MimeKit;
-using System;
-using System.Collections.Generic;
+using MimeKit;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace CK.Mailer.Tests
 {

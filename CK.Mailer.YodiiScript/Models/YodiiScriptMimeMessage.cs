@@ -41,16 +41,16 @@ namespace CK.Mailer.YodiiScript
 
         public TemplateEngine.Result SetBodyFromYodiiScriptString<T>( IActivityMonitor m, T model, string content, bool escapeHtmlModelChars = true )
         {
-            m.Trace().Send( "Create Yodii.Script.GlobalContext" );
+            m.Trace( "Create Yodii.Script.GlobalContext" );
 
             var c = new GlobalContext();
 
-            m.Trace().Send( "Register Yodii.Script template Model" );
+            m.Trace( "Register Yodii.Script template Model" );
 
             c.Register( "$helper", new YodiiScriptHtmlHelpers() );
             c.Register( "Model", model );
 
-            m.Trace().Send( "Create Yodii.Script.TemplateEngine" );
+            m.Trace( "Create Yodii.Script.TemplateEngine" );
 
             var e = new TemplateEngine( c );
 
@@ -61,7 +61,7 @@ namespace CK.Mailer.YodiiScript
                 e.SetWriteTransform( ( s, sb ) => sb.Append( WebUtility.HtmlEncode( s ) ) );
             }
 
-            m.Trace().Send( "Process Yodii.Script template" );
+            m.Trace( "Process Yodii.Script template" );
 
             content = _commentTag.Replace( content, String.Empty );
 
@@ -69,15 +69,15 @@ namespace CK.Mailer.YodiiScript
 
             if( !String.IsNullOrEmpty( result.ErrorMessage ) )
             {
-                m.Error().Send( result.ErrorMessage );
+                m.Error( result.ErrorMessage );
             }
             else
             {
-                m.Trace().Send( "Set Yodii.Script message html" );
+                m.Trace( "Set Yodii.Script message html" );
                 SetHtmlBody( result.Text );
             }
 
-            m.Debug().Send( result.Script );
+            m.Debug( result.Script );
 
             return result;
         }

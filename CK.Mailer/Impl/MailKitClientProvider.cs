@@ -48,7 +48,7 @@ namespace CK.Mailer
         {
             Debug.Assert( _smtpClient != null );
 
-            m.Info().Send( $"Connecting to SMTP async {Options.Host}:{Options.Port}" );
+            m.Info( $"Connecting to SMTP async {Options.Host}:{Options.Port}" );
 
             _smtpClient.ServerCertificateValidationCallback = ( s, c, h, e ) => true;
             await _smtpClient.ConnectAsync(
@@ -62,12 +62,12 @@ namespace CK.Mailer
 
             if( !String.IsNullOrEmpty( Options.User ) && !String.IsNullOrEmpty( Options.Password ) )
             {
-                m.Info().Send( $"Authenticating..." );
+                m.Info( $"Authenticating..." );
 
                 await _smtpClient.AuthenticateAsync( Options.User, Options.Password )
                     .ConfigureAwait( false );
 
-                m.Info().Send( $"Authenticated!" );
+                m.Info( $"Authenticated!" );
             }
         }
 
@@ -75,7 +75,7 @@ namespace CK.Mailer
         {
             Debug.Assert( _smtpClient != null );
 
-            m.Info().Send( $"Connecting to SMTP {Options.Host}:{Options.Port}" );
+            m.Info( $"Connecting to SMTP {Options.Host}:{Options.Port}" );
 
             _smtpClient.ServerCertificateValidationCallback = ( s, c, h, e ) => true;
             _smtpClient.Connect(
@@ -89,11 +89,11 @@ namespace CK.Mailer
 
             if( !String.IsNullOrEmpty( Options.User ) && !String.IsNullOrEmpty( Options.Password ) )
             {
-                m.Info().Send( $"Authenticating..." );
+                m.Info( $"Authenticating..." );
 
                 _smtpClient.Authenticate( Options.User, Options.Password );
 
-                m.Info().Send( $"Authenticated!" );
+                m.Info( $"Authenticated!" );
             }
         }
 

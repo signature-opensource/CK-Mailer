@@ -138,8 +138,8 @@ namespace CK.Mailer
                 catch( Exception ex )
                 {
                     //todo monitor send an email ? another package ?
-                    m.Error().Send( "An error occured during WriteInThePickupDirectory method" );
-                    m.Error().Send( ex );
+                    m.Error( "An error occured during WriteInThePickupDirectory method" );
+                    m.Error( ex );
                 }
             }
 
@@ -171,8 +171,8 @@ namespace CK.Mailer
                 catch( Exception ex )
                 {
                     //todo monitor send an email ? another package ?
-                    m.Error().Send( "An error occured during WriteInThePickupDirectory method" );
-                    m.Error().Send( ex );
+                    m.Error( "An error occured during WriteInThePickupDirectory method" );
+                    m.Error( ex );
                 }
             }
 
@@ -186,15 +186,15 @@ namespace CK.Mailer
 
         private static void ProcessMessage( IActivityMonitor m, MimeMessage message, MailKitOptions options )
         {
-            m.Info().Send( "Send Email, subject: {0}", message.Subject );
+            m.Info( $"Send Email, subject: {message.Subject}" );
 
             //set the DefaultSenderEmail when the From message collection is empty 
             if( !message.From.Any() )
             {
                 if( String.IsNullOrWhiteSpace( options.DefaultSenderEmail ) )
-                    throw new InvalidOperationException( "DefaultSenderEmail must be defined, if you don't specify the from field." );
-
-                m.Info().Send( "Add default Email sender, subject: {0}", options.DefaultSenderName );
+                {
+                    throw new InvalidOperationException( "'From' field is missing: 'DefaultSenderEmail' must be specified in Configuration." );
+                }
                 if( !String.IsNullOrEmpty( options.DefaultSenderName ) )
                 {
                     message.From.Add( new MailboxAddress( options.DefaultSenderName, options.DefaultSenderEmail ) );
@@ -205,20 +205,20 @@ namespace CK.Mailer
                 }
             }
 
-            if( message.From.Any() ) m.Info().Send( "From: {0}", message.From );
-            if( message.ResentFrom.Any() ) m.Info().Send( "ResentFrom: {0}", message.ResentFrom );
+            if( message.From.Any() ) m.Info( $"From: {message.From}" );
+            if( message.ResentFrom.Any() ) m.Info( $"ResentFrom: {message.ResentFrom}" );
 
-            if( message.To.Any() ) m.Info().Send( "To: {0}", message.To );
-            if( message.ResentTo.Any() ) m.Info().Send( "ResentTo: {0}", message.ResentTo );
+            if( message.To.Any() ) m.Info( $"To: {message.To}" );
+            if( message.ResentTo.Any() ) m.Info( $"ResentTo: {message.ResentTo}" );
 
-            if( message.ReplyTo.Any() ) m.Info().Send( "ReplyTo: {0}", message.ReplyTo );
-            if( message.ResentReplyTo.Any() ) m.Info().Send( "ResentReplyTo: {0}", message.ResentReplyTo );
+            if( message.ReplyTo.Any() ) m.Info( $"ReplyTo: {message.ReplyTo}" );
+            if( message.ResentReplyTo.Any() ) m.Info( $"ResentReplyTo: {message.ResentReplyTo}" );
 
-            if( message.Cc.Any() ) m.Info().Send( "Cc: {0}", message.Cc );
-            if( message.ResentCc.Any() ) m.Info().Send( "ResentCc: {0}", message.ResentCc );
+            if( message.Cc.Any() ) m.Info( $"Cc: {message.Cc}"  );
+            if( message.ResentCc.Any() ) m.Info( $"ResentCc: {message.ResentCc}" );
 
-            if( message.Bcc.Any() ) m.Info().Send( "Bcc: {0}", message.Bcc );
-            if( message.ResentBcc.Any() ) m.Info().Send( "ResentBcc: {0}", message.ResentBcc );
+            if( message.Bcc.Any() ) m.Info( $"Bcc: {message.Bcc}" );
+            if( message.ResentBcc.Any() ) m.Info( $"ResentBcc: {message.ResentBcc}" );
 
         }
         private static void WriteInThePickupDirectory( IActivityMonitor m, MimeMessage message, MailKitOptions options )
@@ -227,43 +227,47 @@ namespace CK.Mailer
 
             if( !Directory.Exists( options.PickupDirectoryPath ) )
             {
-                m.Info().Send( "PickupDirectory not found : {0}", options.PickupDirectoryPath );
+                using( m.OpenInfo( $"Creating PickupDirectory: {options.PickupDirectoryPath}" ) )
+                {
+                    try
+                    {
+                        Directory.CreateDirectory( options.PickupDirectoryPath );
+                    }
+                    catch( Exception ex )
+                    {
+                        m.Error( ex );
+                    }
+                }
+            }
 
+            var eml = $"{Guid.NewGuid()}.eml";
+            var path = Path.Combine( options.PickupDirectoryPath, eml );
+            using( m.OpenInfo( $"Creating file: '{eml}' in pickup directory {options.PickupDirectoryPath}." ) )
+            {
                 try
                 {
-                    m.Info().Send( "Create PickupDirectory" );
-                    Directory.CreateDirectory( options.PickupDirectoryPath );
+                    using( var data = File.CreateText( path ) )
+                    {
+                        message.WriteTo( data.BaseStream );
+                    }
                 }
                 catch( Exception ex )
                 {
-                    m.Error().Send( "Can't create PickupDirectory" );
-                    m.Error().Send( ex );
+                    m.Error( ex );
                 }
-            }
-
-            m.Info().Send( "Writing mail to pickup directory" );
-
-            var path = Path.Combine( options.PickupDirectoryPath, $"{Guid.NewGuid().ToString()}.eml" );
-
-            using( var data = File.CreateText( path ) )
-            {
-                message.WriteTo( data.BaseStream );
-                m.Info().Send( "WriteTo: {0}", path );
             }
         }
 
-
-
         private static Task<SmtpClient> InnerGetSmtpClientAsync( IActivityMonitor m, IMailKitClientProvider provider )
         {
-            m.Info().Send( "Getting Smtp Client" );
+            m.Info( "Getting Smtp Client" );
 
             return provider.GetClientAsync( m );
         }
 
         private static SmtpClient InnerGetSmtpClient( IActivityMonitor m, IMailKitClientProvider provider )
         {
-            m.Info().Send( "Getting Smtp Client" );
+            m.Info( "Getting Smtp Client" );
 
             return provider.GetClient( m );
         }
@@ -274,44 +278,44 @@ namespace CK.Mailer
         {
             var client = InnerGetSmtpClient( m, provider );
 
-            m.Info().Send( "Sending Email" );
+            m.Info( "Sending Email" );
 
             client.Send( message, cancellationToken, progress );
 
-            m.Info().Send( "Email sent" );
+            m.Info( "Email sent" );
         }
 
         public static void InnerSendMail( IActivityMonitor m, IMailKitClientProvider provider, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
         {
             var client = InnerGetSmtpClient( m, provider );
 
-            m.Info().Send( "Sending Email" );
+            m.Info( "Sending Email" );
 
             client.Send( options, message, cancellationToken, progress );
 
-            m.Info().Send( "Email sent" );
+            m.Info( "Email sent" );
         }
 
         public static async Task InnerSendMailAsync( IActivityMonitor m, IMailKitClientProvider provider, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
         {
             var client = await InnerGetSmtpClientAsync( m, provider );
 
-            m.Info().Send( "Sending Email" );
+            m.Info( "Sending Email" );
 
             await client.SendAsync( message, cancellationToken, progress ).ConfigureAwait( false );
 
-            m.Info().Send( "Email sent" );
+            m.Info( "Email sent" );
         }
 
         public static async Task InnerSendMailAsync( IActivityMonitor m, IMailKitClientProvider provider, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
         {
             var client = await InnerGetSmtpClientAsync( m, provider );
 
-            m.Info().Send( "Sending Email" );
+            m.Info( "Sending Email" );
 
             await client.SendAsync( options, message, cancellationToken, progress ).ConfigureAwait( false );
 
-            m.Info().Send( "Email sent" );
+            m.Info( "Email sent" );
         }
     }
 }

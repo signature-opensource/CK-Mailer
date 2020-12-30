@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A562BD8A-4D5A-4843-918F-D11419ABEF20}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Common\CentralPackages.props = Common\CentralPackages.props
 		nuget.config = nuget.config
 		RepositoryInfo.xml = RepositoryInfo.xml
 		Common\Shared.props = Common\Shared.props
