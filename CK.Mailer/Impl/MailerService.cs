@@ -20,26 +20,14 @@ namespace CK.Mailer
         }
 
         
-        public Task SendAsync( IActivityMonitor m, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
+        public Task SendAsync( IActivityMonitor m, MimeMessage message, ITransferProgress progress = null, CancellationToken cancellationToken = default )
         {
-            return StaticMailerService.SendMailAsync( m, Provider, message, cancellationToken, progress );
+            return StaticMailerService.SendMailAsync( m, Provider, message, progress, cancellationToken );
         }
 
-        public Task SendAsync( IActivityMonitor m, FormatOptions formatOptions, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
+        public Task SendAsync( IActivityMonitor m, FormatOptions formatOptions, MimeMessage message, ITransferProgress progress = null, CancellationToken cancellationToken = default )
         {
-            return StaticMailerService.SendMailAsync( m, Provider, formatOptions, message, cancellationToken, progress );
+            return StaticMailerService.SendMailAsync( m, Provider, formatOptions, message, progress, cancellationToken );
         }
-
-        
-        public void Send( IActivityMonitor m, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            StaticMailerService.SendMail( m, Provider, message, cancellationToken, progress );
-        }
-
-        public void Send( IActivityMonitor m, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            StaticMailerService.SendMail( m, Provider, message, cancellationToken, progress );
-        }
-
     }
 }

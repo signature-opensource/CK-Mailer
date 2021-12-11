@@ -13,13 +13,12 @@ namespace CK.Mailer
 {
     public static class MailerServiceExtensions
     {
-        public static void SendInlineTemplate<T>(
-            this IYodiiScriptMailerService @this,
-            IActivityMonitor m,
-            YodiiScriptMimeMessage message,
-            string content,
-            T model,
-            bool escapeHtmlModelChars = true )
+        public static void SendInlineTemplate<T>( this IYodiiScriptMailerService @this,
+                                                  IActivityMonitor m,
+                                                  YodiiScriptMimeMessage message,
+                                                  string content,
+                                                  T model,
+                                                  bool escapeHtmlModelChars = true )
         {
             var result = message.SetBodyFromYodiiScriptString( m, model, content, escapeHtmlModelChars );
 
@@ -33,13 +32,12 @@ namespace CK.Mailer
             @this.Send( m, message );
         }
 
-        public static void Send<T>(
-            this IYodiiScriptMailerService @this,
-            IActivityMonitor m,
-            YodiiScriptMimeMessage message,
-            string templatePath,
-            T model,
-            bool escapeHtmlModelChars = true )
+        public static void Send<T>( this IYodiiScriptMailerService @this,
+                                    IActivityMonitor m,
+                                    YodiiScriptMimeMessage message,
+                                    string templatePath,
+                                    T model,
+                                    bool escapeHtmlModelChars = true )
         {
             if( !String.IsNullOrEmpty( @this.ViewsPhysicalPath ) && !Path.IsPathRooted( templatePath ) )
             {

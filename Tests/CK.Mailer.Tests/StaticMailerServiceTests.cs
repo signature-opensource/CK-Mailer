@@ -131,6 +131,7 @@ namespace CK.Mailer.Tests
             receiverAddress.Name.Should().NotBe( options.DefaultSenderName );
 
         }
+
         [Test]
         public async Task BasicMailModel_using_must_allow_the_automatic_html_escape_for_text_body_Async()
         {

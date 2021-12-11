@@ -11,10 +11,7 @@ namespace CK.Mailer
     {
         IMailKitClientProvider Provider { get; set; }
 
-        Task SendAsync( IActivityMonitor m, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null );
-        Task SendAsync( IActivityMonitor m, FormatOptions formatOptions, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null );
-        
-        void Send( IActivityMonitor m, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null );
-        void Send( IActivityMonitor m, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null );
+        Task SendAsync( IActivityMonitor m, MimeMessage message, ITransferProgress progress = null, CancellationToken cancellationToken = default );
+        Task SendAsync( IActivityMonitor m, FormatOptions formatOptions, MimeMessage message, ITransferProgress progress = null, CancellationToken cancellationToken = default );
     }
 }
