@@ -14,7 +14,7 @@ namespace CK.Mailer.Tests
     {
         [Test]
         [Explicit]
-        public async Task SandBox_Email_sender()
+        public async Task SandBox_Email_sender_Async()
         {
             Assume.That( TestHelper.IsExplicitAllowed, "Press Ctrl key to allow this test to run." );
             ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SandBox_Email_sender" );
@@ -43,7 +43,7 @@ namespace CK.Mailer.Tests
         }
 
         [Test]
-        public async Task send_email_from_static_sender_with_BasicMailModel_overload_must_be_append_in_PickupDirectory()
+        public async Task send_email_from_static_sender_with_BasicMailModel_overload_must_be_append_in_PickupDirectory_Async()
         {
             MailKitOptions options = DefaultMailKitOptions.Default;
 
@@ -76,7 +76,7 @@ namespace CK.Mailer.Tests
         }
 
         [Test]
-        public async Task send_email_from_static_sender_with_MimeMessage_overload_must_be_append_in_PickupDirectory()
+        public async Task send_email_from_static_sender_with_MimeMessage_overload_must_be_append_in_PickupDirectory_Async()
         {
             MailKitOptions options = DefaultMailKitOptions.Default;
 
@@ -109,7 +109,7 @@ namespace CK.Mailer.Tests
         }
 
         [Test]
-        public async Task send_email_with_default_email_sender()
+        public async Task send_email_with_default_email_sender_Async()
         {
             MailKitOptions options = DefaultMailKitOptions.Default;
 
@@ -131,8 +131,9 @@ namespace CK.Mailer.Tests
             receiverAddress.Name.Should().NotBe( options.DefaultSenderName );
 
         }
+
         [Test]
-        public async Task BasicMailModel_using_must_allow_the_automatic_html_escape_for_text_body()
+        public async Task BasicMailModel_using_must_allow_the_automatic_html_escape_for_text_body_Async()
         {
             MailKitOptions options = DefaultMailKitOptions.Default;
             IActivityMonitor m = FM.Get_ActivityMonitor();

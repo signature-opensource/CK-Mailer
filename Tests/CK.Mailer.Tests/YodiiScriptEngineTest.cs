@@ -88,7 +88,7 @@ namespace CK.Mailer.Tests
         
         [Test]
         [Explicit]
-        public async Task YodiiScript_SandBox_Email_sender()
+        public async Task YodiiScript_SandBox_Email_sender_Async()
         {
             Assume.That( TestHelper.IsExplicitAllowed, "Press Ctrl key to allow this test to run." );
             ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SandBox_Email_sender" );

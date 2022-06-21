@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 
 namespace CK.Mailer
 {
-    public interface IMailKitClientProvider : IDisposable
+    public interface IMailKitClientProvider
     {
         /// <summary>
-        /// Get current set Options
+        /// Get current Options
         /// </summary>
         MailKitOptions Options { get; }
-
-        SmtpClient GetClient( IActivityMonitor m );
 
         Task<SmtpClient> GetClientAsync( IActivityMonitor m );
     }

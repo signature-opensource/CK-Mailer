@@ -1,17 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\Common\Shared.props" />
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Yodii.Script" Version="0.8.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\CK.Mailer\CK.Mailer.csproj" />
   </ItemGroup>
-
 </Project>

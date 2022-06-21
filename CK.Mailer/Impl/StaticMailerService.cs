@@ -14,33 +14,34 @@ namespace CK.Mailer
 {
     public static class StaticMailerService
     {
-        //public static Task SendMailAsync( IActivityMonitor m, SimpleMimeMessage message, MailKitOptions options )
-        //{
-        //    if( options == null ) throw new ArgumentNullException( nameof( options ) );
-
-        //    return SendMailAsync( m, message, new MailKitClientProvider( options ) );
-        //}
-
-        //public static Task SendMailAsync( IActivityMonitor m, SimpleMimeMessage message, IMailKitClientProvider provider )
-        //{
-        //    return SendMailAsync( m, message, provider );
-        //}
-
-        public static Task SendMailAsync( IActivityMonitor m, MailKitOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
+        public static Task SendMailAsync( IActivityMonitor m,
+                                          MailKitOptions options,
+                                          MimeMessage message,
+                                          ITransferProgress progress = null,
+                                          CancellationToken cancellationToken = default )
         {
             if( options == null ) throw new ArgumentNullException( nameof( options ) );
 
-            return SendMailAsync( m, new MailKitClientProvider( options ), message, cancellationToken, progress );
+            return SendMailAsync( m, new MailKitClientProvider( options ), message, progress, cancellationToken );
         }
 
-        public static Task SendMailAsync( IActivityMonitor m, MailKitOptions options, FormatOptions formatOptions, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
+        public static Task SendMailAsync( IActivityMonitor m,
+                                          MailKitOptions options,
+                                          FormatOptions formatOptions,
+                                          MimeMessage message,
+                                          ITransferProgress progress = null,
+                                          CancellationToken cancellationToken = default )
         {
             if( options == null ) throw new ArgumentNullException( nameof( options ) );
 
-            return SendMailAsync( m, new MailKitClientProvider( options ), formatOptions, message, cancellationToken, progress );
+            return SendMailAsync( m, new MailKitClientProvider( options ), formatOptions, message, progress, cancellationToken );
         }
 
-        public static async Task SendMailAsync( IActivityMonitor m, IMailKitClientProvider provider, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
+        public static async Task SendMailAsync( IActivityMonitor m,
+                                                IMailKitClientProvider provider,
+                                                MimeMessage message,
+                                                ITransferProgress progress = null,
+                                                CancellationToken cancellationToken = default )
         {
             if( m == null ) throw new InvalidOperationException( "An ActivityMonitor must be provided." );
             if( message == null ) throw new ArgumentNullException( nameof( message ) );
@@ -60,11 +61,17 @@ namespace CK.Mailer
 
             if( options.SendMails )
             {
-                await InnerSendMailAsync( m, provider, message, cancellationToken, progress );
+                using var client = await provider.GetClientAsync( m );
+                await client.SendAsync( message, cancellationToken, progress ).ConfigureAwait( false );
             }
         }
 
-        public static async Task SendMailAsync( IActivityMonitor m, IMailKitClientProvider provider, FormatOptions formatOptions, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
+        public static async Task SendMailAsync( IActivityMonitor m,
+                                                IMailKitClientProvider provider,
+                                                FormatOptions formatOptions,
+                                                MimeMessage message,
+                                                ITransferProgress progress = null,
+                                                CancellationToken cancellationToken = default )
         {
             if( m == null ) throw new InvalidOperationException( "An ActivityMonitor must be provided." );
             if( message == null ) throw new ArgumentNullException( nameof( message ) );
@@ -84,107 +91,13 @@ namespace CK.Mailer
 
             if( options.SendMails )
             {
-                await InnerSendMailAsync( m, provider, formatOptions, message, cancellationToken, progress );
+                using var client = await provider.GetClientAsync( m );
+                await client.SendAsync( formatOptions, message, cancellationToken, progress ).ConfigureAwait( false );
             }
         }
 
 
-
-        //public static void SendMail( IActivityMonitor m, SimpleMimeMessage message, MailKitOptions options )
-        //{
-        //    if( options == null ) throw new ArgumentNullException( nameof( options ) );
-
-        //    SendMail( m, message, new MailKitClientProvider( options ) );
-        //}
-
-        //public static void SendMail( IActivityMonitor m, SimpleMimeMessage message, IMailKitClientProvider provider )
-        //{
-        //    SendMail( m, message, provider );
-        //}
-
-        public static void SendMail( IActivityMonitor m, MailKitOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            if( options == null ) throw new ArgumentNullException( nameof( options ) );
-
-            SendMail( m, new MailKitClientProvider( options ), message, cancellationToken, progress );
-        }
-
-        public static void SendMail( IActivityMonitor m, MailKitOptions options, FormatOptions formatOptions, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            if( options == null ) throw new ArgumentNullException( nameof( options ) );
-
-            SendMail( m, new MailKitClientProvider( options ), formatOptions, message, cancellationToken, progress );
-        }
-
-        public static void SendMail( IActivityMonitor m, IMailKitClientProvider provider, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            if( m == null ) throw new InvalidOperationException( "An ActivityMonitor must be provided." );
-            if( message == null ) throw new ArgumentNullException( nameof( message ) );
-            if( provider == null ) throw new ArgumentNullException( nameof( provider ) );
-
-            if( String.IsNullOrEmpty( message.HtmlBody ) && String.IsNullOrEmpty( message.TextBody ) ) throw new InvalidOperationException( "The message body must be set" );
-
-            var providerOptions = provider.Options;
-
-            ProcessMessage( m, message, providerOptions );
-
-            if( providerOptions.UsePickupDirectory == null ) throw new InvalidOperationException( "UsePickupDirectory configuration must be define." );
-            if( providerOptions.UsePickupDirectory.Value )
-            {
-                try
-                {
-                    WriteInThePickupDirectory( m, message, providerOptions );
-                }
-                catch( Exception ex )
-                {
-                    //todo monitor send an email ? another package ?
-                    m.Error( "An error occured during WriteInThePickupDirectory method" );
-                    m.Error( ex );
-                }
-            }
-
-            if( providerOptions.SendMails )
-            {
-                InnerSendMail( m, provider, message, cancellationToken, progress );
-            }
-        }
-
-        public static void SendMail( IActivityMonitor m, IMailKitClientProvider provider, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            if( m == null ) throw new InvalidOperationException( "An ActivityMonitor must be provided." );
-            if( message == null ) throw new ArgumentNullException( nameof( message ) );
-            if( provider == null ) throw new ArgumentNullException( nameof( provider ) );
-
-            if( String.IsNullOrEmpty( message.HtmlBody ) && String.IsNullOrEmpty( message.TextBody ) ) throw new InvalidOperationException( "The message body must be set" );
-
-            var providerOptions = provider.Options;
-
-            ProcessMessage( m, message, providerOptions );
-
-            if( providerOptions.UsePickupDirectory == null ) throw new InvalidOperationException( "UsePickupDirectory configuration must be define." );
-            if( providerOptions.UsePickupDirectory.Value )
-            {
-                try
-                {
-                    WriteInThePickupDirectory( m, message, providerOptions );
-                }
-                catch( Exception ex )
-                {
-                    //todo monitor send an email ? another package ?
-                    m.Error( "An error occured during WriteInThePickupDirectory method" );
-                    m.Error( ex );
-                }
-            }
-
-            if( providerOptions.SendMails )
-            {
-                InnerSendMail( m, provider, options, message, cancellationToken, progress );
-            }
-        }
-
-
-
-        private static void ProcessMessage( IActivityMonitor m, MimeMessage message, MailKitOptions options )
+        static void ProcessMessage( IActivityMonitor m, MimeMessage message, MailKitOptions options )
         {
             m.Info( $"Send Email, subject: {message.Subject}" );
 
@@ -221,6 +134,7 @@ namespace CK.Mailer
             if( message.ResentBcc.Any() ) m.Info( $"ResentBcc: {message.ResentBcc}" );
 
         }
+
         private static void WriteInThePickupDirectory( IActivityMonitor m, MimeMessage message, MailKitOptions options )
         {
             if( String.IsNullOrEmpty( options.PickupDirectoryPath ) ) throw new InvalidOperationException( "If the PickupDirectory option is used, the PickupDirectoryPath must be specified" );
@@ -258,64 +172,5 @@ namespace CK.Mailer
             }
         }
 
-        private static Task<SmtpClient> InnerGetSmtpClientAsync( IActivityMonitor m, IMailKitClientProvider provider )
-        {
-            m.Info( "Getting Smtp Client" );
-
-            return provider.GetClientAsync( m );
-        }
-
-        private static SmtpClient InnerGetSmtpClient( IActivityMonitor m, IMailKitClientProvider provider )
-        {
-            m.Info( "Getting Smtp Client" );
-
-            return provider.GetClient( m );
-        }
-
-
-
-        public static void InnerSendMail( IActivityMonitor m, IMailKitClientProvider provider, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            var client = InnerGetSmtpClient( m, provider );
-
-            m.Info( "Sending Email" );
-
-            client.Send( message, cancellationToken, progress );
-
-            m.Info( "Email sent" );
-        }
-
-        public static void InnerSendMail( IActivityMonitor m, IMailKitClientProvider provider, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            var client = InnerGetSmtpClient( m, provider );
-
-            m.Info( "Sending Email" );
-
-            client.Send( options, message, cancellationToken, progress );
-
-            m.Info( "Email sent" );
-        }
-
-        public static async Task InnerSendMailAsync( IActivityMonitor m, IMailKitClientProvider provider, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            var client = await InnerGetSmtpClientAsync( m, provider );
-
-            m.Info( "Sending Email" );
-
-            await client.SendAsync( message, cancellationToken, progress ).ConfigureAwait( false );
-
-            m.Info( "Email sent" );
-        }
-
-        public static async Task InnerSendMailAsync( IActivityMonitor m, IMailKitClientProvider provider, FormatOptions options, MimeMessage message, CancellationToken cancellationToken = default( CancellationToken ), ITransferProgress progress = null )
-        {
-            var client = await InnerGetSmtpClientAsync( m, provider );
-
-            m.Info( "Sending Email" );
-
-            await client.SendAsync( options, message, cancellationToken, progress ).ConfigureAwait( false );
-
-            m.Info( "Email sent" );
-        }
     }
 }

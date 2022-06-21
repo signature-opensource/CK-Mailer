@@ -8,7 +8,7 @@ namespace CK.Mailer.Core.Web.Sample
         public static void Main( string[] args )
         {
             var host = Host.CreateDefaultBuilder( args )
-                .UseMonitoring()
+                .UseCKMonitoring()
                 .ConfigureWebHostDefaults( webBuilder =>
                 {
                     webBuilder.UseKestrel()

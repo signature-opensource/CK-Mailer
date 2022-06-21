@@ -18,7 +18,7 @@ namespace CK.Mailer
         }
 
         /// <summary>
-        /// This contructor allow the IMailerService to use the MailKitOptions.DefaultSenderEmail
+        /// This constructor allow the IMailerService to use the MailKitOptions.DefaultSenderEmail
         /// </summary>
         /// <param name="to"></param>
         public SimpleMimeMessage( string to )
