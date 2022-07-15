@@ -12,35 +12,6 @@ namespace CK.Mailer.Tests
     [TestFixture]
     public class StaticMailerServiceTests
     {
-        [Test]
-        [Explicit]
-        public async Task SandBox_Email_sender_Async()
-        {
-            Assume.That( TestHelper.IsExplicitAllowed, "Press Ctrl key to allow this test to run." );
-            ActivityMonitor m = new ActivityMonitor( "StaticMailerServiceTests.SandBox_Email_sender" );
-
-            string defaultRecipient = TestHelperConfiguration.Default.Get( "Smtp/DefaultRecipient" );
-            defaultRecipient.Should().NotBeNullOrWhiteSpace();
-            string password = TestHelperConfiguration.Default.Get( "Smtp/Password" );
-            password.Should().NotBeNullOrWhiteSpace();
-
-            SimpleMimeMessage mailModel = new SimpleMimeMessage( defaultRecipient, "Coucou Benjamin", "Je suis là pour te spam" );
-
-            var options = new MailKitOptions()
-            {
-                Host = TestHelperConfiguration.Default.Get( "Smtp/Host" ),
-                Port = TestHelperConfiguration.Default.GetInt32( "Smtp/Port" ).GetValueOrDefault( 587 ),
-                UsePickupDirectory = true,
-                PickupDirectoryPath = "./PickupDirectory",
-                Password = password,
-                SendMails = true,
-                User = TestHelperConfiguration.Default.Get( "Smtp/User" ),
-                UseSSL = false,
-                DefaultSenderEmail = TestHelperConfiguration.Default.Get( "Smtp/DefaultSenderEmail" )
-            };
-
-            await StaticMailerService.SendMailAsync( m, options, mailModel );
-        }
 
         [Test]
         public async Task send_email_from_static_sender_with_BasicMailModel_overload_must_be_append_in_PickupDirectory_Async()
