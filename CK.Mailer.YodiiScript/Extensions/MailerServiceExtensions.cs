@@ -13,12 +13,12 @@ namespace CK.Mailer
 {
     public static class MailerServiceExtensions
     {
-        public static void SendInlineTemplate<T>( this IYodiiScriptMailerService @this,
-                                                  IActivityMonitor m,
-                                                  YodiiScriptMimeMessage message,
-                                                  string content,
-                                                  T model,
-                                                  bool escapeHtmlModelChars = true )
+        public static Task SendInlineTemplateAsync<T>( this IYodiiScriptMailerService @this,
+                                                       IActivityMonitor m,
+                                                       YodiiScriptMimeMessage message,
+                                                       string content,
+                                                       T model,
+                                                       bool escapeHtmlModelChars = true )
         {
             var result = message.SetBodyFromYodiiScriptString( m, model, content, escapeHtmlModelChars );
 
@@ -29,15 +29,15 @@ namespace CK.Mailer
 
             m.Debug( result.Script );
 
-            @this.Send( m, message );
+            return @this.SendAsync( m, message );
         }
 
-        public static void Send<T>( this IYodiiScriptMailerService @this,
-                                    IActivityMonitor m,
-                                    YodiiScriptMimeMessage message,
-                                    string templatePath,
-                                    T model,
-                                    bool escapeHtmlModelChars = true )
+        public static Task SendAsync<T>( this IYodiiScriptMailerService @this,
+                                         IActivityMonitor m,
+                                         YodiiScriptMimeMessage message,
+                                         string templatePath,
+                                         T model,
+                                         bool escapeHtmlModelChars = true )
         {
             if( !String.IsNullOrEmpty( @this.ViewsPhysicalPath ) && !Path.IsPathRooted( templatePath ) )
             {
@@ -58,7 +58,7 @@ namespace CK.Mailer
 
             message.SetBodyFromYodiiScriptString( m, model, content, escapeHtmlModelChars );
             
-            @this.Send( m, message );
+            return @this.SendAsync( m, message );
         }
     }
 }

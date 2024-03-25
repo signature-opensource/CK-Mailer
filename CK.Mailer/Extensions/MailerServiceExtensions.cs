@@ -15,10 +15,5 @@ namespace CK.Mailer
         {
             return @this.SendAsync( m, mailModel );
         }
-
-        public static void Send( this IMailerService @this, IActivityMonitor m, SimpleMimeMessage mailModel )
-        {
-            @this.Send( m, mailModel );
-        }
     }
 }
