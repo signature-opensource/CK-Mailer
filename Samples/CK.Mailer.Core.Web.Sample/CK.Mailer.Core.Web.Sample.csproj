@@ -4,7 +4,7 @@
     <IsPackable>False</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.Monitoring.Hosting" Version="21.0.1" />
+    <PackageReference Include="CK.Monitoring.Hosting" Version="20.0.1--0015-develop" />
     <ProjectReference Include="..\..\CK.Mailer\CK.Mailer.csproj" />
     <ProjectReference Include="..\..\CK.Mailer.AspNet\CK.Mailer.AspNet.csproj" />
   </ItemGroup>
