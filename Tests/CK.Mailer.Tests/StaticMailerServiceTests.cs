@@ -5,7 +5,7 @@ using MimeKit;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
-using static CK.Testing.BasicTestHelper;
+using static CK.Testing.MonitorTestHelper;
 
 namespace CK.Mailer.Tests
 {
@@ -16,6 +16,8 @@ namespace CK.Mailer.Tests
         [Test]
         public async Task send_email_from_static_sender_with_BasicMailModel_overload_must_be_append_in_PickupDirectory_Async()
         {
+            using var gLog = TestHelper.Monitor.OpenInfo( nameof( send_email_from_static_sender_with_BasicMailModel_overload_must_be_append_in_PickupDirectory_Async ) );
+
             MailKitOptions options = DefaultMailKitOptions.Default;
 
             IActivityMonitor m = FM.Get_ActivityMonitor();
@@ -49,6 +51,8 @@ namespace CK.Mailer.Tests
         [Test]
         public async Task send_email_from_static_sender_with_MimeMessage_overload_must_be_append_in_PickupDirectory_Async()
         {
+            using var gLog = TestHelper.Monitor.OpenInfo( nameof( send_email_from_static_sender_with_MimeMessage_overload_must_be_append_in_PickupDirectory_Async ) );
+
             MailKitOptions options = DefaultMailKitOptions.Default;
 
             IActivityMonitor m = FM.Get_ActivityMonitor();
@@ -82,6 +86,8 @@ namespace CK.Mailer.Tests
         [Test]
         public async Task send_email_with_default_email_sender_Async()
         {
+            using var gLog = TestHelper.Monitor.OpenInfo( nameof( send_email_with_default_email_sender_Async ) );
+
             MailKitOptions options = DefaultMailKitOptions.Default;
 
             IActivityMonitor m = FM.Get_ActivityMonitor();
@@ -106,6 +112,8 @@ namespace CK.Mailer.Tests
         [Test]
         public async Task BasicMailModel_using_must_allow_the_automatic_html_escape_for_text_body_Async()
         {
+            using var gLog = TestHelper.Monitor.OpenInfo( nameof( BasicMailModel_using_must_allow_the_automatic_html_escape_for_text_body_Async ) );
+
             MailKitOptions options = DefaultMailKitOptions.Default;
             IActivityMonitor m = FM.Get_ActivityMonitor();
 

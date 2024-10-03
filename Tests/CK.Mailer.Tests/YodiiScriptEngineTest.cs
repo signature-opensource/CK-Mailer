@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Yodii.Script;
-using static CK.Testing.BasicTestHelper;
+using static CK.Testing.MonitorTestHelper;
 
 namespace CK.Mailer.Tests
 {
@@ -29,6 +29,8 @@ namespace CK.Mailer.Tests
         [Test]
         public void YodiiScript_simple_call_model_method_with_model_variable()
         {
+            using var gLog = TestHelper.Monitor.OpenInfo( nameof( YodiiScript_simple_call_model_method_with_model_variable ) );
+
             var model = new ModelWithMethod()
             {
                 TheVariable = "azerty"
@@ -46,6 +48,8 @@ namespace CK.Mailer.Tests
         [Test]
         public void YodiiScript_simple_call_model_method_with_temp_variable()
         {
+            using var gLog = TestHelper.Monitor.OpenInfo( nameof( YodiiScript_simple_call_model_method_with_temp_variable ) );
+
             var model = new ModelWithMethod()
             {
                 TheVariable = "azerty"
