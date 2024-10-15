@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Core.Web.Sample",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeCakeBuilder", "CodeCakeBuilder\CodeCakeBuilder.csproj", "{60753EAC-D7F0-4C26-B697-1E81B60955F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CK.Mailer.MailKit", "CK.Mailer.MailKit\CK.Mailer.MailKit.csproj", "{749985B5-84DE-466D-B412-EE660D2765C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{60753EAC-D7F0-4C26-B697-1E81B60955F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60753EAC-D7F0-4C26-B697-1E81B60955F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60753EAC-D7F0-4C26-B697-1E81B60955F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{749985B5-84DE-466D-B412-EE660D2765C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{749985B5-84DE-466D-B412-EE660D2765C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{749985B5-84DE-466D-B412-EE660D2765C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{749985B5-84DE-466D-B412-EE660D2765C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
