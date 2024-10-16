@@ -1,5 +1,4 @@
 using CK.Core;
-using CK.Mailer.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
@@ -16,13 +15,6 @@ public class MailKitSender : IEmailSender
     public MailKitSender( MailKitSenderOptions options )
     {
         _options = options;
-    }
-
-    public SimpleEmail Configure( Action<SimpleEmail> configure )
-    {
-        var email = new SimpleEmail();
-        configure( email );
-        return email;
     }
 
     public static async Task SaveToPickupDirectoryAsync( MimeMessage message, NormalizedPath pickupDirectory, CancellationToken token = default )

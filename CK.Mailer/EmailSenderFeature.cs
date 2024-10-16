@@ -1,7 +1,4 @@
-using CK.AppIdentity;
 using CK.Core;
-using CK.Mailer.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,13 +12,6 @@ public class EmailSenderFeature : IEmailSender
     public EmailSenderFeature( IEnumerable<IEmailSender> senders )
     {
         _senders = senders;
-    }
-
-    public SimpleEmail Configure( Action<SimpleEmail> configure )
-    {
-        var email = new SimpleEmail();
-        configure( email );
-        return email;
     }
 
     public async Task<SendResponse> SendAsync( IActivityMonitor monitor, SimpleEmail email, CancellationToken token = default )

@@ -1,7 +1,6 @@
 using MimeKit;
 using System.Text;
 using System;
-using CK.Mailer.Models;
 using System.Linq;
 
 namespace CK.Mailer.MailKit;

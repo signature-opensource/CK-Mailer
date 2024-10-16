@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CK.Mailer.Models;
+namespace CK.Mailer;
 
 public class SimpleEmail
 {

@@ -1,4 +1,4 @@
-namespace CK.Mailer.Models;
+namespace CK.Mailer;
 
 public readonly record struct Address( string Email, string? Name = null )
 {

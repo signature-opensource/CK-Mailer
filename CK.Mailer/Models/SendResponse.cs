@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CK.Mailer.Models;
+namespace CK.Mailer;
 
 public class SendResponse
 {

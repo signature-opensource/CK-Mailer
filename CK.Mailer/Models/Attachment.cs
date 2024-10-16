@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace CK.Mailer.Models;
+namespace CK.Mailer;
 
 public class Attachment
 {
