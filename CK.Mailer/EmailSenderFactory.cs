@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CK.Mailer;
 
-public abstract class EmailSenderFactory
+public abstract class EmailSenderFactory : IEmailSenderFactory
 {
     readonly string _senderName;
 
