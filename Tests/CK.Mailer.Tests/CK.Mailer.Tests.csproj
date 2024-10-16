@@ -13,6 +13,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CK.Mailer\CK.Mailer.csproj" />
-    <ProjectReference Include="..\..\CK.Mailer.YodiiScript\CK.Mailer.YodiiScript.csproj" />
   </ItemGroup>
 </Project>
