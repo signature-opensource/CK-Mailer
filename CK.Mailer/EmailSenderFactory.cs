@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CK.Mailer;
 
+[CKTypeDefiner]
 public abstract class EmailSenderFactory : IEmailSenderFactory
 {
     readonly string _senderName;
@@ -22,5 +23,5 @@ public abstract class EmailSenderFactory : IEmailSenderFactory
 
     public string SenderName => _senderName;
 
-    public abstract bool TryCreateEmailSender( ImmutableConfigurationSection configuration, [NotNullWhen( true )] out IEmailSender? emailSender );
+    public abstract bool TryCreateEmailSender( IActivityMonitor monitor, ImmutableConfigurationSection configuration, [NotNullWhen( true )] out IEmailSender? emailSender );
 }

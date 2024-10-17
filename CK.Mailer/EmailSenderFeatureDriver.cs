@@ -3,7 +3,6 @@ using CK.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace CK.Mailer;
 
@@ -68,7 +67,7 @@ public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
             {
                 foreach( var child in partyConfig.GetChildren() )
                 {
-                    if( factory.TryCreateEmailSender( child, out var emailSender ) )
+                    if( factory.TryCreateEmailSender( monitor, child, out var emailSender ) )
                     {
                         emailSenders.Add( emailSender );
                     }
@@ -79,7 +78,7 @@ public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
                     }
                 }
             }
-            else if( factory.TryCreateEmailSender( partyConfig, out var emailSender ) )
+            else if( factory.TryCreateEmailSender( monitor, partyConfig, out var emailSender ) )
             {
                 emailSenders.Add( emailSender );
             }

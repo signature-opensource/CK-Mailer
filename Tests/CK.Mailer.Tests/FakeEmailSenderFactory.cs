@@ -6,7 +6,7 @@ namespace CK.Mailer.Tests;
 
 public class FakeEmailSenderFactory : EmailSenderFactory
 {
-    public override bool TryCreateEmailSender( ImmutableConfigurationSection configuration, [NotNullWhen( true )] out IEmailSender? emailSender )
+    public override bool TryCreateEmailSender( IActivityMonitor monitor, ImmutableConfigurationSection configuration, [NotNullWhen( true )] out IEmailSender? emailSender )
     {
         emailSender = null;
 

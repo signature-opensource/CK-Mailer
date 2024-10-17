@@ -1,4 +1,4 @@
-﻿using CK.Core;
+using CK.Core;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CK.Mailer;
@@ -8,5 +8,5 @@ public interface IEmailSenderFactory : ISingletonAutoService
 {
     string SenderName { get; }
 
-    bool TryCreateEmailSender( ImmutableConfigurationSection configuration, [NotNullWhen( true )] out IEmailSender? emailSender );
+    bool TryCreateEmailSender( IActivityMonitor monitor, ImmutableConfigurationSection configuration, [NotNullWhen( true )] out IEmailSender? emailSender );
 }

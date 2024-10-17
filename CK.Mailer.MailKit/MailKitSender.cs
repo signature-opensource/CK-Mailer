@@ -76,6 +76,7 @@ public class MailKitSender : IEmailSender
         }
         catch( Exception ex )
         {
+            monitor.Error( ex );
             response.ErrorMessages.Add( ex.Message );
         }
 
