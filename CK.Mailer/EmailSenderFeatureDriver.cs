@@ -43,13 +43,16 @@ public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 
     bool PlugFeature( IActivityMonitor monitor, IParty party )
     {
-        ImmutableConfigurationSection? section = null;
-        if( party is ILocalParty local ) section = local.LocalConfiguration.Configuration.TryGetSection( "EmailSender" );
-        else if( party is IRemoteParty remote ) section = remote.Configuration.Configuration.TryGetSection( "EmailSender" );
+        var section = party switch
+        {
+            ILocalParty local => local.LocalConfiguration.Configuration.TryGetSection( "EmailSender" ),
+            _ => party.Configuration.Configuration.TryGetSection( "EmailSender" )
+        };
         if( section is null )
         {
             return true;
         }
+
         var success = true;
         var emailSenders = new List<IEmailSender>();
 
@@ -88,9 +91,12 @@ public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
                 monitor.Error( $"Could not create email sender for '{partyConfig.Key}' from '{factory.GetType().Name}' factory." );
             }
         }
-        ApplicationIdentityService.AddFeature( party == ApplicationIdentityService
-            ? new DefaultEmailSender( emailSenders )
-            : new EmailSenderFeature( emailSenders ) );
+
+        ApplicationIdentityService.AddFeature(
+            party == ApplicationIdentityService
+                ? new DefaultEmailSender( emailSenders )
+                : new EmailSenderFeature( emailSenders ) );
+
         return success;
     }
 }

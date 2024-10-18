@@ -17,17 +17,9 @@ public class MailKitSender : IEmailSender
         _options = options;
     }
 
-    public static async Task SaveToPickupDirectoryAsync( MimeMessage message, NormalizedPath pickupDirectory, CancellationToken token = default )
-    {
-        var path = pickupDirectory.AppendPart( Guid.NewGuid().ToString() + ".eml" );
-
-        if( File.Exists( path ) ) return;
-
-        using var fs = new FileStream( path, FileMode.CreateNew );
-        await message.WriteToAsync( fs, token );
-    }
-
-    public async Task<SendResponse> SendAsync( IActivityMonitor monitor, SimpleEmail email, CancellationToken token = default )
+    public async Task<SendResponse> SendAsync( IActivityMonitor monitor,
+                                               SimpleEmail email,
+                                               CancellationToken token = default )
     {
         var response = new SendResponse();
 
@@ -37,32 +29,28 @@ public class MailKitSender : IEmailSender
             return response;
         }
 
-        var message = email.GetMimeMessage();
-
         try
         {
+            var message = email.GetMimeMessage();
+
             if( _options.UsePickupDirectory )
             {
-                await SaveToPickupDirectoryAsync( message, _options.MailPickupDirectory, token );
+                response = await SaveToPickupDirectoryAsync( monitor,message, _options.PickupDirectory, token );
+            }
+
+            if( !_options.SendEmail )
+            {
                 return response;
             }
 
             using var client = new SmtpClient();
             if( _options.SocketOptions.HasValue )
             {
-                await client.ConnectAsync(
-                    _options.Server,
-                    _options.Port,
-                    _options.SocketOptions.Value,
-                    token );
+                await client.ConnectAsync( _options.Host, _options.Port, _options.SocketOptions.Value, token );
             }
             else
             {
-                await client.ConnectAsync(
-                    _options.Server,
-                    _options.Port,
-                    _options.UseSsl,
-                    token );
+                await client.ConnectAsync( _options.Host, _options.Port, _options.UseSsl, token );
             }
 
             // Note: Only needed if the SMTP server requires authentication.
@@ -73,6 +61,39 @@ public class MailKitSender : IEmailSender
 
             await client.SendAsync( message, token );
             await client.DisconnectAsync( true, token );
+        }
+        catch( Exception ex )
+        {
+            monitor.Error( ex );
+            response.ErrorMessages.Add( ex.Message );
+        }
+
+        return response;
+    }
+
+    public static Task<SendResponse> SaveToPickupDirectoryAsync( IActivityMonitor monitor,
+                                                                 SimpleEmail message,
+                                                                 NormalizedPath pickupDirectory,
+                                                                 CancellationToken token = default )
+    {
+        return SaveToPickupDirectoryAsync( monitor, message.GetMimeMessage(), pickupDirectory, token );
+    }
+
+    static async Task<SendResponse> SaveToPickupDirectoryAsync( IActivityMonitor monitor,
+                                                                MimeMessage message,
+                                                                NormalizedPath pickupDirectory,
+                                                                CancellationToken token = default )
+    {
+        var path = pickupDirectory.AppendPart( Guid.NewGuid().ToString() + ".eml" );
+        var response = new SendResponse();
+
+        try
+        {
+            using var fs = File.Create( path );
+            await message.WriteToAsync( fs, token );
+
+            monitor.Info( $"Email successfully saved in '{path}'." );
+            response.MessageId = path;
         }
         catch( Exception ex )
         {

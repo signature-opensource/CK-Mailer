@@ -1,16 +1,36 @@
 using MailKit.Security;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CK.Mailer.MailKit;
 
 public class MailKitSenderOptions
 {
-    public string Server { get; set; } = string.Empty;
-    public int Port { get; set; } = 25;
-    public string User { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public bool UseSsl { get; set; }
-    public bool RequiresAuthentication { get; set; }
-    public bool UsePickupDirectory { get; set; }
-    public string MailPickupDirectory { get; set; } = string.Empty;
-    public SecureSocketOptions? SocketOptions { get; set; }
+    #region Directory configurations
+    [MemberNotNullWhen( true, nameof( PickupDirectory ) )]
+    public bool UsePickupDirectory { get; set; } = false;
+
+    public string? PickupDirectory { get; set; } = null;
+    #endregion
+
+    #region Sending email configurations
+    [MemberNotNullWhen( true, nameof( Host ) )]
+    public bool SendEmail { get; set; } = true;
+
+    public string? Host { get; set; } = null;
+
+    public int Port { get; set; } = 587;
+
+    #region Authentication configurations
+    [MemberNotNullWhen( true, nameof( User ), nameof( Password ) )]
+    public bool RequiresAuthentication { get; set; } = true;
+
+    public string? User { get; set; } = null;
+
+    public string? Password { get; set; } = null;
+    #endregion
+
+    public SecureSocketOptions? SocketOptions { get; set; } = null;
+
+    public bool UseSsl { get; set; } = true;
+    #endregion
 }
