@@ -1,6 +1,6 @@
 # CK.Mailer.MailKit
 
-This package is an implementation of [CK.Mailer](../CK.Mailer/README.md) via [Mailkit](https://github.com/jstedfast/MailKit) SMTP email client.
+This package is an implementation of [CK.Mailer](./../CK.Mailer/README.md) via [Mailkit](https://github.com/jstedfast/MailKit) SMTP email client.
 
 ## Configuration
 
