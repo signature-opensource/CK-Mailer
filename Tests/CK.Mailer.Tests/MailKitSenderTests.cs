@@ -26,6 +26,8 @@ public class MailKitSenderTests
     [Test]
     public async Task Save_email_on_disk_Async()
     {
+        Directory.CreateDirectory( PickupDirectory.Path );
+
         var dataPath = new NormalizedPath( "../../../Data" );
         var textFileName = "text.txt";
         var textFilePath = dataPath.AppendPart( textFileName );
