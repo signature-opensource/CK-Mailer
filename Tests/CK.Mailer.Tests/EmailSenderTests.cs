@@ -50,6 +50,8 @@ public class EmailSenderTests
     [Test]
     public async Task configure_complete_sender_Async()
     {
+        Directory.CreateDirectory( PickupDirectory.Path );
+
         var builder = Host.CreateEmptyApplicationBuilder( new HostApplicationBuilderSettings { DisableDefaults = true } );
 
         var config = builder.Configuration;
