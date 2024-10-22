@@ -1,0 +1,37 @@
+{
+  "CK-AppIdentity": {
+    "FullName": "Domain/$MailerTests",
+    "Local": {
+      "EmailSender": {
+        "Smtp": [
+          {
+            "Host": "test.com",
+            "Port": 3712,
+            "UsePickupDirectory": true,
+            "PickupDirectory": "/output/email"
+          },
+          {
+            "Host": "test2.com",
+            "Port": 123
+          }
+        ],
+        "Fake": {
+          "Endpoint": "",
+          "Token": ""
+        }
+      }
+    },
+    "Parties": [
+      {
+        "PartyName": "$P1",
+        "EmailSender": {
+          "Smtp": {
+            "UsePickupDirectory": true,
+            "PickupDirectory": "/P1/output/email",
+            "SendEmail": false
+          }
+        }
+      }
+    ]
+  }
+}
