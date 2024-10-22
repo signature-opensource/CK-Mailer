@@ -23,22 +23,16 @@ public static class SimpleEmailExtensions
         }
         message.Headers.Add( HeaderId.Encoding, Encoding.UTF8.EncodingName );
 
-        message.From.Add( new MailboxAddress( email.FromAddress.Name, email.FromAddress.Email ) );
+        if( email.FromAddress is not null )
+        {
+            message.From.Add( new MailboxAddress( email.FromAddress.Value.Name, email.FromAddress.Value.Email ) );
+        }
 
-        var builder = new BodyBuilder();
-        if( !string.IsNullOrEmpty( email.PlaintextAlternativeBody ) )
+        var builder = new BodyBuilder
         {
-            builder.TextBody = email.PlaintextAlternativeBody;
-            builder.HtmlBody = email.Body;
-        }
-        else if( !email.IsHtml )
-        {
-            builder.TextBody = email.Body;
-        }
-        else
-        {
-            builder.HtmlBody = email.Body;
-        }
+            HtmlBody = email.HtmlBody,
+            TextBody = email.PlaintextAlternativeBody
+        };
 
         foreach( var x in email.Attachments )
         {
