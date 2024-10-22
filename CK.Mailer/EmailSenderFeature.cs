@@ -21,6 +21,13 @@ public class EmailSenderFeature : IEmailSender
         foreach( var sender in _senders )
         {
             var r = await sender.SendAsync( monitor, email, token );
+
+            if( r.MessageId is not null )
+            {
+                response.MessageId = response.MessageId is not null
+                    ? $"{response.MessageId},{r.MessageId}"
+                    : r.MessageId;
+            }
             response.ErrorMessages.AddRange( r.ErrorMessages );
         }
         return response;

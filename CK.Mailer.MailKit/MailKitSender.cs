@@ -61,6 +61,10 @@ public class MailKitSender : IEmailSender
 
             await client.SendAsync( message, token );
             await client.DisconnectAsync( true, token );
+
+            response.MessageId = response.MessageId is null
+                ? email.MessageId
+                : $"{response.MessageId},{email.MessageId}";
         }
         catch( Exception ex )
         {
