@@ -11,7 +11,7 @@ public class SmtpEmailSenderFactory : EmailSenderFactory
                                                ImmutableConfigurationSection config,
                                                [NotNullWhen( true )] out IEmailSender? emailSender )
     {
-        Throw.DebugAssert( config.Key is "Smtp" );
+        Throw.DebugAssert( config.Key is "Smtp" || int.TryParse( config.Key, out _ ) && config.Path.EndsWith( ":Smtp:" + config.Key ) );
 
         var success = true;
         var options = new MailKitSenderOptions();

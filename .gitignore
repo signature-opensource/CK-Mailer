@@ -41,3 +41,5 @@ Tests/**/CKSetup-WorkingDir/
 $StObjGen/
 CodeCakeBuilder/[Rr]elease/
 CodeCakeBuilder/[Rr]eleases/
+
+PickupDirectory/

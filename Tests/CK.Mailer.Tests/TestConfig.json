@@ -7,6 +7,7 @@
           {
             "Host": "test.com",
             "Port": 3712,
+            "UsePickupDirectory": true,
             "PickupDirectory": "/output/email"
           },
           {
@@ -25,8 +26,9 @@
         "PartyName": "$P1",
         "EmailSender": {
           "Smtp": {
-            "Host": "",
-            "Port": 12345
+            "UsePickupDirectory": true,
+            "PickupDirectory": "/P1/output/email",
+            "SendEmail": false
           }
         }
       }

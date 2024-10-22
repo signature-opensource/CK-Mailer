@@ -99,8 +99,14 @@ When the SockupOptions property is used, the UseSsl is not used.
 
 This class implements the `IEmailSender`.
 
-When you call `MailKitSender.SaveToPickupDirectoryAsync` or `MailKitSender.SendAsync` (with UsePickupDirectory set to true), you can obtain the path where the email was saved in the `SendResponse.MessageId` property.
+When you call `MailKitSender.SaveToPickupDirectoryAsync` or `MailKitSender.SendAsync` (with UsePickupDirectory set to true), you can obtain the file name of the email `SendResponse.MessageId` property.
+
+If you send an email, the MessageId will contains the MessageId from the `MimeMessage.MessageId`.
+
+If you send both, both ids are in the MessageId, separated by a comma.
 
 ## Other
 
 If you want to send your `SimpleEmail` with MailKit but without the MailKitSender, you can obtain a `MimeMessage` from the email with the `SimpleEmail.GetMimeMessage()` extension method.
+
+You can also obtain a `SimpleEmail` from a `MimeMessage` with the `MimeMessage.GetSimpleEmail()` extension method.

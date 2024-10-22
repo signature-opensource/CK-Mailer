@@ -17,8 +17,15 @@ public class MailKitSender : IEmailSender
         _options = options;
     }
 
+    public Task<SendResponse> SendAsync( IActivityMonitor monitor,
+                                         SimpleEmail email,
+                                         CancellationToken token = default )
+    {
+        return SendAsync( monitor, email.GetMimeMessage(), token );
+    }
+
     public async Task<SendResponse> SendAsync( IActivityMonitor monitor,
-                                               SimpleEmail email,
+                                               MimeMessage email,
                                                CancellationToken token = default )
     {
         var response = new SendResponse();
@@ -31,11 +38,9 @@ public class MailKitSender : IEmailSender
 
         try
         {
-            var message = email.GetMimeMessage();
-
             if( _options.UsePickupDirectory )
             {
-                response = await SaveToPickupDirectoryAsync( monitor,message, _options.PickupDirectory, token );
+                response = await SaveToPickupDirectoryAsync( monitor, email, _options.PickupDirectory, token );
             }
 
             if( !_options.SendEmail )
@@ -59,7 +64,7 @@ public class MailKitSender : IEmailSender
                 await client.AuthenticateAsync( _options.User, _options.Password, token );
             }
 
-            await client.SendAsync( message, token );
+            await client.SendAsync( email, token );
             await client.DisconnectAsync( true, token );
 
             response.MessageId = response.MessageId is null
@@ -97,7 +102,7 @@ public class MailKitSender : IEmailSender
             await message.WriteToAsync( fs, token );
 
             monitor.Info( $"Email successfully saved in '{path}'." );
-            response.MessageId = path;
+            response.MessageId = path.LastPart;
         }
         catch( Exception ex )
         {

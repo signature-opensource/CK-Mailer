@@ -13,7 +13,7 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.FromAddress.Should().Be( default( Address ) );
+        email.FromAddress.Should().BeNull();
         email.From( "test" );
         email.FromAddress.Should().Be( new Address( "test" ) );
         email.From( "test2", "Test 2" );
@@ -87,23 +87,13 @@ public class SimpleEmailTests
     }
 
     [Test]
-    public void configure_email_body()
+    public void configure_email_html_body()
     {
         var email = new SimpleEmail();
 
-        email.Body.Should().BeNull();
-        email.SetBody( "test" );
-        email.Body.Should().Be( "test" );
-    }
-
-    [Test]
-    public void configure_email_isHtml()
-    {
-        var email = new SimpleEmail();
-
-        email.IsHtml.Should().BeFalse();
-        email.SetBody( "test", isHtml: true );
-        email.IsHtml.Should().BeTrue();
+        email.HtmlBody.Should().BeNull();
+        email.SetHtmlBody( "test" );
+        email.HtmlBody.Should().Be( "test" );
     }
 
     [Test]
@@ -142,20 +132,6 @@ public class SimpleEmailTests
         };
         email.AddAttach( attachement );
         email.Attachments.Should().BeEquivalentTo( [attachement] );
-    }
-
-    [Test]
-    public void configure_tags()
-    {
-        var email = new SimpleEmail();
-
-        email.Tags.Should().BeEmpty();
-        email.SetTag( "test" );
-        email.Tags.Should().BeEquivalentTo( ["test"] );
-        email.AddTag( "test2" );
-        email.Tags.Should().BeEquivalentTo( ["test", "test2"] );
-        email.SetTag( "test3" );
-        email.Tags.Should().BeEquivalentTo( ["test3"] );
     }
 
     [Test]
