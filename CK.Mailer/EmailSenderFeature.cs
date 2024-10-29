@@ -9,7 +9,7 @@ public class EmailSenderFeature : IEmailSender
 {
     readonly IEnumerable<IEmailSender> _senders;
 
-    public EmailSenderFeature( IEnumerable<IEmailSender> senders )
+    internal EmailSenderFeature( IEnumerable<IEmailSender> senders )
     {
         _senders = senders;
     }

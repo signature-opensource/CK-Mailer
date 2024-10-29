@@ -94,7 +94,7 @@ public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 
         ApplicationIdentityService.AddFeature(
             party == ApplicationIdentityService
-                ? new DefaultEmailSender( emailSenders )
+                ? new InternalDefaultEmailSender( emailSenders )
                 : new EmailSenderFeature( emailSenders ) );
 
         return success;
