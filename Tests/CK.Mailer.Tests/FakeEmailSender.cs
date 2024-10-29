@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CK.Mailer.Tests;
 
-class FakeEmailSender : IEmailSender
+sealed class FakeEmailSender : IEmailSender
 {
-    public FakeEmailSender( string endpoint, string token )
+    internal FakeEmailSender( string endpoint, string token )
     {
         Endpoint = endpoint;
         Token = token;
