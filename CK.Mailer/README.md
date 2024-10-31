@@ -62,11 +62,10 @@ An email sender implementation is a CK-AppIdentity feature, see [The Features](h
 
 ## Usage
 
-To use CK.Mailer in you application, you should add IDefaultEmailSender as application singleton. Do not forget to Add CK-AppIdentity service configuration.
+To use CK.Mailer in you application, do not forget to Add CK-AppIdentity service configuration.
 
 ```csharp
 var builder = Host.CreateApplicationBuilder();
-builder.Services.AddSingleton<IDefaultEmailSender>( s => s.GetRequiredService<ApplicationIdentityService>().GetRequiredFeature<DefaultEmailSender>() );
 builder.AddApplicationIdentityServiceConfiguration();
 ```
 

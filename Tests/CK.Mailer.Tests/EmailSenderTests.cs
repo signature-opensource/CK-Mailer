@@ -1,8 +1,6 @@
-using CK.AppIdentity;
 using CK.Mailer.MailKit;
 using CK.Testing;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
@@ -10,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static CK.Testing.MonitorTestHelper;
-
 namespace CK.Mailer.Tests;
 
 [TestFixture]
@@ -19,26 +16,24 @@ public class EmailSenderTests
     [Test]
     public async Task configure_fake_sender_Async()
     {
+        var configuration = TestHelper.CreateDefaultEngineConfiguration();
+        configuration.FirstBinPath.Types.Add( typeof( FakeEmailSenderFactory ) );
+        configuration.FirstBinPath.DiscoverAssembliesFromPath = true;
+        var map = (await configuration.RunSuccessfullyAsync()).LoadMap();
+
         var builder = Host.CreateEmptyApplicationBuilder( new HostApplicationBuilderSettings { DisableDefaults = true } );
-
-        var config = builder.Configuration;
-        config["CK-AppIdentity:FullName"] = "Domain/$MailerTests/#Dev";
-        config["CK-AppIdentity:Local:EmailSender:Fake:Endpoint"] = "endpoint.com";
-        config["CK-AppIdentity:Local:EmailSender:Fake:Token"] = "3712";
-
-        var engine = TestHelper.CreateDefaultEngineConfiguration();
-        engine.FirstBinPath.Types.Add( typeof( FakeEmailSenderFactory ),
-                                       typeof( EmailSenderFeatureDriver ),
-                                       typeof( ApplicationIdentityService ) );
-        var engineResult = await engine.RunAsync();
-        builder.Services.AddSingleton<IDefaultEmailSender>( s => s.GetRequiredService<ApplicationIdentityService>().GetRequiredFeature<DefaultEmailSender>() );
-        builder.Services.AddStObjMap( TestHelper.Monitor, engineResult.FirstBinPath.LoadMap() );
-
         builder.AddApplicationIdentityServiceConfiguration();
+
+        builder.Configuration["CK-AppIdentity:FullName"] = "Domain/$MailerTests/#Dev";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Fake:Endpoint"] = "endpoint.com";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Fake:Token"] = "3712";
+
+        builder.Services.AddStObjMap( TestHelper.Monitor, map );
+
         using var app = builder.CKBuild();
         await app.StartAsync();
-        var identity = app.Services.GetRequiredService<ApplicationIdentityService>();
-        var localSender = identity.GetRequiredFeature<IDefaultEmailSender>();
+
+        var localSender = app.Services.GetRequiredService<IDefaultEmailSender>();
 
         FakeEmailSender.SentEmails.Clear();
         var email = new SimpleEmail();
@@ -50,37 +45,35 @@ public class EmailSenderTests
     [Test]
     public async Task configure_complete_sender_Async()
     {
+        var configuration = TestHelper.CreateDefaultEngineConfiguration();
+        configuration.FirstBinPath.Types.Add( typeof( FakeEmailSenderFactory ), typeof( SmtpEmailSenderFactory ) );
+        configuration.FirstBinPath.DiscoverAssembliesFromPath = true;
+        var map = (await configuration.RunSuccessfullyAsync()).LoadMap();
+
+        // Needed for CI...
         Directory.CreateDirectory( PickupDirectory.Path );
 
         var builder = Host.CreateEmptyApplicationBuilder( new HostApplicationBuilderSettings { DisableDefaults = true } );
-
-        var config = builder.Configuration;
-        config["CK-AppIdentity:FullName"] = "Domain/$MailerTests/#Dev";
-        config["CK-AppIdentity:Local:EmailSender:Smtp:0:SendEmail"] = "false";
-        config["CK-AppIdentity:Local:EmailSender:Smtp:0:UsePickupDirectory"] = "true";
-        config["CK-AppIdentity:Local:EmailSender:Smtp:0:PickupDirectory"] = PickupDirectory.Path;
-        config["CK-AppIdentity:Local:EmailSender:Smtp:1:SendEmail"] = "false";
-        config["CK-AppIdentity:Local:EmailSender:Smtp:1:UsePickupDirectory"] = "true";
-        config["CK-AppIdentity:Local:EmailSender:Smtp:1:PickupDirectory"] = PickupDirectory.Path;
-        config["CK-AppIdentity:Local:EmailSender:Fake:Endpoint"] = "endpoint.com";
-        config["CK-AppIdentity:Local:EmailSender:Fake:Token"] = "3712";
-        config["CK-AppIdentity:Parties:0:PartyName"] = "$P1";
-        config["CK-AppIdentity:Parties:0:EmailSender:Smtp:SendEmail"] = "false";
-
-        var engine = TestHelper.CreateDefaultEngineConfiguration();
-        engine.FirstBinPath.Types.Add( typeof( FakeEmailSenderFactory ),
-                                       typeof( SmtpEmailSenderFactory ),
-                                       typeof( EmailSenderFeatureDriver ),
-                                       typeof( ApplicationIdentityService ) );
-        var engineResult = await engine.RunAsync();
-        builder.Services.AddSingleton<IDefaultEmailSender>( s => s.GetRequiredService<ApplicationIdentityService>().GetRequiredFeature<DefaultEmailSender>() );
-        builder.Services.AddStObjMap( TestHelper.Monitor, engineResult.FirstBinPath.LoadMap() );
-
         builder.AddApplicationIdentityServiceConfiguration();
+
+        builder.Configuration["CK-AppIdentity:FullName"] = "Domain/$MailerTests/#Dev";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Smtp:0:SendEmail"] = "false";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Smtp:0:UsePickupDirectory"] = "true";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Smtp:0:PickupDirectory"] = PickupDirectory.Path;
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Smtp:1:SendEmail"] = "false";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Smtp:1:UsePickupDirectory"] = "true";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Smtp:1:PickupDirectory"] = PickupDirectory.Path;
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Fake:Endpoint"] = "endpoint.com";
+        builder.Configuration["CK-AppIdentity:Local:EmailSender:Fake:Token"] = "3712";
+        builder.Configuration["CK-AppIdentity:Parties:0:PartyName"] = "$P1";
+        builder.Configuration["CK-AppIdentity:Parties:0:EmailSender:Smtp:SendEmail"] = "false";
+
+        builder.Services.AddStObjMap( TestHelper.Monitor, map );
+
         using var app = builder.CKBuild();
         await app.StartAsync();
-        var identity = app.Services.GetRequiredService<ApplicationIdentityService>();
-        var localSender = identity.GetRequiredFeature<IDefaultEmailSender>();
+
+        var localSender = app.Services.GetRequiredService<IDefaultEmailSender>();
 
         FakeEmailSender.SentEmails.Clear();
         var email = new SimpleEmail();

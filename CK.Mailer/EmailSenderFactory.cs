@@ -16,7 +16,7 @@ public abstract class EmailSenderFactory : IEmailSenderFactory
         else if( name.EndsWith( "EmailSenderFactory" ) ) name = name.Substring( 0, name.Length - 18 );
         else
         {
-            Throw.InvalidOperationException( $"Invalid type name '{name}': a feature driver type name MUST be suffixed with 'EmailSenderFactory'." );
+            Throw.InvalidOperationException( $"Invalid type name '{name}': an email sender factory MUST be suffixed with 'EmailSenderFactory'." );
         }
         _senderName = name;
     }
