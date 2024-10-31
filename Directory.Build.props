@@ -22,7 +22,7 @@
   <!--<StandardProperties>-->
   <PropertyGroup>
     <RepositoryUrl>https://gitlab.com/signature-code/ck-mailer</RepositoryUrl>
-    <ProductName>SC</ProductName>
+    <ProductName>CK</ProductName>
     <Company>Signature Code</Company>
     <Authors>Signature Code</Authors>
     <Copyright>Copyright Signature-Code 2007-$([System.DateTime]::UtcNow.ToString("yyyy"))</Copyright>
@@ -31,6 +31,7 @@
     <!--Considering .net6 'global using' to be an opt-in (simply reproduce this with 'false' in the csproj if needed).-->
     <ImplicitUsings>disable</ImplicitUsings>
     <PackageIcon>PackageIcon.png</PackageIcon>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(SolutionDir)Common/PackageIcon.png" Pack="true" PackagePath="\" Visible="false" />

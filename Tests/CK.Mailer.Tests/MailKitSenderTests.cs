@@ -26,6 +26,7 @@ public class MailKitSenderTests
     [Test]
     public async Task Save_email_on_disk_Async()
     {
+        // Needed for CI...
         Directory.CreateDirectory( PickupDirectory.Path );
 
         var dataPath = new NormalizedPath( "../../../Data" );

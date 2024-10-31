@@ -1,13 +1,13 @@
+using CK.Mailer.MailKit;
+using CK.Testing;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using static CK.Testing.MonitorTestHelper;
-
 namespace CK.Mailer.Tests;
 
 [TestFixture]
@@ -16,6 +16,11 @@ public class EmailSenderTests
     [Test]
     public async Task configure_fake_sender_Async()
     {
+        var configuration = TestHelper.CreateDefaultEngineConfiguration();
+        configuration.FirstBinPath.Types.Add( typeof( FakeEmailSenderFactory ) );
+        configuration.FirstBinPath.DiscoverAssembliesFromPath = true;
+        var map = (await configuration.RunSuccessfullyAsync()).LoadMap();
+
         var builder = Host.CreateEmptyApplicationBuilder( new HostApplicationBuilderSettings { DisableDefaults = true } );
         builder.AddApplicationIdentityServiceConfiguration();
 
@@ -23,7 +28,7 @@ public class EmailSenderTests
         builder.Configuration["CK-AppIdentity:Local:EmailSender:Fake:Endpoint"] = "endpoint.com";
         builder.Configuration["CK-AppIdentity:Local:EmailSender:Fake:Token"] = "3712";
 
-        //builder.Services.AddStObjMap( TestHelper.Monitor, Assembly.GetExecutingAssembly() );
+        builder.Services.AddStObjMap( TestHelper.Monitor, map );
 
         using var app = builder.CKBuild();
         await app.StartAsync();
@@ -40,6 +45,12 @@ public class EmailSenderTests
     [Test]
     public async Task configure_complete_sender_Async()
     {
+        var configuration = TestHelper.CreateDefaultEngineConfiguration();
+        configuration.FirstBinPath.Types.Add( typeof( FakeEmailSenderFactory ), typeof( SmtpEmailSenderFactory ) );
+        configuration.FirstBinPath.DiscoverAssembliesFromPath = true;
+        var map = (await configuration.RunSuccessfullyAsync()).LoadMap();
+
+        // Needed for CI...
         Directory.CreateDirectory( PickupDirectory.Path );
 
         var builder = Host.CreateEmptyApplicationBuilder( new HostApplicationBuilderSettings { DisableDefaults = true } );
@@ -57,7 +68,7 @@ public class EmailSenderTests
         builder.Configuration["CK-AppIdentity:Parties:0:PartyName"] = "$P1";
         builder.Configuration["CK-AppIdentity:Parties:0:EmailSender:Smtp:SendEmail"] = "false";
 
-        builder.Services.AddStObjMap( TestHelper.Monitor, Assembly.GetExecutingAssembly() );
+        builder.Services.AddStObjMap( TestHelper.Monitor, map );
 
         using var app = builder.CKBuild();
         await app.StartAsync();
