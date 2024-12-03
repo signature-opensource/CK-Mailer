@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <SignAssembly>false</SignAssembly>
@@ -9,10 +9,10 @@
     <Nullable>annotations</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.Core" Version="20.0.1" />
+    <PackageReference Include="CK.Core" Version="21.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Credentials" Version="6.10.0" />
-    <PackageReference Include="SimpleGitVersion.Cake" Version="9.0.1--0000-develop" />
+    <PackageReference Include="NuGet.Credentials" Version="6.12.1" />
+    <PackageReference Include="SimpleGitVersion.Cake" Version="11.0.3--0000-develop" />
   </ItemGroup>
 </Project>
