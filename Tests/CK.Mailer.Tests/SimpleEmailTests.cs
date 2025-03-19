@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -13,11 +13,11 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.FromAddress.Should().BeNull();
+        email.FromAddress.ShouldBeNull();
         email.From( "test" );
-        email.FromAddress.Should().Be( new Address( "test" ) );
+        email.FromAddress.ShouldBe( new Address( "test" ) );
         email.From( "test2", "Test 2" );
-        email.FromAddress.Should().Be( new Address( "test2", "Test 2" ) );
+        email.FromAddress.ShouldBe( new Address( "test2", "Test 2" ) );
     }
 
     [Test]
@@ -25,13 +25,13 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.ToAddresses.Should().BeEmpty();
+        email.ToAddresses.ShouldBeEmpty();
         email.To( "test" );
-        email.ToAddresses.Should().BeEquivalentTo( [new Address( "test" )] );
+        email.ToAddresses.ShouldBe( [new Address( "test" )] );
         email.AddTo( "test2" );
-        email.ToAddresses.Should().BeEquivalentTo( [new Address( "test" ), new Address( "test2" )] );
+        email.ToAddresses.ShouldBe( [new Address( "test" ), new Address( "test2" )] );
         email.To( "test3" );
-        email.ToAddresses.Should().BeEquivalentTo( [new Address( "test3" )] );
+        email.ToAddresses.ShouldBe( [new Address( "test3" )] );
     }
 
     [Test]
@@ -39,13 +39,13 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.CcAddresses.Should().BeEmpty();
+        email.CcAddresses.ShouldBeEmpty();
         email.CC( "test" );
-        email.CcAddresses.Should().BeEquivalentTo( [new Address( "test" )] );
+        email.CcAddresses.ShouldBe( [new Address( "test" )] );
         email.AddCC( "test2" );
-        email.CcAddresses.Should().BeEquivalentTo( [new Address( "test" ), new Address( "test2" )] );
+        email.CcAddresses.ShouldBe( [new Address( "test" ), new Address( "test2" )] );
         email.CC( "test3" );
-        email.CcAddresses.Should().BeEquivalentTo( [new Address( "test3" )] );
+        email.CcAddresses.ShouldBe( [new Address( "test3" )] );
     }
 
     [Test]
@@ -53,13 +53,13 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.BccAddresses.Should().BeEmpty();
+        email.BccAddresses.ShouldBeEmpty();
         email.BCC( "test" );
-        email.BccAddresses.Should().BeEquivalentTo( [new Address( "test" )] );
+        email.BccAddresses.ShouldBe( [new Address( "test" )] );
         email.AddBCC( "test2" );
-        email.BccAddresses.Should().BeEquivalentTo( [new Address( "test" ), new Address( "test2" )] );
+        email.BccAddresses.ShouldBe( [new Address( "test" ), new Address( "test2" )] );
         email.BCC( "test3" );
-        email.BccAddresses.Should().BeEquivalentTo( [new Address( "test3" )] );
+        email.BccAddresses.ShouldBe( [new Address( "test3" )] );
     }
 
     [Test]
@@ -67,13 +67,13 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.ReplyToAddresses.Should().BeEmpty();
+        email.ReplyToAddresses.ShouldBeEmpty();
         email.ReplyTo( "test" );
-        email.ReplyToAddresses.Should().BeEquivalentTo( [new Address( "test" )] );
+        email.ReplyToAddresses.ShouldBe( [new Address( "test" )] );
         email.AddReplyTo( "test2" );
-        email.ReplyToAddresses.Should().BeEquivalentTo( [new Address( "test" ), new Address( "test2" )] );
+        email.ReplyToAddresses.ShouldBe( [new Address( "test" ), new Address( "test2" )] );
         email.ReplyTo( "test3" );
-        email.ReplyToAddresses.Should().BeEquivalentTo( [new Address( "test3" )] );
+        email.ReplyToAddresses.ShouldBe( [new Address( "test3" )] );
     }
 
     [Test]
@@ -81,9 +81,9 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.Subject.Should().BeNull();
+        email.Subject.ShouldBeNull();
         email.SetSubject( "test" );
-        email.Subject.Should().Be( "test" );
+        email.Subject.ShouldBe( "test" );
     }
 
     [Test]
@@ -91,9 +91,9 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.HtmlBody.Should().BeNull();
+        email.HtmlBody.ShouldBeNull();
         email.SetHtmlBody( "test" );
-        email.HtmlBody.Should().Be( "test" );
+        email.HtmlBody.ShouldBe( "test" );
     }
 
     [Test]
@@ -101,9 +101,9 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.PlaintextAlternativeBody.Should().BeNull();
+        email.PlaintextAlternativeBody.ShouldBeNull();
         email.SetPlaintextAlternativeBody( "test" );
-        email.PlaintextAlternativeBody.Should().Be( "test" );
+        email.PlaintextAlternativeBody.ShouldBe( "test" );
     }
 
     [Test]
@@ -111,9 +111,9 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.Priority.Should().Be( Priority.Normal );
+        email.Priority.ShouldBe( Priority.Normal );
         email.SetPriority( Priority.High );
-        email.Priority.Should().Be( Priority.High );
+        email.Priority.ShouldBe( Priority.High );
     }
 
     [Test]
@@ -121,7 +121,7 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.Attachments.Should().BeEmpty();
+        email.Attachments.ShouldBeEmpty();
         var attachement = new Attachment
         {
             ContentId = "test",
@@ -131,7 +131,7 @@ public class SimpleEmailTests
             IsInline = false
         };
         email.AddAttach( attachement );
-        email.Attachments.Should().BeEquivalentTo( [attachement] );
+        email.Attachments.ShouldBe( [attachement] );
     }
 
     [Test]
@@ -139,12 +139,12 @@ public class SimpleEmailTests
     {
         var email = new SimpleEmail();
 
-        email.Headers.Should().BeEmpty();
+        email.Headers.ShouldBeEmpty();
         email.Header( "test", "test2" );
-        email.Headers.Should().BeEquivalentTo( new Dictionary<string, string> { { "test", "test2" } } );
+        email.Headers.ShouldBe( new Dictionary<string, string> { { "test", "test2" } } );
         email.AddHeader( "test3", "test4" );
-        email.Headers.Should().BeEquivalentTo( new Dictionary<string, string> { { "test", "test2" }, { "test3", "test4" } } );
+        email.Headers.ShouldBe( new Dictionary<string, string> { { "test", "test2" }, { "test3", "test4" } } );
         email.Header( "test5", "test6" );
-        email.Headers.Should().BeEquivalentTo( new Dictionary<string, string> { { "test5", "test6" } } );
+        email.Headers.ShouldBe( new Dictionary<string, string> { { "test5", "test6" } } );
     }
 }

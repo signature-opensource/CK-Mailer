@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using CK.Mailer.MailKit;
-using FluentAssertions;
+using Shouldly;
 using NUnit.Framework;
 using System.IO;
 using System.Text;
@@ -49,25 +50,29 @@ public class SimpleEmailToMimeMessageConversionTests
 
         var email2 = message.GetSimpleEmail();
 
-        email2.FromAddress.Should().BeEquivalentTo( email.FromAddress );
-        email2.ToAddresses.Should().BeEquivalentTo( email.ToAddresses );
-        email2.CcAddresses.Should().BeEquivalentTo( email.CcAddresses );
-        email2.BccAddresses.Should().BeEquivalentTo( email.BccAddresses );
-        email2.ReplyToAddresses.Should().BeEquivalentTo( email.ReplyToAddresses );
-        email2.Subject.Should().Be( email.Subject );
-        email2.HtmlBody.Should().Be( email.HtmlBody );
-        email2.PlaintextAlternativeBody.Should().Be( email.PlaintextAlternativeBody );
-        email2.Priority.Should().Be( email.Priority );
-        email2.Attachments.Should().HaveSameCount( email2.Attachments ).And.HaveCount( 1 );
-        email2.Attachments[0].ContentId.Should().Be( email.Attachments[0].ContentId );
-        email2.Attachments[0].Filename.Should().Be( email.Attachments[0].Filename );
-        email2.Attachments[0].ContentType.Should().Be( email.Attachments[0].ContentType );
-        email2.Attachments[0].IsInline.Should().Be( email.Attachments[0].IsInline );
+        email2.FromAddress.ShouldBe( email.FromAddress );
+        email2.ToAddresses.ShouldBe( email.ToAddresses );
+        email2.CcAddresses.ShouldBe( email.CcAddresses );
+        email2.BccAddresses.ShouldBe( email.BccAddresses );
+        email2.ReplyToAddresses.ShouldBe( email.ReplyToAddresses );
+        email2.Subject.ShouldBe( email.Subject );
+        email2.HtmlBody.ShouldBe( email.HtmlBody );
+        email2.PlaintextAlternativeBody.ShouldBe( email.PlaintextAlternativeBody );
+        email2.Priority.ShouldBe( email.Priority );
+        email2.Attachments.Count.ShouldBe( 1 );
+        email2.Attachments[0].ContentId.ShouldBe( email.Attachments[0].ContentId );
+        email2.Attachments[0].Filename.ShouldBe( email.Attachments[0].Filename );
+        email2.Attachments[0].ContentType.ShouldBe( email.Attachments[0].ContentType );
+        email2.Attachments[0].IsInline.ShouldBe( email.Attachments[0].IsInline );
         using( var reader = new StreamReader( email2.Attachments[0].Data ) )
         {
             var email2TextContent = reader.ReadToEnd();
-            email2TextContent.Should().Be( attachementMessage );
+            email2TextContent.ShouldBe( attachementMessage );
         }
-        email2.Headers.Should().Contain( email.Headers );
+
+        email.Headers.ShouldAll( h =>
+        {
+            email2.Headers.ShouldContain( h );
+        } );
     }
 }

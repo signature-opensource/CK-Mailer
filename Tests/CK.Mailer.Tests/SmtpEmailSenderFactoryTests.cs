@@ -1,6 +1,6 @@
 using CK.Core;
 using CK.Mailer.MailKit;
-using FluentAssertions;
+using Shouldly;
 using MailKit.Security;
 using NUnit.Framework;
 using static CK.Testing.MonitorTestHelper;
@@ -16,8 +16,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""UsePickupDirectory"":{directory}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [Test]
@@ -25,8 +25,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @"{""UsePickupDirectory"":true}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [TestCase( "null" )]
@@ -35,8 +35,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""UsePickupDirectory"":true,""PickupDirectory"":""{directory}""}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [Test]
@@ -44,8 +44,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @"{""UsePickupDirectory"":true,""PickupDirectory"":""Path"",""SendEmail"":false}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeTrue();
-        sender.Should().NotBeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeTrue();
+        sender.ShouldNotBeNull();
     }
 
     [TestCase( "true" )]
@@ -54,8 +54,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""SendEmail"":{sendEmail},""Host"":""Test"",""RequiresAuthentication"":false}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeTrue();
-        sender.Should().NotBeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeTrue();
+        sender.ShouldNotBeNull();
     }
 
     [TestCase( "null" )]
@@ -65,8 +65,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""SendEmail"":{sendMesage}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [Test]
@@ -74,8 +74,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @"{""RequiresAuthentication"":false}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [TestCase( "null" )]
@@ -84,8 +84,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""RequiresAuthentication"":false,""Host"":{host}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [TestCase( @"""Test""" )]
@@ -94,8 +94,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""RequiresAuthentication"":false,""Host"":""Test"",""Port"":{port}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [Test]
@@ -103,8 +103,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""RequiresAuthentication"":false,""Host"":""Test""}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeTrue();
-        sender.Should().NotBeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeTrue();
+        sender.ShouldNotBeNull();
     }
 
     [TestCase( "null" )]
@@ -113,8 +113,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""Host"":""Test"",""User"":{user},""Password"":""Test""}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [TestCase( "null" )]
@@ -123,8 +123,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""Host"":""Test"",""User"":""Test"",""Password"":{password}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [Test]
@@ -132,8 +132,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @"{""Host"":""Test"",""User"":""Test"",""Password"":""Test""}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeTrue();
-        sender.Should().NotBeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeTrue();
+        sender.ShouldNotBeNull();
     }
 
     [TestCase( nameof( SecureSocketOptions.None ) )]
@@ -145,8 +145,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""RequiresAuthentication"":false,""Host"":""Test"",""SocketOptions"":""{options}""}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeTrue();
-        sender.Should().NotBeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeTrue();
+        sender.ShouldNotBeNull();
     }
 
     [TestCase( @"""Test""" )]
@@ -155,8 +155,8 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""RequiresAuthentication"":false,""Host"":""Test"",""UseSsl"":{useSSl}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeFalse();
-        sender.Should().BeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeFalse();
+        sender.ShouldBeNull();
     }
 
     [TestCase( "true" )]
@@ -165,7 +165,7 @@ public class SmtpEmailSenderFactoryTests
     {
         var json = @$"{{""RequiresAuthentication"":false,""Host"":""Test"",""UseSsl"":{useSSl}}}";
         var config = ImmutableConfigurationSection.CreateFromJson( "CK-AppIdentity:Local", "Smtp", json );
-        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).Should().BeTrue();
-        sender.Should().NotBeNull();
+        new SmtpEmailSenderFactory().TryCreateEmailSender( TestHelper.Monitor, config, out var sender ).ShouldBeTrue();
+        sender.ShouldNotBeNull();
     }
 }
