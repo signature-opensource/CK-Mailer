@@ -1,6 +1,6 @@
 using CK.Core;
 using CK.Mailer.MailKit;
-using FluentAssertions;
+using Shouldly;
 using MailKit.Security;
 using MimeKit;
 using NUnit.Framework;
@@ -17,10 +17,10 @@ public class MailKitSenderTests
     [Test]
     public async Task Do_nothing_Async()
     {
-        var sender = new MailKitSender( new MailKitSenderOptions { SendEmail = false } );
+        var sender = new MailKitSender( new MailKitSenderOptions {SendEmail = false} );
         var response = await sender.SendAsync( TestHelper.Monitor, new SimpleEmail() );
-        response.Successful.Should().BeTrue();
-        response.MessageId.Should().BeNull();
+        response.Successful.ShouldBeTrue();
+        response.MessageId.ShouldBeNull();
     }
 
     [Test]
@@ -65,40 +65,41 @@ public class MailKitSenderTests
 
         var response = await sender.SendAsync( TestHelper.Monitor, email );
 
-        response.Successful.Should().BeTrue();
-        response.ErrorMessages.Should().BeEmpty();
-        response.MessageId.Should().NotBeNullOrEmpty();
+        response.Successful.ShouldBeTrue();
+        response.ErrorMessages.ShouldBeEmpty();
+        response.MessageId.ShouldNotBeNullOrEmpty();
 
         var responseFile = PickupDirectory.Path.AppendPart( response.MessageId );
-        File.Exists( responseFile ).Should().BeTrue();
+        File.Exists( responseFile ).ShouldBeTrue();
 
         var message = await MimeMessage.LoadAsync( responseFile );
         var email2 = message.GetSimpleEmail();
 
-        email2.FromAddress.Should().BeEquivalentTo( email.FromAddress );
-        email2.ToAddresses.Should().BeEquivalentTo( email.ToAddresses );
-        email2.CcAddresses.Should().BeEquivalentTo( email.CcAddresses );
-        email2.BccAddresses.Should().BeEquivalentTo( email.BccAddresses );
-        email2.ReplyToAddresses.Should().BeEquivalentTo( email.ReplyToAddresses );
-        email2.Subject.Should().Be( email.Subject );
-        email2.HtmlBody.Should().Be( email.HtmlBody );
-        email2.PlaintextAlternativeBody.Should().Be( email.PlaintextAlternativeBody );
-        email2.Priority.Should().Be( email.Priority );
-        email2.Attachments.Should().HaveSameCount( email2.Attachments ).And.HaveCount( 2 );
-        email2.Attachments[0].ContentId.Should().Be( email.Attachments[0].ContentId );
-        email2.Attachments[0].Filename.Should().Be( email.Attachments[0].Filename );
-        email2.Attachments[0].ContentType.Should().Be( email.Attachments[0].ContentType );
-        email2.Attachments[0].IsInline.Should().Be( email.Attachments[0].IsInline );
+        email2.FromAddress.ShouldBe( email.FromAddress );
+        email2.ToAddresses.ShouldBe( email.ToAddresses );
+        email2.CcAddresses.ShouldBe( email.CcAddresses );
+        email2.BccAddresses.ShouldBe( email.BccAddresses );
+        email2.ReplyToAddresses.ShouldBe( email.ReplyToAddresses );
+        email2.Subject.ShouldBe( email.Subject );
+        email2.HtmlBody.ShouldBe( email.HtmlBody );
+        email2.PlaintextAlternativeBody.ShouldBe( email.PlaintextAlternativeBody );
+        email2.Priority.ShouldBe( email.Priority );
+        email2.Attachments.Count.ShouldBe( 2 );
+        email2.Attachments[0].ContentId.ShouldBe( email.Attachments[0].ContentId );
+        email2.Attachments[0].Filename.ShouldBe( email.Attachments[0].Filename );
+        email2.Attachments[0].ContentType.ShouldBe( email.Attachments[0].ContentType );
+        email2.Attachments[0].IsInline.ShouldBe( email.Attachments[0].IsInline );
         using( var reader = new StreamReader( email2.Attachments[0].Data ) )
         {
             var email2TextContent = await reader.ReadToEndAsync();
-            email2TextContent.Should().Be( File.ReadAllText( textFilePath ) );
+            email2TextContent.ShouldBe( File.ReadAllText( textFilePath ) );
         }
+
         using( var md5 = MD5.Create() )
         {
             var emailImageHash = md5.ComputeHash( File.ReadAllBytes( imageFilePath ) );
             var email2ImageHash = md5.ComputeHash( email2.Attachments[1].Data );
-            emailImageHash.Should().BeEquivalentTo( email2ImageHash );
+            emailImageHash.ShouldBe( email2ImageHash );
         }
     }
 }

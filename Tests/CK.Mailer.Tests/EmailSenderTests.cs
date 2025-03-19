@@ -1,6 +1,6 @@
 using CK.Mailer.MailKit;
 using CK.Testing;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
@@ -40,7 +40,8 @@ public class EmailSenderTests
         var email = new SimpleEmail();
         await localSender.SendAsync( TestHelper.Monitor, email );
 
-        FakeEmailSender.SentEmails.Should().HaveCount( 1 ).And.Subject.First().Should().Be( email );
+        FakeEmailSender.SentEmails.Count.ShouldBe( 1 );
+        FakeEmailSender.SentEmails.First().ShouldBe( email );
     }
 
     [Test]
@@ -80,12 +81,13 @@ public class EmailSenderTests
         var email = new SimpleEmail();
         var respons = await localSender.SendAsync( TestHelper.Monitor, email );
 
-        respons.Successful.Should().BeTrue();
-        respons.MessageId.Should().NotBeNullOrEmpty();
+        respons.Successful.ShouldBeTrue();
+        respons.MessageId.ShouldNotBeNullOrEmpty();
         var files = respons.MessageId!.Split( ',' );
-        files.Should().HaveCount( 2 );
-        File.Exists( PickupDirectory.Path.AppendPart( files[0] ) ).Should().BeTrue();
-        File.Exists( PickupDirectory.Path.AppendPart( files[1] ) ).Should().BeTrue();
-        FakeEmailSender.SentEmails.Should().HaveCount( 1 ).And.Subject.Single().Should().Be( email );
+        files.Length.ShouldBe( 2 );
+        File.Exists( PickupDirectory.Path.AppendPart( files[0] ) ).ShouldBeTrue();
+        File.Exists( PickupDirectory.Path.AppendPart( files[1] ) ).ShouldBeTrue();
+        FakeEmailSender.SentEmails.Count.ShouldBe( 1 );
+        FakeEmailSender.SentEmails.Single().ShouldBe( email );
     }
 }
