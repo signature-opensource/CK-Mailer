@@ -102,4 +102,37 @@ public class MailKitSenderTests
             emailImageHash.ShouldBe( email2ImageHash );
         }
     }
+
+    [Test]
+    public async Task From_setting_adds_From_address_Async()
+    {
+        // Needed for CI...
+        Directory.CreateDirectory( PickupDirectory.Path );
+        var sender = new MailKitSender( new MailKitSenderOptions
+        {
+            UsePickupDirectory = true,
+            PickupDirectory = PickupDirectory.Path,
+            SendEmail = false,
+            From = InternetAddress.Parse( "Hello World <hello@world.com>" )
+        } );
+
+        var email = new SimpleEmail()
+            .To( "recipient1@test.com", "Recipient 1" )
+            .SetSubject( "Save an email on the disk" )
+            .SetPlaintextAlternativeBody( "Content of the email." );
+
+        var response = await sender.SendAsync( TestHelper.Monitor, email );
+
+        response.Successful.ShouldBeTrue();
+        response.ErrorMessages.ShouldBeEmpty();
+        response.MessageId.ShouldNotBeNullOrEmpty();
+
+        var responseFile = PickupDirectory.Path.AppendPart( response.MessageId );
+        File.Exists( responseFile ).ShouldBeTrue();
+
+        var message = await MimeMessage.LoadAsync( responseFile );
+        var email2 = message.GetSimpleEmail();
+
+        email2.FromAddress.ToString().ShouldBe( "Hello World <hello@world.com>" );
+    }
 }
