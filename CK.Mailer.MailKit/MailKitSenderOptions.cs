@@ -1,5 +1,6 @@
 using MailKit.Security;
 using System.Diagnostics.CodeAnalysis;
+using MimeKit;
 
 namespace CK.Mailer.MailKit;
 
@@ -10,6 +11,8 @@ public class MailKitSenderOptions
     public bool UsePickupDirectory { get; set; } = false;
 
     public string? PickupDirectory { get; set; } = null;
+
+    public InternetAddress? From { get; set; } = null;
     #endregion
 
     #region Sending email configurations

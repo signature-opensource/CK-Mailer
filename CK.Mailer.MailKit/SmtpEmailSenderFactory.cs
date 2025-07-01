@@ -2,6 +2,7 @@ using CK.Core;
 using MailKit.Security;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using MimeKit;
 
 namespace CK.Mailer.MailKit;
 
@@ -121,6 +122,18 @@ public class SmtpEmailSenderFactory : EmailSenderFactory
                 monitor.Error( "Invalid 'UseSsl' in Smtp EmailSender configuration." );
                 success = false;
             }
+        }
+
+        if( config["From"] is not null )
+        {
+            if( !InternetAddress.TryParse( config["From"], out var fromAddress ) )
+            {
+                monitor.Error( $"Invalid 'From' configuration in Smtp EmailSender. '{fromAddress}' is not a valid mailbox address." );
+                emailSender = null;
+                // Return here because the rest of the configuration depends on SendEmail.
+                return false;
+            }
+            options.From = fromAddress;
         }
 
         emailSender = success ? new MailKitSender( options ) : null;

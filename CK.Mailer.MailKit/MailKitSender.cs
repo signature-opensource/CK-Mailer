@@ -38,6 +38,11 @@ public class MailKitSender : IEmailSender
 
         try
         {
+            if( _options.From != null && email.From.Count == 0 )
+            {
+                email.From.Add( _options.From );
+            }
+
             if( _options.UsePickupDirectory )
             {
                 response = await SaveToPickupDirectoryAsync( monitor, email, _options.PickupDirectory, token );
