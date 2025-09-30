@@ -1,3 +1,4 @@
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
@@ -10,17 +11,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NuGet.config = NuGet.config
 		README.md = README.md
 		RepositoryInfo.xml = RepositoryInfo.xml
+		appveyor.yml = appveyor.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C0D5F09C-C3BE-4975-AC49-75B30696FCCE}"
+	ProjectSection(SolutionItems) = preProject
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "CK.Mailer\CK.Mailer.csproj", "{5B0D9664-9C54-4916-B3DF-540CFC4DBDBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer", "CK.Mailer/CK.Mailer.csproj", "{5B0D9664-9C54-4916-B3DF-540CFC4DBDBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Tests", "Tests\CK.Mailer.Tests\CK.Mailer.Tests.csproj", "{1A2FE982-B860-40E3-A4F8-731789C6AE0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.Tests", "Tests/CK.Mailer.Tests/CK.Mailer.Tests.csproj", "{1A2FE982-B860-40E3-A4F8-731789C6AE0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeCakeBuilder", "CodeCakeBuilder\CodeCakeBuilder.csproj", "{60753EAC-D7F0-4C26-B697-1E81B60955F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeCakeBuilder", "CodeCakeBuilder/CodeCakeBuilder.csproj", "{60753EAC-D7F0-4C26-B697-1E81B60955F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.MailKit", "CK.Mailer.MailKit\CK.Mailer.MailKit.csproj", "{749985B5-84DE-466D-B412-EE660D2765C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Mailer.MailKit", "CK.Mailer.MailKit/CK.Mailer.MailKit.csproj", "{749985B5-84DE-466D-B412-EE660D2765C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
