@@ -4,8 +4,8 @@
     <IsPackable>False</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.AppIdentity.Hosting" Version="0.8.1" />
-    <PackageReference Include="CK.Testing.StObjEngine" Version="29.0.1" />
+    <PackageReference Include="CK.AppIdentity.Hosting" Version="0.11.1" />
+    <PackageReference Include="CK.Testing.StObjEngine" Version="31.0.1" />
     <PackageReference Include="NUnit" Version="4.3.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" PrivateAssets="All" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" PrivateAssets="All" />
