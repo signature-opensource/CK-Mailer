@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -6,6 +6,6 @@
   <ItemGroup>
     <PackageReference Include="CK.ActivityMonitor.SimpleSender" Version="25.0.1" />
     <PackageReference Include="CK.AppIdentity" Version="0.11.1" />
-    <PackageReference Include="CK.StObj.Model" Version="31.0.1" />
+    <PackageReference Include="CK.StObj.Model" Version="32.0.0" />
   </ItemGroup>
 </Project>
