@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="appveyor.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="NuGet.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/CK.Mailer.Tests/CK.Mailer.Tests.csproj" />
+  </Folder>
+  <Project Path="CK.Mailer.MailKit/CK.Mailer.MailKit.csproj" />
+  <Project Path="CK.Mailer/CK.Mailer.csproj" />
+</Solution>
