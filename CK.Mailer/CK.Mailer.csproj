@@ -6,6 +6,6 @@
   <ItemGroup>
     <PackageReference Include="CK.ActivityMonitor.SimpleSender" Version="26.0.1" />
     <PackageReference Include="CK.AppIdentity" Version="0.14.1" />
-    <PackageReference Include="CK.StObj.Model" Version="33.0.1" />
+    <PackageReference Include="CK.StObj.Model" Version="33.0.2--ci.1" />
   </ItemGroup>
 </Project>
