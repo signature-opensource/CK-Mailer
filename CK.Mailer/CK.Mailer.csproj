@@ -4,8 +4,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.ActivityMonitor.SimpleSender" Version="26.0.4" />
-    <PackageReference Include="CK.AppIdentity" Version="0.14.5" />
-    <PackageReference Include="CK.StObj.Model" Version="33.1.0" />
+    <PackageReference Include="CK.ActivityMonitor.SimpleSender" Version="26.0.4--ci.3" />
+    <PackageReference Include="CK.AppIdentity" Version="0.14.5--ci.3" />
+    <PackageReference Include="CK.StObj.Model" Version="33.1.0--ci.5" />
   </ItemGroup>
 </Project>
