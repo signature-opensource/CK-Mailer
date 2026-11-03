@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>False</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CK.Testing.AppIdentity.Cris" Version="3.0.0-0.cris-auth.0.ci.100" />
+    <PackageReference Include="CK.Testing.NUnit" Version="18.0.0-0.cris-auth" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" PrivateAssets="All" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CK.AppIdentity.Mailer\CK.AppIdentity.Mailer.csproj" />
+    <ProjectReference Include="..\..\CK.AppIdentity.Mailer.Remote\CK.AppIdentity.Mailer.Remote.csproj" />
+    <ProjectReference Include="..\..\CK.Mailer.MailKit\CK.Mailer.MailKit.csproj" />
+  </ItemGroup>
+</Project>

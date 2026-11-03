@@ -37,7 +37,8 @@ public static class SimpleEmailExtensions
         foreach( var x in email.Attachments )
         {
             var attachment = builder.Attachments.Add( x.Filename, x.Data, ContentType.Parse( x.ContentType ) );
-            attachment.ContentId = x.ContentId;
+            // An attachment that the HTML body doesn't reference has no content id (MimeKit refuses an empty one).
+            if( !string.IsNullOrEmpty( x.ContentId ) ) attachment.ContentId = x.ContentId;
         }
 
         message.Body = builder.ToMessageBody();

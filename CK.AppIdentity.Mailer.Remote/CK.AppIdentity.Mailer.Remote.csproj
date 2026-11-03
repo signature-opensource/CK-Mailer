@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>CK.AppIdentity.Mailer</RootNamespace>
+    <Description>The Remote side of the "MailSender" feature: this application sends its mails through its MailSender party (the "MailSender" sender of its "EmailSender" configuration), without any mail configuration of its own.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CK.AppIdentity.Cris" Version="3.0.0-0.cris-auth.0.ci.100" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CK.IO.Mailer\CK.IO.Mailer.csproj" />
+    <ProjectReference Include="..\CK.Mailer\CK.Mailer.csproj" />
+  </ItemGroup>
+</Project>

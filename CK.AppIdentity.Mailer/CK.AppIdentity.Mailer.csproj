@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Description>The Local side of the "MailSender" feature: this application sends the mails of its remotes with its own mail configuration (CK.Mailer).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CK.AppIdentity.Cris" Version="3.0.0-0.cris-auth.0.ci.100" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CK.IO.Mailer\CK.IO.Mailer.csproj" />
+    <ProjectReference Include="..\CK.Mailer\CK.Mailer.csproj" />
+  </ItemGroup>
+</Project>
