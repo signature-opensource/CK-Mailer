@@ -1,5 +1,5 @@
 using CK.Core;
-using CK.IO.Mailer;
+using CK.IO.MailSender;
 using CK.Mailer;
 using CK.Mailer.MailKit;
 using CK.Testing;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static CK.Testing.MonitorTestHelper;
 
-namespace CK.AppIdentity.Mailer.Tests;
+namespace CK.AppIdentity.MailSender.Tests;
 
 // The "Test/$Sender" application is the remote: it sends its mails through the "Test/$Listener" application, its
 // MailSender, that writes them in a pickup directory.
@@ -47,9 +47,9 @@ public class MailSenderTests
             senderConfiguration: c =>
             {
                 c["Parties:0:Address"] = Address;
-                c["Local:AllowFeatures"] = "MailSenderRemote";
                 c["Local:EmailSender:MailSender"] = "true";
-                c["Parties:0:AllowFeatures"] = "MailSender";
+                // The MailSender: the "Local" of this party doesn't allow "MailSender".
+                c["Parties:0:AllowFeatures"] = "MailSenderRemote";
             },
             senderTypes: _remoteTypes,
             listenerConfiguration: c =>

@@ -2,19 +2,21 @@ using CK.Core;
 using CK.Mailer;
 using System.Threading.Tasks;
 
-namespace CK.AppIdentity.Mailer;
+namespace CK.AppIdentity.MailSender;
 
 /// <summary>
-/// The Local side of the opt-in "MailSender" feature: this application sends the mails of its remotes. A local party that
-/// allows "MailSender" (in its "Local") is a MailSender; its remotes that allow "MailSenderRemote" may send their mails
-/// through it (the <see cref="MailSenderHandler"/> refuses the others).
+/// The Local side of the opt-in "MailSender" asymmetric feature: a local party that allows "MailSender" (in its "Local") is a
+/// MailSender; its remotes that allow "MailSenderRemote" may send their mails through it (the <see cref="MailSenderHandler"/>
+/// refuses the others). A local party that doesn't allow "MailSender" is ignored (CK.AppIdentity.MailSender.Remote handles it).
+/// There can be several MailSenders in a tenant.
 /// <para>
 /// The mails are sent with the <see cref="IDefaultEmailSender"/> of the MailSender: its "EmailSender" configuration
 /// (CK.Mailer), its own <c>From</c> address. A MailSender without "EmailSender" configuration is an error.
 /// </para>
 /// <para>
-/// An application has one role: it references this package (it is a MailSender) or CK.AppIdentity.Mailer.Remote (it is a
-/// remote of a MailSender). An application that sends its own mails needs neither: its "EmailSender" configuration is enough.
+/// This package and CK.AppIdentity.MailSender.Remote can be referenced by the same application: the "MailSender" of each
+/// local party gives its role. An application that sends its own mails needs neither: its "EmailSender" configuration is
+/// enough.
 /// </para>
 /// </summary>
 public sealed class LocalMailSenderFeatureDriver : ApplicationIdentityFeatureDriver
@@ -30,7 +32,7 @@ public sealed class LocalMailSenderFeatureDriver : ApplicationIdentityFeatureDri
     /// <param name="s">The application identity service.</param>
     /// <param name="emailSender">The email sender feature driver: the senders must be set up before this driver.</param>
     public LocalMailSenderFeatureDriver( ApplicationIdentityService s, EmailSenderFeatureDriver emailSender )
-        : base( s, MailSenderFeatureName, isAllowedByDefault: false )
+        : base( s, MailSenderFeatureName )
     {
     }
 

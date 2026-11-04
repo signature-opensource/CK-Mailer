@@ -1,14 +1,14 @@
 using CK.AppIdentity.Cris;
 using CK.Core;
 using CK.Cris;
-using CK.IO.Mailer;
+using CK.IO.MailSender;
 using CK.Mailer;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CK.AppIdentity.Mailer;
+namespace CK.AppIdentity.MailSender;
 
 // The "MailSender" email sender: sends the mails to the MailSender of the root party (its RemoteMailSender feature).
 sealed class RemoteEmailSender : IEmailSender
@@ -31,7 +31,7 @@ sealed class RemoteEmailSender : IEmailSender
         var mailSender = _identity.GetFeature<RemoteMailSender>()?.MailSender;
         if( mailSender == null )
         {
-            response.ErrorMessages.Add( $"'{_identity}' has no MailSender: it must allow the 'MailSenderRemote' feature and one of its remotes 'MailSender'." );
+            response.ErrorMessages.Add( $"'{_identity}' has no MailSender: one of its remotes must allow the 'MailSenderRemote' feature (and its \"Local\" must not allow 'MailSender')." );
             monitor.Error( response.ErrorMessages[0] );
             return response;
         }

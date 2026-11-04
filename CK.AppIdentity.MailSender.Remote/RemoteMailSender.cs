@@ -1,4 +1,4 @@
-namespace CK.AppIdentity.Mailer;
+namespace CK.AppIdentity.MailSender;
 
 /// <summary>
 /// The feature of a local party that sends its mails through a remote: its <see cref="MailSender"/>.

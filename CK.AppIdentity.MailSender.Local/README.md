@@ -1,8 +1,8 @@
-# CK.AppIdentity.Mailer
+# CK.AppIdentity.MailSender.Local
 
-The Local side of the "MailSender" feature: this application sends the mails of its remote parties with its own mail
-configuration. Only the MailSender holds the SMTP server, its credentials and the `From` address; its remotes send it
-their rendered mails (see [CK.AppIdentity.Mailer.Remote](../CK.AppIdentity.Mailer.Remote/README.md)).
+The Local side of the "MailSender" [asymmetric feature](https://github.com/signature-opensource/CK-AppIdentity/blob/stable/CK.AppIdentity/Features/README.md#asymmetric-features):
+a local party that allows "MailSender" sends the mails of its remote parties with its own mail configuration. Only the
+MailSender holds the SMTP server, its credentials and the `From` address; its remotes send it their rendered mails (see [CK.AppIdentity.MailSender.Remote](../CK.AppIdentity.MailSender.Remote/README.md)).
 
 An application that sends its own mails needs none of this: its "EmailSender" configuration (see
 [CK.Mailer](../CK.Mailer/README.md)) is enough.
@@ -33,10 +33,12 @@ A party that allows "MailSender" without "EmailSender" configuration is a start-
 | Type | |
 |---|---|
 | [`LocalMailSenderFeatureDriver`](LocalMailSenderFeatureDriver.cs) | The driver of the "MailSender" feature on this side. `LocalMailSenderFeatureDriver.IsAllowedCaller` tells whether a remote may send its mails here. |
-| [`MailSenderHandler`](MailSenderHandler.cs) | Handles the `ISendMailCommand` of [CK.IO.Mailer](../CK.IO.Mailer/README.md): it refuses a caller that is not allowed (the `ISendMailResult` carries the error), and sends the mail with the `IDefaultEmailSender`. |
+| [`MailSenderHandler`](MailSenderHandler.cs) | Handles the `ISendMailCommand` of [CK.IO.MailSender](../CK.IO.MailSender/README.md): it refuses a caller that is not allowed (the `ISendMailResult` carries the error), and sends the mail with the `IDefaultEmailSender`. |
 
 The command has no `From`: the mail is sent with the MailSender's own address. The response is synchronous: the
 `ISendMailResult` carries the `MessageId` and the `ErrorMessages` of the senders.
 
-An application has one role: it references this package (it is a MailSender) or CK.AppIdentity.Mailer.Remote (it is a
-remote of a MailSender), never both.
+A local party that doesn't allow "MailSender" is ignored: CK.AppIdentity.MailSender.Remote handles it, and the two
+packages can be referenced by the same application. Unlike the AuthCenter, the MailSender is not a singleton: there can be
+several MailSenders in a tenant (each remote party uses at most one). The description of a MailSender announces it (its
+roles): a remote party checks that the party it relays its mails to is a MailSender.

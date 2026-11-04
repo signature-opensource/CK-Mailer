@@ -10,8 +10,8 @@
     <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CK.AppIdentity.Mailer\CK.AppIdentity.Mailer.csproj" />
-    <ProjectReference Include="..\..\CK.AppIdentity.Mailer.Remote\CK.AppIdentity.Mailer.Remote.csproj" />
+    <ProjectReference Include="..\..\CK.AppIdentity.MailSender.Local\CK.AppIdentity.MailSender.Local.csproj" />
+    <ProjectReference Include="..\..\CK.AppIdentity.MailSender.Remote\CK.AppIdentity.MailSender.Remote.csproj" />
     <ProjectReference Include="..\..\CK.Mailer.MailKit\CK.Mailer.MailKit.csproj" />
   </ItemGroup>
 </Project>

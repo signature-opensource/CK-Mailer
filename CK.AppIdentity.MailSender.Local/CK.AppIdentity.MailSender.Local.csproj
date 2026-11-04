@@ -7,7 +7,7 @@
     <PackageReference Include="CK.AppIdentity.Cris" Version="3.0.0-0.cris-auth.0.ci.100" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CK.IO.Mailer\CK.IO.Mailer.csproj" />
+    <ProjectReference Include="..\CK.IO.MailSender\CK.IO.MailSender.csproj" />
     <ProjectReference Include="..\CK.Mailer\CK.Mailer.csproj" />
   </ItemGroup>
 </Project>

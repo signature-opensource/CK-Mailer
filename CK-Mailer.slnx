@@ -8,12 +8,12 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Tests/">
-    <Project Path="Tests/CK.AppIdentity.Mailer.Tests/CK.AppIdentity.Mailer.Tests.csproj" />
+    <Project Path="Tests/CK.AppIdentity.MailSender.Tests/CK.AppIdentity.MailSender.Tests.csproj" />
     <Project Path="Tests/CK.Mailer.Tests/CK.Mailer.Tests.csproj" />
   </Folder>
   <Project Path="CK.Mailer.MailKit/CK.Mailer.MailKit.csproj" />
   <Project Path="CK.Mailer/CK.Mailer.csproj" />
-  <Project Path="CK.IO.Mailer/CK.IO.Mailer.csproj" />
-  <Project Path="CK.AppIdentity.Mailer/CK.AppIdentity.Mailer.csproj" />
-  <Project Path="CK.AppIdentity.Mailer.Remote/CK.AppIdentity.Mailer.Remote.csproj" />
+  <Project Path="CK.IO.MailSender/CK.IO.MailSender.csproj" />
+  <Project Path="CK.AppIdentity.MailSender.Local/CK.AppIdentity.MailSender.Local.csproj" />
+  <Project Path="CK.AppIdentity.MailSender.Remote/CK.AppIdentity.MailSender.Remote.csproj" />
 </Solution>

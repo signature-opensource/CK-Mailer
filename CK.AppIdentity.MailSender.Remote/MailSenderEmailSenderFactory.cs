@@ -2,7 +2,7 @@ using CK.Core;
 using CK.Mailer;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CK.AppIdentity.Mailer;
+namespace CK.AppIdentity.MailSender;
 
 /// <summary>
 /// Creates the "MailSender" email sender: the key of the "EmailSender" configuration (CK.Mailer) of a local party that sends

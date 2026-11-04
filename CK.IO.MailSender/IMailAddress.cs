@@ -1,6 +1,6 @@
 using CK.Core;
 
-namespace CK.IO.Mailer;
+namespace CK.IO.MailSender;
 
 /// <summary>
 /// A mail address and its optional display name.

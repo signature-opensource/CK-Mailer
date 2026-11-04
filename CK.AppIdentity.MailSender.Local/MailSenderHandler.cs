@@ -1,11 +1,11 @@
 using CK.Core;
 using CK.Cris;
-using CK.IO.Mailer;
+using CK.IO.MailSender;
 using CK.Mailer;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace CK.AppIdentity.Mailer;
+namespace CK.AppIdentity.MailSender;
 
 /// <summary>
 /// Handles the <see cref="ISendMailCommand"/> of a remote: the mail is sent with the <see cref="IDefaultEmailSender"/> of

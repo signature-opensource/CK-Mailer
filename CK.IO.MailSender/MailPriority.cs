@@ -1,4 +1,4 @@
-namespace CK.IO.Mailer;
+namespace CK.IO.MailSender;
 
 /// <summary>
 /// The priority of a <see cref="ISendMailCommand"/>. The values are the ones of the <c>Priority</c> of CK.Mailer.

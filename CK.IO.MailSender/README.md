@@ -1,9 +1,9 @@
-# CK.IO.Mailer
+# CK.IO.MailSender
 
 The command that a remote party sends to its "MailSender" party, so that only the MailSender holds the mail
 configuration (the SMTP server, its credentials, the `From` address). It is used by the two sides of the "MailSender"
-feature: [CK.AppIdentity.Mailer](../CK.AppIdentity.Mailer/README.md) (the MailSender) and
-[CK.AppIdentity.Mailer.Remote](../CK.AppIdentity.Mailer.Remote/README.md) (its remotes).
+feature: [CK.AppIdentity.MailSender.Local](../CK.AppIdentity.MailSender.Local/README.md) (the MailSender) and
+[CK.AppIdentity.MailSender.Remote](../CK.AppIdentity.MailSender.Remote/README.md) (its remotes).
 
 | Type | |
 |---|---|

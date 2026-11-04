@@ -2,7 +2,7 @@ using CK.Cris;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace CK.IO.Mailer;
+namespace CK.IO.MailSender;
 
 /// <summary>
 /// Sends a rendered mail with the configuration of the "MailSender" party: a remote party sends it to the party that

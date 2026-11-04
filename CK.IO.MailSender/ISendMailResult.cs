@@ -1,7 +1,7 @@
 using CK.Core;
 using System.Collections.Generic;
 
-namespace CK.IO.Mailer;
+namespace CK.IO.MailSender;
 
 /// <summary>
 /// The result of a <see cref="ISendMailCommand"/>: the mail has been sent when there is no error message.
