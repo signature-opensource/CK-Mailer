@@ -45,8 +45,19 @@ public sealed class RemoteMailSenderFeatureDriver : ApplicationIdentityFeatureDr
     protected override Task<bool> SetupDynamicRemoteAsync( FeatureLifetimeContext context, IOwnedParty party )
     {
         if( party is ILocalParty local ) return Task.FromResult( Plug( context, local ) );
-        // A remote added later can be the MailSender of its local party: the local party can use only one.
-        return Task.FromResult( !IsAllowedFeature( party ) || Plug( context, party.Owner ) );
+        var remote = (IRemoteParty)party;
+        var owner = remote.Owner;
+        if( IsAllowedFeature( owner ) || !IsAllowedFeature( remote ) ) return Task.FromResult( true );
+        // A remote added later can be the MailSender of its local party (it is not yet in the Remotes of its local
+        // party): the local party can use only one.
+        if( owner.GetFeature<RemoteMailSender>() is RemoteMailSender existing )
+        {
+            context.Monitor.Error( $"'{remote}' allows the 'MailSenderRemote' feature but '{owner}' already uses the MailSender '{existing.MailSender}': "
+                                   + $"a local party can use only one MailSender." );
+            return Task.FromResult( false );
+        }
+        owner.AddFeature( new RemoteMailSender( remote ) );
+        return Task.FromResult( true );
     }
 
     /// <inheritdoc />
