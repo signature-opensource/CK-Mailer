@@ -5,7 +5,7 @@
     <Description>The Remote side of the "MailSender" feature: this application sends its mails through its MailSender party (the "MailSender" sender of its "EmailSender" configuration), without any mail configuration of its own.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.AppIdentity.Cris" Version="3.0.0-0.cris-auth.0.ci.109" />
+    <PackageReference Include="CK.AppIdentity.Cris" Version="3.0.0-0.cris-auth.0.ci.117" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CK.IO.MailSender\CK.IO.MailSender.csproj" />
