@@ -18,6 +18,7 @@ namespace CK.AppIdentity.MailSender;
 /// local party gives its role.
 /// </para>
 /// </summary>
+[PartyFeature( "MailSender", Side = FeatureSide.Remote )]
 public sealed class RemoteMailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {
     /// <summary>
@@ -26,7 +27,7 @@ public sealed class RemoteMailSenderFeatureDriver : ApplicationIdentityFeatureDr
     /// <param name="s">The application identity service.</param>
     /// <param name="cris">The Cris channel feature driver: the mails are sent on the channel to the MailSender.</param>
     public RemoteMailSenderFeatureDriver( ApplicationIdentityService s, CrisChannelFeatureDriver cris )
-        : base( s, "MailSender" )
+        : base( s )
     {
     }
 

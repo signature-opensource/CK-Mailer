@@ -9,5 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CK.IO.MailSender\CK.IO.MailSender.csproj" />
     <ProjectReference Include="..\CK.Mailer\CK.Mailer.csproj" />
+    <!-- The Local side requires the Remote side: the "MailSenderRemote" key of a remote is read by both sides. -->
+    <ProjectReference Include="..\CK.AppIdentity.MailSender.Remote\CK.AppIdentity.MailSender.Remote.csproj" />
   </ItemGroup>
 </Project>

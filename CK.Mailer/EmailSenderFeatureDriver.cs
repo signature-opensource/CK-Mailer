@@ -5,13 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace CK.Mailer;
+[PartyFeature( IsOptional = false )]
 
 public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {
     readonly IEnumerable<IEmailSenderFactory> _parties;
 
     public EmailSenderFeatureDriver( ApplicationIdentityService s, IEnumerable<IEmailSenderFactory> parties )
-        : base( s, isAllowedByDefault: true )
+        : base( s )
     {
         _parties = parties;
     }

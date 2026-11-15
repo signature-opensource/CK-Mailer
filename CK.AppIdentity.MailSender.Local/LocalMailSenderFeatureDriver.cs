@@ -19,6 +19,8 @@ namespace CK.AppIdentity.MailSender;
 /// enough.
 /// </para>
 /// </summary>
+[PartyFeature( MailSenderFeatureName, Side = FeatureSide.Local )]
+[Requires<RemoteMailSenderFeatureDriver>]
 public sealed class LocalMailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {
     /// <summary>
@@ -32,7 +34,7 @@ public sealed class LocalMailSenderFeatureDriver : ApplicationIdentityFeatureDri
     /// <param name="s">The application identity service.</param>
     /// <param name="emailSender">The email sender feature driver: the senders must be set up before this driver.</param>
     public LocalMailSenderFeatureDriver( ApplicationIdentityService s, EmailSenderFeatureDriver emailSender )
-        : base( s, MailSenderFeatureName )
+        : base( s )
     {
     }
 
