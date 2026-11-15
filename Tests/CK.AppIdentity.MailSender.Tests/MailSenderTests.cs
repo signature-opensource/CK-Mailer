@@ -48,18 +48,18 @@ public class MailSenderTests
             {
                 c["Parties:0:Address"] = Address;
                 c["Local:EmailSender:MailSender"] = "true";
-                // The MailSender: the "Local" of this party doesn't allow "MailSender".
-                c["Parties:0:AllowFeatures"] = "MailSenderRemote";
+                // The MailSender: the "Local" of this party doesn't declare "MailSender".
+                c["Parties:0:MailSenderRemote"] = "true";
             },
             senderTypes: _remoteTypes,
             listenerConfiguration: c =>
             {
                 c["Defaults:ListeningAddress:0"] = Address;
-                c["Local:AllowFeatures"] = "MailSender";
+                c["Local:MailSender"] = "true";
                 c["Local:EmailSender:Smtp:SendEmail"] = "false";
                 c["Local:EmailSender:Smtp:UsePickupDirectory"] = "true";
                 c["Local:EmailSender:Smtp:PickupDirectory"] = PickupPath;
-                if( remoteAllowed ) c["Parties:0:AllowFeatures"] = "MailSenderRemote";
+                if( remoteAllowed ) c["Parties:0:MailSenderRemote"] = "true";
             },
             listenerTypes: _mailSenderTypes );
     }
@@ -110,7 +110,7 @@ public class MailSenderTests
         var response = await remote.Services.GetRequiredService<IDefaultEmailSender>().SendAsync( TestHelper.Monitor, email );
 
         response.Successful.ShouldBeFalse();
-        response.ErrorMessages.Single().ShouldContain( "doesn't allow the 'MailSenderRemote' feature" );
+        response.ErrorMessages.Single().ShouldContain( "doesn't declare the 'MailSenderRemote' feature" );
         Directory.GetFiles( PickupPath ).ShouldBeEmpty();
     }
 }

@@ -40,8 +40,8 @@ public sealed class MailSenderHandler : ISingletonAutoService
         if( !_driver.IsAllowedCaller( caller ) )
         {
             var error = _driver.IsAllowedFeature( caller.Owner )
-                            ? $"'{caller}' doesn't allow the 'MailSenderRemote' feature: '{caller.Owner}' doesn't send its mails."
-                            : $"'{caller.Owner}' is not a MailSender: it doesn't allow the 'MailSender' feature.";
+                            ? $"'{caller}' doesn't declare the 'MailSenderRemote' feature: '{caller.Owner}' doesn't send its mails."
+                            : $"'{caller.Owner}' is not a MailSender: it doesn't declare the 'MailSender' feature.";
             monitor.Warn( error );
             result.ErrorMessages.Add( error );
             return result;

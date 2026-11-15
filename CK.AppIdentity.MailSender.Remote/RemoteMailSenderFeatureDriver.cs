@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 namespace CK.AppIdentity.MailSender;
 
 /// <summary>
-/// The Remote side of the opt-in "MailSender" asymmetric feature: a local party that doesn't allow "MailSender" (in its
-/// "Local") sends its mails through <b>the</b> remote that allows "MailSenderRemote", if any: it gets a
+/// The Remote side of the opt-in "MailSender" asymmetric feature: a local party that doesn't declare "MailSender" (in its
+/// "Local") sends its mails through <b>the</b> remote that declares "MailSenderRemote", if any: it gets a
 /// <see cref="RemoteMailSender"/> feature. More than one is a configuration error; a remote added later can be it. A local
-/// party that allows "MailSender" is ignored (CK.AppIdentity.MailSender.Local handles it).
+/// party that declares "MailSender" is ignored (CK.AppIdentity.MailSender.Local handles it).
 /// <para>
 /// The mails are sent by the "MailSender" sender of the "EmailSender" configuration of the local party (see
 /// <see cref="MailSenderEmailSenderFactory"/>).
@@ -52,7 +52,7 @@ public sealed class RemoteMailSenderFeatureDriver : ApplicationIdentityFeatureDr
         // party): the local party can use only one.
         if( owner.GetFeature<RemoteMailSender>() is RemoteMailSender existing )
         {
-            context.Monitor.Error( $"'{remote}' allows the 'MailSenderRemote' feature but '{owner}' already uses the MailSender '{existing.MailSender}': "
+            context.Monitor.Error( $"'{remote}' declares the 'MailSenderRemote' feature but '{owner}' already uses the MailSender '{existing.MailSender}': "
                                    + $"a local party can use only one MailSender." );
             return Task.FromResult( false );
         }

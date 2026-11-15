@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace CK.AppIdentity.MailSender;
 
 /// <summary>
-/// The Local side of the opt-in "MailSender" asymmetric feature: a local party that allows "MailSender" (in its "Local") is a
+/// The Local side of the opt-in "MailSender" asymmetric feature: a local party that declares "MailSender" (in its "Local") is a
 /// MailSender; its remotes that allow "MailSenderRemote" may send their mails through it (the <see cref="MailSenderHandler"/>
-/// refuses the others). A local party that doesn't allow "MailSender" is ignored (CK.AppIdentity.MailSender.Remote handles it).
+/// refuses the others). A local party that doesn't declare "MailSender" is ignored (CK.AppIdentity.MailSender.Remote handles it).
 /// There can be several MailSenders in a tenant.
 /// <para>
 /// The mails are sent with the <see cref="IDefaultEmailSender"/> of the MailSender: its "EmailSender" configuration
@@ -71,7 +71,7 @@ public sealed class LocalMailSenderFeatureDriver : ApplicationIdentityFeatureDri
     {
         if( IsAllowedFeature( local ) && local.GetFeature<IDefaultEmailSender>() == null )
         {
-            context.Monitor.Error( $"'{local}' allows the '{MailSenderFeatureName}' feature but has no \"EmailSender\" configuration (in its \"Local\"): it cannot send mails." );
+            context.Monitor.Error( $"'{local}' declares the '{MailSenderFeatureName}' feature but has no \"EmailSender\" configuration (in its \"Local\"): it cannot send mails." );
             return false;
         }
         return true;

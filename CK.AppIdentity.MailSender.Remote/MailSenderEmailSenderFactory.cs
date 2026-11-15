@@ -8,7 +8,7 @@ namespace CK.AppIdentity.MailSender;
 /// Creates the "MailSender" email sender: the key of the "EmailSender" configuration (CK.Mailer) of a local party that sends
 /// its mails through its MailSender (see <see cref="RemoteMailSenderFeatureDriver"/>):
 /// <code>
-/// "Local": { "AllowFeatures": "MailSenderRemote", "EmailSender": { "MailSender": true } }
+/// "Local": { "MailSenderRemote": true, "EmailSender": { "MailSender": true } }
 /// </code>
 /// The sender sends the mails of the application (its root party) to the MailSender of the root party.
 /// </summary>
