@@ -34,7 +34,7 @@ public class MailSenderTests
 
     static readonly Type[] _remoteTypes = [.. _mailerTypes, typeof( RemoteMailSenderFeatureDriver ), typeof( MailSenderEmailSenderFactory )];
 
-    static readonly Type[] _mailSenderTypes = [.. _mailerTypes, typeof( LocalMailSenderFeatureDriver ), typeof( MailSenderHandler ), typeof( SmtpEmailSenderFactory )];
+    static readonly Type[] _mailSenderTypes = [.. _mailerTypes, typeof( LocalMailSenderFeatureDriver ), typeof( RemoteMailSenderFeatureDriver ), typeof( MailSenderHandler ), typeof( SmtpEmailSenderFactory )];
 
     static NormalizedPath PickupPath => TestHelper.TestProjectFolder.AppendPart( "PickupDirectory" );
 
@@ -54,7 +54,7 @@ public class MailSenderTests
             senderTypes: _remoteTypes,
             listenerConfiguration: c =>
             {
-                c["Defaults:ListeningAddress:0"] = Address;
+                c["Defaults:Transport:ListeningAddress:0"] = Address;
                 c["Local:MailSender"] = "true";
                 c["Local:EmailSender:Smtp:SendEmail"] = "false";
                 c["Local:EmailSender:Smtp:UsePickupDirectory"] = "true";
