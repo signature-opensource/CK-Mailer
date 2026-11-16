@@ -18,7 +18,7 @@ namespace CK.AppIdentity.MailSender;
 /// local party gives its role.
 /// </para>
 /// </summary>
-[PartyFeature( "MailSender", Side = FeatureSide.Remote )]
+[PartyFeature( "MailSender", TypeActivation.Optional, Side = FeatureSide.Remote )]
 public sealed class RemoteMailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {
     /// <summary>

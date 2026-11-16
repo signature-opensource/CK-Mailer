@@ -19,7 +19,7 @@ namespace CK.AppIdentity.MailSender;
 /// enough.
 /// </para>
 /// </summary>
-[PartyFeature( MailSenderFeatureName, Side = FeatureSide.Local )]
+[PartyFeature( MailSenderFeatureName, TypeActivation.Optional, Side = FeatureSide.Local )]
 [Requires<RemoteMailSenderFeatureDriver>]
 public sealed class LocalMailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {

@@ -5,8 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace CK.Mailer;
-[PartyFeature( IsOptional = false )]
-
+[PartyFeature( "EmailSender", TypeActivation.ByDefault )]
 public class EmailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {
     readonly IEnumerable<IEmailSenderFactory> _parties;
