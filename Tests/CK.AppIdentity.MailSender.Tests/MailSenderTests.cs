@@ -3,7 +3,7 @@ using CK.IO.MailSender;
 using CK.Mailer;
 using CK.Mailer.MailKit;
 using CK.Testing;
-using CK.Testing.AppIdentity.Cris;
+using CK.Testing.Engine.AppIdentity.Cris;
 using Microsoft.Extensions.DependencyInjection;
 using MimeKit;
 using NUnit.Framework;
