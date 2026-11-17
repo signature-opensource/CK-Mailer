@@ -1,99 +1,98 @@
 # CK.Mailer
 
-The purpose of this package is to provide the basis for the implementation of mailer packages, compatible with configuration via [CK-AppIdentity](https://github.com/signature-opensource/CK-AppIdentity). This package is a host for the plug-in approach to easily manage different email senders.
-
-You cannot directly use this package to send an email, you sould use an implementation, like [CK.Mailer.MailKit](./../CK.Mailer.MailKit/README.md).
-
+How the parties of an application send their mails. It brings the "MailSender" feature of
+[CK-AppIdentity](https://github.com/signature-opensource/CK-AppIdentity/blob/stable/CK.AppIdentity/Features/README.md):
+each local party (the root and its tenant domains) has its own named senders, configured in its "MailSender" section.
+This package defines the senders' contract; the senders themselves come from other packages:
+[CK.Mailer.MailKit](../CK.Mailer.MailKit/README.md) (the "MailKit" senders: an SMTP server or a pickup directory) and
+[CK.AppIdentity.MailRelay.Remote](../CK.AppIdentity.MailRelay.Remote/README.md) (a relay party that sends the mails for
+this one).
 
 ## Configuration
 
-To configure the mailer service you need to use `EmailSender` section in the root of a party and/or local.
-```json
-{
-  "CK-AppIdentity": {
-    "Local": {
-      "EmailSender": {
-        [...]
-      }
-    },
-    "Parties": [
-      {
-        "EmailSender": {
-          [...]
-        }
-      }
-    ]
-  }
-}
-```
+The "MailSender" section of a local party holds its senders, grouped by kind (an option of the feature: "MailKit"), each
+one named; `"Default"` names the default sender:
 
-### Features
-
-An email sender implementation is a CK-AppIdentity feature, see [The Features](https://github.com/signature-opensource/CK-AppIdentity/blob/develop/CK.AppIdentity/Features/README.md). To use this feature you can add and configure it in the `EmailSender` section. For that you need to refere the sender name as a key in the EmailSender configuration. The value can be an objet that contains the configuration of one sender or an array of object if you want to use this feature with many differents configurations.
-
-- Using one SampleSender on the party:
-```json
-{
-  "EmailSender": {
-    "SampleSender": {
-      // Configuration of the SampleSender...
-    },
-    "OtherSender": {
-      // Configuration of the OtherSender...
+```jsonc
+"CK-AppIdentity": {
+  "Local": {
+    "MailSender": {
+      "MailKit": {
+        "NoReply": { "Host": "smtp.acme.com", "User": "...", "Password": "...", "From": "noreply@acme.com" },
+        "Support": { "Host": "smtp.acme.com", "User": "...", "Password": "...", "From": "support@acme.com" }
+      },
+      "Default": "NoReply"
     }
   }
 }
 ```
-- Using multiple senders in the party:
-```json
-{
-  "EmailSender": {
-    "SampleSender": [
-      {
-        // Configuration of one SampleSender...
-      },
-      {
-        // Configuration of another SampleSender...
-      }
-    ]
-  }
-}
-```
+
+- **A sender name** is unique in the party across the kinds: an identifier (letters, digits, `_`, `-`, `.`). A relay is a
+  sender named after its remote party (`"$CorpRelay"`).
+- **The default sender:** with a single sender, it is the default; with several, `"Default"` is required.
+- **A mail goes through one sender.**
+- **Enabled by default:** a party without "MailSender" section has no sender, sending a mail fails (the
+  `SendResponse.ErrorMessages` say why); `"MailSender": false` turns the feature off. A remote has no "MailSender"
+  (declaring it on a remote is an error).
+- An invalid configuration (an unknown key of a sender, a missing default) fails the start of the application.
 
 ## Usage
 
-To use CK.Mailer in you application, do not forget to Add CK-AppIdentity service configuration.
+`IDefaultEmailSender` is the default sender of the root party:
 
 ```csharp
-var builder = Host.CreateApplicationBuilder();
-builder.AddApplicationIdentityServiceConfiguration();
-```
-
-Then, you can inject the default sender in you code:
-```csharp
-public async Task SendEmailAsync( IActivityMonitor, monitor, IDefaultEmailSender sender )
+public async Task SendEmailAsync( IActivityMonitor monitor, IDefaultEmailSender sender )
 {
-    var email = new SimpleEmail()
-      .From( "no-reply@sender.com" )
-      .To( "user@recipent.com" )
-      .Subject( "Hello World!" );
-
+    var email = new SimpleEmail { Subject = "Hello World!" }.To( "user@recipient.com" );
     var result = await sender.SendAsync( monitor, email );
 }
 ```
 
-Note: When an email is send by the [EmailSenderFeature](./EmailSenderFeature.cs) or the [DefaultEmailSender](./DefaultEmailSender.cs) derived class, it send the email to all senders of the party.
+The senders of any local party are its `MailSenders` feature; `MailSenderExtensions.GetMailSender( party, name )` gets one
+(the default one when `name` is null):
 
-## SimpleEmail
+```csharp
+var support = tenant.GetMailSender( "Support" );
+var result = await support.SendAsync( monitor, email );
+```
 
-The [SimpleEmail](./Models/SimpleEmail.cs) class represents the informations in an email. This is the object you pass to `IEmailSender.SendAsync`.
+A sender is resolved when a mail is sent: a missing sender (or party without the feature) fails the sending, it doesn't
+throw. A package that sends mails on behalf of a party and needs a specific sender names it in its own configuration
+(as the `"Sender"` of the "PasswordLost" option of the AuthCenter).
 
-You can configure it with passing the values in the properties or use the builder pattern.
+## Types
 
-## How to implements an email sender
+| Type | |
+|---|---|
+| [`MailSenderFeatureDriver`](MailSenderFeatureDriver.cs) | The driver of the "MailSender" feature: it gives each local party its `MailSenders`. |
+| [`MailSenders`](MailSenders.cs) | The senders of a local party: `Names`, `Find`, `Default`, `GetSender( name )`; `TryAdd` and `Remove` for the packages that add senders at run time (the relays). |
+| [`MailSenderOption`](MailSenderOption.cs) | The base class of a sender kind: an option of the feature whose section holds named senders (`MailSenderOption.ReadNamedSenders`). |
+| [`IEmailSender`](IEmailSender.cs), [`IDefaultEmailSender`](IDefaultEmailSender.cs) | A sender, and the default sender of the root party (a singleton service). |
+| [`SimpleEmail`](Models/SimpleEmail.cs), [`SendResponse`](Models/SendResponse.cs) | The mail (properties or a fluent builder) and the result of its sending (`MessageId`, `ErrorMessages`). |
 
-To make your own email sender you need to create a class that implements [IEmailSender](./IEmailSender.cs).
+## A sender kind
 
-You also need to create a class that extends the [EmailSenderFactory](./EmailSenderFactory.cs) abstract class. The class name MUST ends with "EmailSenderFactory" to be validated by the abstract class constructor. The start of the name will be exposed as the `EmailSenderFactory.SenderName` and will be used to match the factory with the feature name in the configuration.
+A new kind of sender is an option of the "MailSender" feature: a class that specializes `MailSenderOption`, decorated with
+its name and its activation, that reads its section in its constructor (it throws on an invalid configuration):
 
-If the TryCreateEmailSender can create a sender, then it will returns true and instantiate your email sender and returns it with the out parameter.
+```csharp
+[PartyFeatureOption( "MailKit", TypeActivation.Optional )]
+public sealed class MailKitOption : MailSenderOption
+{
+    public MailKitOption( IConfiguration? configuration )
+    {
+        var options = new Dictionary<string, MailKitSenderOptions>( StringComparer.OrdinalIgnoreCase );
+        _senders = ReadNamedSenders( configuration, "MailKit", ( name, c ) =>
+        {
+            var o = Read( c );
+            options.Add( name, o );
+            return new MailKitSender( o );
+        } );
+        _options = options;
+    }
+
+    public override IReadOnlyDictionary<string, IEmailSender> Senders => _senders;
+}
+```
+
+See the [options of a feature](https://github.com/signature-opensource/CK-AppIdentity/blob/stable/CK.AppIdentity/Features/README.md).

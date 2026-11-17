@@ -9,7 +9,7 @@ namespace CK.IO.MailRelay;
 public interface ISendMailResult : IPoco
 {
     /// <summary>
-    /// Gets or sets the message identifier given by the MailSender's senders (comma separated when it has several).
+    /// Gets or sets the message identifier given by the relay's sender.
     /// </summary>
     string? MessageId { get; set; }
 

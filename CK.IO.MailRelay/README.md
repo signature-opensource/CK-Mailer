@@ -1,17 +1,17 @@
 # CK.IO.MailRelay
 
-The command that a remote party sends to its "MailSender" party, so that only the MailSender holds the mail
-configuration (the SMTP server, its credentials, the `From` address). It is used by the two sides of the "MailSender"
-feature: [CK.AppIdentity.MailRelay.Local](../CK.AppIdentity.MailRelay.Local/README.md) (the MailSender) and
+The command that a remote party sends to a "MailRelay" party, so that only the relay holds the mail
+configuration (the SMTP server, its credentials, the `From` address). It is used by the two sides of the "MailRelay"
+feature: [CK.AppIdentity.MailRelay.Local](../CK.AppIdentity.MailRelay.Local/README.md) (the relay) and
 [CK.AppIdentity.MailRelay.Remote](../CK.AppIdentity.MailRelay.Remote/README.md) (its remotes).
 
 | Type | |
 |---|---|
-| [`ISendMailCommand`](ISendMailCommand.cs) | `[Internal]`, executed by the endpoint that receives it (`ICommandEndpointOnly`): the rendered mail (`To`, `Cc`, `Bcc`, `ReplyTo`, `Subject`, `HtmlBody`, `PlaintextBody`, `Priority`, `Headers`, `Attachments`). It has no `From`: the MailSender sends with its own address. |
+| [`ISendMailCommand`](ISendMailCommand.cs) | `[Internal]`, executed by the endpoint that receives it (`ICommandEndpointOnly`): the rendered mail (`To`, `Cc`, `Bcc`, `ReplyTo`, `Subject`, `HtmlBody`, `PlaintextBody`, `Priority`, `Headers`, `Attachments`) and the optional `Sender` (the name of the relay's sender to use). It has no `From`: the relay sends with the address of its sender. |
 | [`ISendMailResult`](ISendMailResult.cs) | The `MessageId` and the `ErrorMessages` (empty on success). |
 | [`IMailAddress`](IMailAddress.cs) | An `Email` and its optional `Name`. |
 | [`IMailAttachment`](IMailAttachment.cs) | `FileName`, `ContentType`, `ContentId`, `IsInline` and the `Data` bytes. |
 | [`MailPriority`](MailPriority.cs) | `High`, `Normal` (the default), `Low`. |
 
-The party that builds a mail renders it (its templates, its culture, its branding): the MailSender knows nothing about
+The party that builds a mail renders it (its templates, its culture, its branding): the relay knows nothing about
 what it sends.

@@ -162,6 +162,6 @@ public class MailRelayTests
 
         response.Successful.ShouldBeFalse();
         response.ErrorMessages.Single().ShouldContain( "doesn't declare the 'MailRelayRemote' feature" );
-        Directory.Exists( Folder( "NoReply" ) ).ShouldBeFalse();
+        Directory.GetFiles( Folder( "NoReply" ) ).ShouldBeEmpty();
     }
 }

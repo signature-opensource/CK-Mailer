@@ -1,40 +1,40 @@
 # CK.Mailer.MailKit
 
-This package is an implementation of [CK.Mailer](./../CK.Mailer/README.md) via [Mailkit](https://github.com/jstedfast/MailKit) SMTP email client.
+The "MailKit" senders of the "MailSender" feature of [CK.Mailer](../CK.Mailer/README.md): mails sent by an SMTP server
+through the [MailKit](https://github.com/jstedfast/MailKit) client, or written in a pickup directory. It brings the
+"MailKit" option of the feature ([`MailKitOption`](MailKitOption.cs)): its section holds the named senders of a party.
 
 ## Configuration
 
-The configuration of this mailer is very flexible and does not require all fields, depending on the expected behavior.
-
-Here is the all configuration properties in an `appsettings.json` with default values:
-```json
-{
-  "CK-AppIdentity": {
-    "Local": {
-      "EmailSender": {
-        "Smtp": {
+The settings of a sender are MailKit's. All of them, with their default values (see
+[`MailKitSenderOptions`](MailKitSenderOptions.cs)):
+```jsonc
+"CK-AppIdentity": {
+  "Local": {
+    "MailSender": {
+      "MailKit": {
+        "NoReply": {
           "UsePickupDirectory": false,
           "PickupDirectory": null,
           "SendEmail": true,
           "Host": null,
           "Port": 587,
-          "RequiredAuthentication": true,
+          "RequiresAuthentication": true,
           "User": null,
           "Password": null,
           "SocketOptions": null,
-          "UseSsl": true
+          "UseSsl": true,
+          "From": null
         }
       }
     }
   }
 }
 ```
-- You can find the defaults in the [MailKitSenderOptions](./MailKitSenderOptions.cs).
-- You can find the configuration parsing in [SmtpEmailSenderFactory](./SmtpEmailSenderFactory.cs).
+An unknown key or an invalid value fails the start of the application (`MailKitOption.Read` throws).
 
-The sender can store the message on disk, send it, do both, or neither.
-
-To enable or disabled features, you can use the `UsePickupDirectory`, `SendEmail` and `RequiresAuthentication` properties.
+The sender can store the message on disk, send it, do both, or neither: `UsePickupDirectory`, `SendEmail` and
+`RequiresAuthentication` enable or disable these behaviors. `From` is the address of the sender.
 
 ### Pickup directory
 
@@ -53,15 +53,15 @@ To send an email you need at least these properties:
 ```json
 {
   "Host": "[...]",
-  "UserName": "[...]",
+  "User": "[...]",
   "Password": "[...]"
 }
 ```
-Or if the email server not required anthentication:
+Or if the email server requires no authentication:
 ```json
 {
   "Host": "[...]",
-  "RequiredAuthentication": false
+  "RequiresAuthentication": false
 }
 ```
 
@@ -81,7 +81,7 @@ Otherwise, if you need them, then you MUST use them. (And not need to use Requir
 }
 ```
 
-### SockupOptions
+### SocketOptions
 
 To configure the SocketOptions, uses the string format for `MailKit.Security.SecureSocketOptions` values.
 ```json
@@ -91,9 +91,9 @@ To configure the SocketOptions, uses the string format for `MailKit.Security.Sec
 ```
 
 Available values are `None`, `Auto`, `SslOnConnect`, `StartTls` and `StartTlsWhenAvailable`.
-For more inforamtions see the [SecureSocketOptions](https://github.com/jstedfast/MailKit/blob/master/MailKit/Security/SecureSocketOptions.cs).
+For more information see the [SecureSocketOptions](https://github.com/jstedfast/MailKit/blob/master/MailKit/Security/SecureSocketOptions.cs).
 
-When the SockupOptions property is used, the UseSsl is not used.
+When the SocketOptions property is used, the UseSsl is not used.
 
 ## MailKitSender
 
