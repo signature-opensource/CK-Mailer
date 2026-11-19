@@ -5,7 +5,7 @@
     <Description>The Remote side of the "MailRelay" feature: each remote that declares "MailRelayRemote" is a sender of its local party (CK.Mailer "MailSender"): this application sends mails through its relays, without any mail configuration of its own.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.0.ci.24" />
+    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.0.ci.25" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CK.IO.MailRelay\CK.IO.MailRelay.csproj" />
