@@ -4,7 +4,7 @@
     <Description>The Local side of the "MailRelay" feature: this application sends the mails of its remotes with its own senders (CK.Mailer).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.0.ci.62" />
+    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.0.ci.64" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CK.IO.MailRelay\CK.IO.MailRelay.csproj" />

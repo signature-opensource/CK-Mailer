@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CK.ActivityMonitor.SimpleSender" Version="28.0.0-0.cris-auth" />
-    <PackageReference Include="CK.AppIdentity" Version="3.0.0-0.uc.0.ci.156" />
-    <PackageReference Include="CK.StObj.Model" Version="37.0.0-0.uc.0.ci.46" />
+    <PackageReference Include="CK.AppIdentity" Version="3.0.0-0.uc.0.ci.158" />
+    <PackageReference Include="CK.StObj.Model" Version="37.0.0-0.uc.0.ci.48" />
   </ItemGroup>
 </Project>
