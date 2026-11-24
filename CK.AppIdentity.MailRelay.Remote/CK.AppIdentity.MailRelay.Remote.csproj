@@ -4,7 +4,7 @@
     <RootNamespace>CK.AppIdentity.MailRelay</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.2.ci.75" />
+    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.2.ci.79" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CK.IO.MailRelay\CK.IO.MailRelay.csproj" />
