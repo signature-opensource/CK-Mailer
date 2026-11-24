@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <Description>The Local side of the "MailRelay" feature: this application sends the mails of its remotes with its own senders (CK.Mailer).</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.2.ci.75" />
