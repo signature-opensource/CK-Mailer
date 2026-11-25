@@ -54,14 +54,7 @@ public class MailKitSender : IEmailSender
             }
 
             using var client = new SmtpClient();
-            if( _options.SocketOptions.HasValue )
-            {
-                await client.ConnectAsync( _options.Host, _options.Port, _options.SocketOptions.Value, token );
-            }
-            else
-            {
-                await client.ConnectAsync( _options.Host, _options.Port, _options.UseSsl, token );
-            }
+            await client.ConnectAsync( _options.Host, _options.Port, _options.SocketOptions, token );
 
             // Note: Only needed if the SMTP server requires authentication.
             if( _options.RequiresAuthentication )

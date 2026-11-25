@@ -12,7 +12,7 @@ namespace CK.AppIdentity.MailRelay;
 /// <code>
 /// "MailRelay": { "Sender": "Relayed" },  // Optional (or "MailRelay": true): the sender used when the caller names none.
 /// "MailSender": {
-///   "MailKit": { "NoReply": { ... }, "Relayed": { ... } },
+///   "MailKit": { "Senders": { "NoReply": { ... }, "Relayed": { ... } } },
 ///   "Default": "NoReply"
 /// }
 /// </code>

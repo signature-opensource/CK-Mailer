@@ -18,8 +18,10 @@ one named; `"Default"` names the default sender:
   "Local": {
     "MailSender": {
       "MailKit": {
-        "NoReply": { "Host": "smtp.acme.com", "User": "...", "Password": "...", "From": "noreply@acme.com" },
-        "Support": { "Host": "smtp.acme.com", "User": "...", "Password": "...", "From": "support@acme.com" }
+        "Senders": {
+          "NoReply": { "Host": "smtp.acme.com", "User": "...", "Password": { "$SECRET": "Smtp:Password" }, "From": "noreply@acme.com" },
+          "Support": { "Host": "smtp.acme.com", "User": "...", "Password": { "$SECRET": "Smtp:Password" }, "From": "support@acme.com" }
+        }
       },
       "Default": "NoReply"
     }
@@ -66,29 +68,28 @@ throw. A package that sends mails on behalf of a party and needs a specific send
 |---|---|
 | [`MailSenderFeatureDriver`](MailSenderFeatureDriver.cs) | The driver of the "MailSender" feature: it gives each local party its `MailSenders`. |
 | [`MailSenders`](MailSenders.cs) | The senders of a local party: `Names`, `Find`, `Default`, `GetSender( name )`; `TryAdd` and `Remove` for the packages that add senders at run time (the relays). |
-| [`MailSenderOption`](MailSenderOption.cs) | The base class of a sender kind: an option of the feature whose section holds named senders (`MailSenderOption.ReadNamedSenders`). |
+| [`MailSenderOption`](MailSenderOption.cs) | The base class of a sender kind: an option of the feature whose configuration model holds named senders. |
+| [`MailSenderConfiguration`](MailSenderFeatureDriver.cs) | The configuration model of the feature: its `Default`. |
 | [`IEmailSender`](IEmailSender.cs), [`IDefaultEmailSender`](IDefaultEmailSender.cs) | A sender, and the default sender of the root party (a singleton service). |
 | [`SimpleEmail`](Models/SimpleEmail.cs), [`SendResponse`](Models/SendResponse.cs) | The mail (properties or a fluent builder) and the result of its sending (`MessageId`, `ErrorMessages`). |
 
 ## A sender kind
 
 A new kind of sender is an option of the "MailSender" feature: a class that specializes `MailSenderOption`, decorated with
-its name and its activation, that reads its section in its constructor (it throws on an invalid configuration):
+its name, its activation and its configuration model, whose senders are a dictionary by name (`"Senders"`: a model is a
+class, the named entries are one of its properties). Its constructor receives the checked model (the errors are the
+reader's and the model's `Validate`), the secrets are declared for the builder:
 
 ```csharp
 [PartyFeatureOption( "MailKit", TypeActivation.Optional )]
+[Configuration<MailKitOptionConfiguration>]
+[ConfigurationSecret( "Party:Senders:*:Password" )]
 public sealed class MailKitOption : MailSenderOption
 {
-    public MailKitOption( IConfiguration? configuration )
+    public MailKitOption( MailKitOptionConfiguration configuration )
     {
-        var options = new Dictionary<string, MailKitSenderOptions>( StringComparer.OrdinalIgnoreCase );
-        _senders = ReadNamedSenders( configuration, "MailKit", ( name, c ) =>
-        {
-            var o = Read( c );
-            options.Add( name, o );
-            return new MailKitSender( o );
-        } );
-        _options = options;
+        _options = configuration.Senders.ToDictionary( kv => kv.Key, kv => kv.Value.CreateOptions(), StringComparer.OrdinalIgnoreCase );
+        _senders = _options.ToDictionary( kv => kv.Key, kv => (IEmailSender)new MailKitSender( kv.Value ), StringComparer.OrdinalIgnoreCase );
     }
 
     public override IReadOnlyDictionary<string, IEmailSender> Senders => _senders;

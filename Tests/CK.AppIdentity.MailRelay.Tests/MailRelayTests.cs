@@ -48,9 +48,9 @@ public class MailRelayTests
 
     static void Sender( IConfiguration c, string name )
     {
-        c[$"Local:MailSender:MailKit:{name}:SendEmail"] = "false";
-        c[$"Local:MailSender:MailKit:{name}:UsePickupDirectory"] = "true";
-        c[$"Local:MailSender:MailKit:{name}:PickupDirectory"] = Folder( name );
+        c[$"Local:MailSender:MailKit:Senders:{name}:SendEmail"] = "false";
+        c[$"Local:MailSender:MailKit:Senders:{name}:UsePickupDirectory"] = "true";
+        c[$"Local:MailSender:MailKit:Senders:{name}:PickupDirectory"] = Folder( name );
     }
 
     static Task<RunningApplicationPair> CreatePairAsync( bool remoteAllowed = true,

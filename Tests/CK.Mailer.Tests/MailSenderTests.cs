@@ -44,9 +44,9 @@ public class MailSenderTests
     static void Sender( IConfiguration c, string prefix, string name )
     {
         Directory.CreateDirectory( Folder( name ) );
-        c[$"{prefix}MailSender:MailKit:{name}:SendEmail"] = "false";
-        c[$"{prefix}MailSender:MailKit:{name}:UsePickupDirectory"] = "true";
-        c[$"{prefix}MailSender:MailKit:{name}:PickupDirectory"] = Folder( name );
+        c[$"{prefix}MailSender:MailKit:Senders:{name}:SendEmail"] = "false";
+        c[$"{prefix}MailSender:MailKit:Senders:{name}:UsePickupDirectory"] = "true";
+        c[$"{prefix}MailSender:MailKit:Senders:{name}:PickupDirectory"] = Folder( name );
     }
 
     static async Task<IHost> StartAsync( Action<IConfiguration> configure )
@@ -159,9 +159,10 @@ public class MailSenderTests
             Sender( c, "Local:", "A" );
             c["Local:MailSender:Default"] = "C";
         } );
-        await StartMustFailAsync( "Invalid sender name '$A'", c => c["Local:MailSender:MailKit:$A:SendEmail"] = "false" );
-        await StartMustFailAsync( "\"MailKit\" must be a section of named senders", c => c["Local:MailSender:MailKit"] = "true" );
-        await StartMustFailAsync( "Unknown \"Hots\"", c => c["Local:MailSender:MailKit:A:Hots"] = "smtp.acme.com" );
+        await StartMustFailAsync( "'CK-AppIdentity:Local:MailSender:MailKit:Senders:$A': invalid sender name", c => c["Local:MailSender:MailKit:Senders:$A:SendEmail"] = "false" );
+        await StartMustFailAsync( "'CK-AppIdentity:Local:MailSender:MailKit:Senders' must define at least one sender", c => c["Local:MailSender:MailKit"] = "true" );
+        await StartMustFailAsync( "Unknown key 'CK-AppIdentity:Local:MailSender:MailKit:Senders:A:Hots'", c => c["Local:MailSender:MailKit:Senders:A:Hots"] = "smtp.acme.com" );
+        await StartMustFailAsync( "Unknown key 'CK-AppIdentity:Local:MailSender:MailKit:A'", c => c["Local:MailSender:MailKit:A:SendEmail"] = "false" );
         await StartMustFailAsync( "a remote has no mail sender", c =>
         {
             c["Parties:0:PartyName"] = "R";

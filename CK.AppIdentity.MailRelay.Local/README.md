@@ -19,8 +19,10 @@ The relay declares "MailRelay" and has senders; the remotes that may send their 
     "MailRelay": { "Sender": "Relayed" },   // Optional (or "MailRelay": true): the sender used when the caller names none.
     "MailSender": {
       "MailKit": {
-        "NoReply": { "Host": "smtp.example.com", "User": "...", "Password": "...", "From": "no-reply@example.com" },
-        "Relayed": { "Host": "smtp.example.com", "User": "...", "Password": "...", "From": "relay@example.com" }
+        "Senders": {
+          "NoReply": { "Host": "smtp.example.com", "User": "...", "Password": { "$SECRET": "Smtp:Password" }, "From": "no-reply@example.com" },
+          "Relayed": { "Host": "smtp.example.com", "User": "...", "Password": { "$SECRET": "Smtp:Password" }, "From": "relay@example.com" }
+        }
       },
       "Default": "NoReply"
     }

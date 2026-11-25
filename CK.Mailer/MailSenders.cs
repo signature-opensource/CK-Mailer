@@ -12,7 +12,7 @@ namespace CK.Mailer;
 /// <summary>
 /// The senders of a local party: a feature of each local party on which the "MailSender" feature is allowed (see
 /// <see cref="MailSenderFeatureDriver"/>). A sender has a name: the one of its configuration ("NoReply", in the section of
-/// its kind: <c>"MailKit": { "NoReply": {...} }</c>) or the name of a relay remote (<c>"$CorpRelay"</c>).
+/// its kind: <c>"MailKit": { "Senders": { "NoReply": {...} } }</c>) or the name of a relay remote (<c>"$CorpRelay"</c>).
 /// <para>
 /// A sender is resolved when a mail is sent (<see cref="GetSender(string?)"/>): a relay may be added after the setup,
 /// and a missing sender is an error of the sending, not of the configuration.

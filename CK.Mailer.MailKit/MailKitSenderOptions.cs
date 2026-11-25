@@ -32,8 +32,6 @@ public class MailKitSenderOptions
     public string? Password { get; set; } = null;
     #endregion
 
-    public SecureSocketOptions? SocketOptions { get; set; } = null;
-
-    public bool UseSsl { get; set; } = true;
+    public SecureSocketOptions SocketOptions { get; set; } = SecureSocketOptions.Auto;
     #endregion
 }

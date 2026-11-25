@@ -15,8 +15,10 @@ namespace CK.Mailer;
 /// <code>
 /// "MailSender": {
 ///   "MailKit": {
-///     "NoReply": { "Host": "smtp.acme.com", "From": "noreply@acme.com" },
-///     "Support": { "Host": "smtp.acme.com", "From": "support@acme.com" }
+///     "Senders": {
+///       "NoReply": { "Host": "smtp.acme.com", "From": "noreply@acme.com" },
+///       "Support": { "Host": "smtp.acme.com", "From": "support@acme.com" }
+///     }
 ///   },
 ///   "Default": "NoReply"  // Required when there are several senders (a relay is named after its remote: "$CorpRelay").
 /// }
@@ -25,6 +27,7 @@ namespace CK.Mailer;
 /// A remote has no "MailSender": declaring it on a remote is an error.
 /// </summary>
 [PartyFeature( MailSenderFeatureName, TypeActivation.ByDefault )]
+[Configuration<MailSenderConfiguration>]
 public sealed class MailSenderFeatureDriver : ApplicationIdentityFeatureDriver
 {
     /// <summary>
@@ -86,7 +89,7 @@ public sealed class MailSenderFeatureDriver : ApplicationIdentityFeatureDriver
                 }
             }
         }
-        var defaultName = local.LocalConfiguration.TryGetFeatureSection( MailSenderFeatureName, "Default" )?.Value;
+        var defaultName = GetModel<MailSenderConfiguration>( local ).Default;
         if( defaultName != null && defaultName.Length == 0 ) defaultName = null;
         var mailSenders = new MailSenders( local, senders, defaultName );
         // A relay (named "$...") is added later by its driver: only a configured sender can be checked here.
@@ -111,4 +114,17 @@ public sealed class MailSenderFeatureDriver : ApplicationIdentityFeatureDriver
         }
         return true;
     }
+}
+
+/// <summary>
+/// The configuration of the "MailSender" feature of a local party (its senders are the ones of its options).
+/// </summary>
+[ConfigurationModel]
+public sealed class MailSenderConfiguration
+{
+    /// <summary>
+    /// Gets the name of the default sender: required when there are several senders (a relay is named after its remote:
+    /// "$CorpRelay").
+    /// </summary>
+    public string? Default { get; init; }
 }
