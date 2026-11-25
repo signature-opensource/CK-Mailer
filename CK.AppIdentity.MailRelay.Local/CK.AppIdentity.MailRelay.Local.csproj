@@ -3,7 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.3" />
+    <PackageReference Include="CK.AppIdentity.Cris" Version="4.0.0-0.uc.3.ci.88" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CK.IO.MailRelay\CK.IO.MailRelay.csproj" />
