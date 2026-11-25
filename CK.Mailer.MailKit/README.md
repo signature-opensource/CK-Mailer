@@ -7,7 +7,8 @@ through the [MailKit](https://github.com/jstedfast/MailKit) client, or written i
 ## Configuration
 
 The configuration is a model ([`MailKitOptionConfiguration`](MailKitOption.cs)): the senders by name, the settings of a
-sender are MailKit's ([`MailKitSenderConfiguration`](MailKitOption.cs)). All of them, with their default values:
+sender are MailKit's ([`MailKitSenderConfiguration`](MailKitOption.cs)). All of them (the defaults are in comments; a
+key without default is absent when it is not configured, `null` is not a value):
 ```jsonc
 "CK-AppIdentity": {
   "Local": {
@@ -15,16 +16,16 @@ sender are MailKit's ([`MailKitSenderConfiguration`](MailKitOption.cs)). All of 
       "MailKit": {
         "Senders": {
           "NoReply": {
-            "UsePickupDirectory": false,
-            "PickupDirectory": null,
-            "SendEmail": true,
-            "Host": null,
-            "Port": 587,
-            "RequiresAuthentication": true,
-            "User": null,
+            "UsePickupDirectory": false,                 // Default: false.
+            "PickupDirectory": "Mails",                  // Required when UsePickupDirectory is true.
+            "SendEmail": true,                           // Default: true.
+            "Host": "smtp.acme.com",                     // Required when SendEmail is true.
+            "Port": 587,                                 // Default: 587.
+            "RequiresAuthentication": true,              // Default: true (User and Password are required).
+            "User": "...",
             "Password": { "$SECRET": "Smtp:Password" },  // A secret: a handle, never the value.
-            "SocketOptions": "Auto",
-            "From": null
+            "SocketOptions": "Auto",                     // Default: Auto.
+            "From": "noreply@acme.com"
           }
         }
       }
