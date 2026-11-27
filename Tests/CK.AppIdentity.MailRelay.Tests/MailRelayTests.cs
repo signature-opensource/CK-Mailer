@@ -68,7 +68,7 @@ public class MailRelayTests
             senderTypes: _remoteTypes,
             listenerConfiguration: c =>
             {
-                c["Defaults:Transport:ListeningAddress:0"] = Address;
+                c["Defaults:Transport:ListeningAddress:tcp"] = Address["tcp:".Length..];
                 if( relaySender != null ) c["Local:MailRelay:Sender"] = relaySender;
                 else c["Local:MailRelay"] = "true";
                 Sender( c, "NoReply" );
