@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CK.ActivityMonitor.SimpleSender" Version="28.0.0-0.uc" />
-    <PackageReference Include="CK.AppIdentity" Version="3.0.0-0.uc.4.ci.215" />
-    <PackageReference Include="CK.StObj.Model" Version="37.0.0-0.uc.4.ci.89" />
+    <PackageReference Include="CK.AppIdentity" Version="3.0.0-0.uc.4.ci.216" />
+    <PackageReference Include="CK.StObj.Model" Version="37.0.0-0.uc.4.ci.90" />
   </ItemGroup>
 </Project>
